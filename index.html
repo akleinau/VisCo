@@ -2,22 +2,20 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <style>
         .background {
-            fill:  rgb(63, 62, 62);
-            /* fill: rgb(239, 237, 245); */
-            stroke: black;
-            stroke-width: 3.5px;
+            fill: rgb(63, 62, 62);
             pointer-events: all;
         }
 
         #states {
             fill: rgb(255, 255, 255);
             stroke: rgb(255, 255, 255);
-            stroke-width: 1.25px;
-            opacity: 0.85;
+            stroke-width: 0.75px;
+            opacity: 1;
         }
 
         .graticuleLine {
@@ -32,13 +30,35 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+
         }
 
-        #change-data{
-            top: 30px;
-            left: 1000px;
+        #change-data {
+            top: 50px;
+            left: 1100px;
             position: absolute;
+        }
+
+        select {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            width: 110%;
+            height: 40px;
+            padding-left: 10px;
+            background: url("data/FFFFFF-0.2.png") repeat;
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select option {
+            color: #666;
         }
 
         .nicebox {
@@ -55,18 +75,19 @@
         }
 
         #controls {
-            top: 10px;
+
+            top: 40px;
             left: 110px;
             width: 360px;
             height: 45px;
         }
 
         #data-box {
-            top: 10px;
+            top: 40px;
             left: 500px;
             height: 45px;
             line-height: 45px;
-            /*  display: none; */
+            display: none;
         }
 
         #census-variable {
@@ -123,8 +144,8 @@
         <label id="data-label" for="data-value"></label>
         <span id="data-value"></span>
     </div>
-    <div id = "change-data"></div>
-
+    <div id="change-data"></div>
+    <div id="map-ger"></div>
     <script src="JS/map.js">  </script>
 </body>
 
