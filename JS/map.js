@@ -1,42 +1,76 @@
+var urls = {
+    states: "data/3_mittel.geo.json",
+    coronaStates: "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronafälle_in_den_Bundesländern/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json"
+};
 
-var width = 1560,
-height =1050,
-focused = null,
-geoPath,
-lowColor = '#f4e8eb',
-highColor = '#7a003f';
+var margin = { top: 10, left: 10, bottom: 10, right: 10 },
+    width = parseInt(d3.select("#graphs").style("width")),
+    width = width - margin.left - margin.right,
+    mapRatio = .6,
+    height = width * mapRatio,
+    focused = null,
+    lowColor = '#f4e8eb',
+    highColor = '#7a003f',
+    mapRatioAdjuster = 1.6,
+    germany_center = [9, 51];
+
+
 
 var keyArray = ["Fallzahl", "Death", "Fallzahl_pro_100000_EW"];
 var selectedData = keyArray[0];
 
-var svg = d3.select("#map-ger")
-.append("svg")
-.classed("svg-container",true)
-.attr("width", width)
-.attr("height", height);
 
+var projection = d3.geoMercator()
+    .center(germany_center)
+    .translate([width / 2, height / 2])
+    .scale(width * [mapRatio + mapRatioAdjuster]);
+
+
+d3.select(window).on("resize", resize);
+
+var svg = d3.select("#graphs")
+    .append("svg")
+    .attr("id", "map-container")
+    .style('height', height + 'px')
+    .style('width', width + 'px');
 
 svg.append("rect")
-.attr("class", "background")
-.attr("width", "100%")
-.attr("height", "100%");
+    .attr("class", "background")
+    .attr("width", "100%")
+    .attr("height", "100%");
 
 var g = svg.append("g")
-.attr("id", "states");
+    .attr("id", "states");
 
+var geoPath = d3.geoPath().projection(projection);
 
-d3.json("data/3_mittel.geo.json", function (collection) {
-console.log(collection);
+function resize() {
+    width = parseInt(d3.select("#graphs").style("width")),
+        width = width - margin.left - margin.right,
+        height = width * mapRatio,
+        projection.translate([width / 2, height / 2])
+            .center(germany_center)
+            .scale(width * [mapRatio + mapRatioAdjuster]),
+        svg.style("width", width + "px")
+            .style("height", height + "px"),
+        svg.selectAll("path.regions").attr("d", geoPath);
+}
 
-d3.json("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronafälle_in_den_Bundesländern/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json", function (corona_data) {
+d3.queue()
+    .defer(d3.json, urls.states)
+    .defer(d3.json, urls.coronaStates)
+    .await(buildMap);
 
-    var dataFields = corona_data.fields;
+function buildMap(err, collection, coronaData) {
+
+    console.log(collection);
+    var dataFields = coronaData.fields;
 
     for (var i = 0; i < dataFields.length; i++) {
         collection.fields[i] = dataFields[i].name;
     }
 
-    const ft = corona_data.features;
+    const ft = coronaData.features;
 
     for (var i = 0; i < ft.length; i++) {
 
@@ -48,7 +82,7 @@ d3.json("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coro
         for (var j = 0; j < collection.features.length; j++) {
             var map_id = collection.features[j].id + 1;
 
-            if (state_id == map_id){
+            if (state_id == map_id) {
 
                 collection.features[j].properties.Death = state_death;
                 collection.features[j].properties.Fallzahl = state_fallzahl;
@@ -77,44 +111,44 @@ d3.json("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coro
         .attr("value", function (d) { return d; });
 
 
-    var bounds = d3.geoBounds(collection),
+    /* var bounds = d3.geoBounds(collection),
         bottomLeft = bounds[0],
         topRight = bounds[1],
-        rotLong = -(topRight[0] + bottomLeft[0]) / 2;
+        rotLong = -(topRight[0] + bottomLeft[0]) / 2,
 
-    center = [(topRight[0] + bottomLeft[0]) / 2 + rotLong, (topRight[1] + bottomLeft[1]) / 2],
+        center = [(topRight[0] + bottomLeft[0]) / 2 + rotLong, (topRight[1] + bottomLeft[1]) / 2];
 
-        //default scale projection
-        projection = d3.geoAlbers()
-            .parallels([bottomLeft[1], topRight[1]])
-            .rotate([rotLong, 0, 0])
-            .translate([width / 2, height / 2])
-            .center(center),
+    //default scale projection
+    projection = d3.geoAlbers()
+        .parallels([bottomLeft[1], topRight[1]])
+        .rotate([rotLong, 0, 0])
+        .translate([width / 2, height / 2])
+        .center(center);
 
-        bottomLeftPx = projection(bottomLeft),
+    var bottomLeftPx = projection(bottomLeft),
         topRightPx = projection(topRight),
         scaleFactor = 1.00 * Math.min(width / (topRightPx[0] - bottomLeftPx[0]),
-            height / (-topRightPx[1] + bottomLeftPx[1])),
+            height / (-topRightPx[1] + bottomLeftPx[1]));
 
-        projection = d3.geoAlbers()
-            .parallels([bottomLeft[1], topRight[1]])
-            .rotate([rotLong, 0, 0])
-            .translate([width / 2, height / 2])
-            .scale(scaleFactor * 0.975 * 1000)
-            //.scale(4*1000)  //1000 is default for USA map
-            .center(center);
+    projection = d3.geoAlbers()
+        .parallels([bottomLeft[1], topRight[1]])
+        .rotate([rotLong, 0, 0])
+        .translate([width / 2, height / 2])
+        .scale(scaleFactor * 0.975 * 1000)
+        //.scale(4*1000)  //1000 is default for USA map
+        .center(center);
 
-    geoPath = d3.geoPath().projection(projection);
+    geoPath = d3.geoPath().projection(projection); */
 
-    var graticule = d3.geoGraticule()
-        .step([1, 1]);
+    /*     var graticule = d3.geoGraticule()
+            .step([1, 1]); */
 
-    g.append("path")
-        .datum(graticule)
-        .attr("class", "graticuleLine")
-        .attr("d", geoPath);
+    /*    svg.append("path")
+           .datum(graticule)
+           .attr("class", "graticuleLine")
+           .attr("d", geoPath); */
 
-    g.selectAll("path.features")
+    g.selectAll("path.regions")
         .data(collection.features)
         .enter()
         .append("path")
@@ -124,6 +158,8 @@ d3.json("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coro
         })
         .attr("d", geoPath)
         .style("fill", function (d) { return getColor(d, getColorScale(mapFeatures)) })
+        .attr("stroke", "#ffffff")
+        .attr("stroke-width", .2)
         .on("click", clickPath)
         .on('mouseover', hoverState)
         .on('mouseout', hoverStateOut);
@@ -155,104 +191,103 @@ d3.json("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coro
     var caret = d3.select("#data-caret")
         .style("opacity", 0);
 
-})
+
 }
 
-);
-
 function clickPath(d) {
-var x = width / 2,
-    y = height / 2,
-    k = 1,
-    name = d.properties.name;
+    var x = width / 2,
+        y = height / 2,
+        k = 1,
+        name = d.properties.name;
 
 
-g.selectAll("text")
-    .remove();
-if ((focused === null) || !(focused === d)) {
-    var centroid = geoPath.centroid(d),
-        x = +centroid[0],
-        y = +centroid[1],
-        k = 1.75;
-    focused = d;
+    g.selectAll("text")
+        .remove();
+    if ((focused === null) || !(focused === d)) {
+        var centroid = geoPath.centroid(d),
+            x = +centroid[0],
+            y = +centroid[1],
+            k = 1.75;
+        focused = d;
 
-    g.append("text")
-        .text(name)
-        .attr("x", x)
-        .attr("y", y)
-        .style("text-anchor", "middle")
-        .style("font-size", "13px")
-        .style("stroke-width", "0px")
-        .style("fill", "black")
-        .style("font-family", "Verdana")
-        .on("click", clickText);
-} else {
-    focused = null;
-};
+        g.append("text")
+            .text(name)
+            .attr("x", x)
+            .attr("y", y)
+            .style("text-anchor", "middle")
+            .style("font-size", "13px")
+            .style("stroke-width", "0px")
+            .style("fill", "black")
+            .style("font-family", "Verdana")
+            .on("click", clickText);
+    } else {
+        focused = null;
+    };
 
-g.selectAll("path")
-    .classed("active", focused && function (d) { return d === focused; });
+    g.selectAll("path")
+        .classed("active", focused && function (d) { return d === focused; });
 
-g.transition()
-    .duration(1000)
-    .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")")
-    .style("stroke-width", 1.75 / k + "px");
+    g.transition()
+        .duration(1000)
+        .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")")
+        .style("stroke-width", 1.75 / k + "px");
 }
 
 function clickText(d) {
-focused = null;
-g.selectAll("text")
-    .remove();
-g.selectAll("path")
-    .classed("active", 0);
-g.transition()
-    .duration(1000)
-    .attr("transform", "scale(" + 1 + ")translate(" + 0 + "," + 0 + ")")
-    .style("stroke-width", 1.00 + "px");
+    focused = null;
+    g.selectAll("text")
+        .remove();
+    g.selectAll("path")
+        .classed("active", 0);
+    g.transition()
+        .duration(1000)
+        .attr("transform", "scale(" + 1 + ")translate(" + 0 + "," + 0 + ")")
+        .style("stroke-width", 1.00 + "px");
 }
 
 function hoverState(d, i) {
-d3.select(this).transition()
-    .duration('50')
-    .attr("stroke-width", 3)
-    .attr('opacity', '.9');
+    d3.select(this).transition()
+        .duration('50')
+        .attr("stroke-width", 1.5)
+        .attr('opacity', '.9');
 }
 
 function hoverStateOut(d, i) {
-d3.select(this).transition()
-    .duration('50')
-    .attr("stroke-width", 0.75)
-    .attr('opacity', '1');
+    d3.select(this).transition()
+        .duration('50')
+        .attr("stroke-width", 0.2)
+        .attr('opacity', '1');
 }
 
 function getColorScale(features) {
 
-var dataArray = [];
-for (var i in features) {
-    dataArray.push(parseFloat(features[i].properties[selectedData]));
-}
+    var dataArray = [];
+    for (var i in features) {
+        dataArray.push(parseFloat(features[i].properties[selectedData]));
+    }
 
-var minVal = d3.min(dataArray);
-var maxVal = d3.max(dataArray);
-var color = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor]);
-return color;
+    var minVal = d3.min(dataArray);
+    var maxVal = d3.max(dataArray);
+    var color = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor]);
+    return color;
 }
 
 function getColor(d, regionColor) {
 
-var value = d.properties[selectedData];
-if (value) {
-    return regionColor(value);
-} else {
-    return "#ccc";
-};
+    var value = d.properties[selectedData];
+    if (value) {
+        return regionColor(value);
+    } else {
+        return "#ccc";
+    };
 }
 
 function updateMapColor(attribute, features) {
 
-selectedData = attribute;
-d3.selectAll(".regions")
-    .style("fill", function (d) {
-        return getColor(d, getColorScale(features));
-    });
+    selectedData = attribute;
+    d3.selectAll(".regions")
+        .style("fill", function (d) {
+            return getColor(d, getColorScale(features));
+        });
 }
+
