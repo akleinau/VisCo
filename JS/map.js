@@ -5,14 +5,13 @@ var urls = {
 
 var margin = { top: 10, left: 10, bottom: 10, right: 10 },
     width = parseInt(d3.select("#graphs").style("width")),
-    width = width - margin.left - margin.right,
-    mapRatio = .6,
+    mapRatio = .8,
     height = width * mapRatio,
     focused = null,
     lowColor = '#f4e8eb',
     highColor = '#7a003f',
-    mapRatioAdjuster = 1.6,
-    germany_center = [9, 51];
+    mapRatioAdjuster = 2.2,
+    germany_center = [10, 51];
 
 
 
@@ -46,7 +45,6 @@ var geoPath = d3.geoPath().projection(projection);
 
 function resize() {
     width = parseInt(d3.select("#graphs").style("width")),
-        width = width - margin.left - margin.right,
         height = width * mapRatio,
         projection.translate([width / 2, height / 2])
             .center(germany_center)
@@ -161,8 +159,9 @@ function buildMap(err, collection, coronaData) {
         .attr("stroke", "#ffffff")
         .attr("stroke-width", .2)
         .on("click", clickPath)
-        .on('mouseover', hoverState)
-        .on('mouseout', hoverStateOut);
+        .on("mousemove", hoverOver)
+        .on("mouseover", hoverState)
+        .on("mouseout", hoverStateOut);
 
     var w = 300, h = 15;
 
@@ -198,7 +197,7 @@ function clickPath(d) {
     var x = width / 2,
         y = height / 2,
         k = 1,
-        name = d.properties.name;
+        value = d.properties[selectedData];
 
 
     g.selectAll("text")
@@ -211,7 +210,7 @@ function clickPath(d) {
         focused = d;
 
         g.append("text")
-            .text(name)
+            .text(value)
             .attr("x", x)
             .attr("y", y)
             .style("text-anchor", "middle")
@@ -245,11 +244,24 @@ function clickText(d) {
         .style("stroke-width", 1.00 + "px");
 }
 
+function hoverOver(d, i) {
+
+    d3.select("#tooltip")
+        .style("top", d3.event.pageY + 20 + "px")
+        .style("left", d3.event.pageX + 20 + "px")
+        .select("#state-name")
+        .text(d.properties.name);
+
+    d3.select("#tooltip")
+        .classed("hidden", !1);
+}
+
 function hoverState(d, i) {
     d3.select(this).transition()
         .duration('50')
         .attr("stroke-width", 1.5)
         .attr('opacity', '.9');
+
 }
 
 function hoverStateOut(d, i) {
@@ -257,6 +269,8 @@ function hoverStateOut(d, i) {
         .duration('50')
         .attr("stroke-width", 0.2)
         .attr('opacity', '1');
+
+    d3.select("#tooltip").classed("hidden", !0);
 }
 
 function getColorScale(features) {
