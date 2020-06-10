@@ -1,4 +1,3 @@
-oldest = 0
 dataType = "confirmed"
 
 
@@ -36,6 +35,8 @@ var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
 
 function updateCompareGraph() {
+
+    var oldest = document.getElementById("oldest").value; 
 
     countryName1 = document.getElementById("country1").value;
     countryName2 = document.getElementById("country2").value;
@@ -151,9 +152,6 @@ function updateCompareGraph() {
             return d3.min(min);
         }
 
-
-
-
         var y = d3.scaleLinear()
             .domain([0, maxValue(country) + 10000])
             .range([height - margin.bottom, margin.top])
@@ -163,31 +161,13 @@ function updateCompareGraph() {
             .domain([minValue(RrateCountries), maxValue(RrateCountries)])
             .range([height - margin.bottom, margin.top])
 
-        var Rline = d3.line()
-            .x(d => x(d.key))
-            .y(d => RateY(d.value))
-
-
-        var RyAxis = g => g
-            .attr("transform", `translate(${margin.left},0)`)
-            .call(d3.axisLeft(RateY).ticks(height / 40))
-            .call(g => g.select(".domain").remove())
-            .call(d3.axisLeft(RateY).tickFormat(function (d) { return formatValue(d) }))
-
-
-
-
-
-        var line1 = d3.area()
-            .x(d => x(d.key))
-            .y0(d => RateY(minValue(RrateCountries)))
-            .y1(d => RateY(1))
 
         function formatDays() {
             return d3.timeFormat("%x");
         }
-        function formatValue() {
-            return d3.timeFormat("0.2r");
+        function formatValue(d) {
+            // return d3.format("0.2r");
+            return d;
         }
 
         d3.select("#compareGraph2").remove();
@@ -257,18 +237,18 @@ function updateCompareGraph() {
                 .attr("id", "compareGraph3")
                 .attr("width", width)
                 .attr("height", height);
-    
-    
+
+
             svg.append("g")
                 .attr("transform", `translate(0,${height - margin.bottom})`)
                 .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
-    
+
             svg.append("g")
                 .attr("transform", `translate(${margin.left},0)`)
-                .call(d3.axisLeft(RateY).ticks(height / 40))
+                .call(d3.axisLeft(RateY).tickFormat(function (d) { return formatValue(d) }))
                 .call(g => g.select(".domain").remove())
-    
-    
+
+
             svg.append("path")
                 .datum(RrateCountries[1])
                 .attr("fill", "none")
@@ -299,7 +279,7 @@ function updateCompareGraph() {
                     .x(function (d) { return x(d.key) })
                     .y(function (d) { return RateY(d.value) })
                 );
-    
+
             svg.append("path")
                 .datum(RrateCountries[0])
                 .attr("fill", "none")
@@ -311,8 +291,16 @@ function updateCompareGraph() {
                     .y(function (d) { return RateY(d.value) })
                 );
 
+            svg.append("path")
+                .datum(data0)
+                .attr("fill", "green")
+                .attr("opacity", "0.2")
+                .attr("d", d3.area()
+                    .x(function (d) { return x(d.key) })
+                    .y0(function (d) { return RateY(minValue(RrateCountries)) })
+                    .y1(function (d) { return RateY(1) })
+                );
         }
-
     });
 
 }

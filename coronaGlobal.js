@@ -10,6 +10,7 @@ function formatDays() {
 
 function updateGlobalGraph() {
 
+    var oldest = document.getElementById("oldest").value; 
     var dataType =  document.getElementById("dataType").value;
     var link;
     if (dataType == "confirmed") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
@@ -46,11 +47,13 @@ function updateGlobalGraph() {
         }
         var globalValues = arrayG[0];
 
+        var global = [];
 
-        for (var i = 0; i < globalDates.length; i++) {
+        for (var i = oldest; i < globalDates.length; i++) {
             globalDates[i].value = globalValues[i];
+            global.push(globalDates[i]);
         }
-        var global = globalDates;
+
 
 
         var x = d3.scaleUtc()

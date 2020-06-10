@@ -86,13 +86,16 @@
                     <option value="recovered" selected>recovered</option>
                     <option value="deaths">deaths</option>
                 </select>
-                <div id="rightCol1"></div>
-                <div id="rightCol2"></div>
+               
+                    <input name="input" type="range" min="0" max= 138 value="0" step="1" style="width: 180px;" id="oldest" onchange="updateGlobalGraph(); updateCompareGraph()"></input>
+                  
+                <div id="rightCol1">Global </div>
                 <input type="text" id="country1" value="Germany" placeholder="Type a name!" onchange="updateCompareGraph()">
                 <input type="text" id="country2" placeholder="Type a name!" onchange="updateCompareGraph()">
                 <input type="text" id="country3" placeholder="Type a name!" onchange="updateCompareGraph()">
                 <input type="text" id="country4" placeholder="Type a name!" onchange="updateCompareGraph()">
-                <div id="rightCol3"></div>
+                <div id="rightCol2">Compare Countries</div>
+                <div id="rightCol3">Reproduction Rate </div>
 
             </div>
         </div>
