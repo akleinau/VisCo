@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
-<body>
+<body  onload="updateGlobalGraph()">
     <div id="tooltip" class="hidden">
         <span id = "state-name"></span>
     </div>
@@ -81,12 +81,13 @@
                 <div id="graphs"></div>
             </div>
             <div class="col-md-3" id="rightCol"> 
-                <select id="dataType">
+                <select id="dataType" onchange="updateGlobalGraph()">
                     <option value="confirmed">confirmed</option>
                     <option value="recovered" selected>recovered</option>
                     <option value="deaths">deaths</option>
                 </select>
              
+
             </div>
         </div>
     </div>
