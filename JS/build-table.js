@@ -19,64 +19,69 @@ function openTab(evt, Case) {
   evt.currentTarget.className += " active";
 }
 
-function parse(url, tab){
+function parse(url, tab) {
   Papa.parse(url, {
-        download: true,
-        complete: function(results) {
-          //console.log(results);
-          var data = results.data;
-          renderDataset(data, tab);
-          //console.log(data);
-        }
-      });
+    download: true,
+    complete: function (results) {
+      //console.log(results);
+      var data = results.data;
+      renderDataset(data, tab);
+      //console.log(data);
+    }
+  });
 }
 
-function renderDataset(dataset, tab){
+function renderDataset(dataset, tab) {
 
-  var data = {country: new Array(), number: new Array()};
-  for (i = 0; i < dataset.length - 2; i++){
-    data.country[i] = dataset[i + 1][1];              
+  var data = { country: new Array(), number: new Array() };
+  for (i = 0; i < dataset.length - 2; i++) {
+    data.country[i] = dataset[i + 1][1];
   }
 
-  
 
-  for (i = 0; i < dataset.length - 2; i++){
-    data.number[i] = parseInt(dataset[i + 1][dataset[i + 1].length - 1]);       
+
+  for (i = 0; i < dataset.length - 2; i++) {
+    data.number[i] = parseInt(dataset[i + 1][dataset[i + 1].length - 1]);
   }
-  
-  var gfg = new Array(2);     
 
-  for (var j = 0; j < data.country.length; j++) { 
-      var asdf = [data.country[j], data.number[j]];
-      gfg[j] = asdf;              
-  }  
+  var gfg = new Array(2);
+
+  for (var j = 0; j < data.country.length; j++) {
+    var asdf = [data.country[j], data.number[j]];
+    gfg[j] = asdf;
+  }
 
   var data_length = 0;
-  var Tab = new String;
-  var Tab = tab;
-  data_length = data.country.length;  
+
+  data_length = data.country.length;
 
 
-  gfg.sort(compareSecondColumn);  
-  createTable(gfg, data_length, tab);  
+  gfg.sort(compareSecondColumn);
+  createTable(gfg, data_length, tab);
+
   function compareSecondColumn(a, b) {
-      if (a[1] === b[1]) {
-          return 0;
-      }
-      else {
-          return (a[1] > b[1]) ? -1 : 1;
-      }        
+    if (a[1] === b[1]) {
+      return 0;
+    }
+    else {
+      return (a[1] > b[1]) ? -1 : 1;
+    }
   }
 }
 
-function createTable(data, length, tab){
-  var i=0, rowEl=null,
-      tableEl = document.createElement("table");
+function createTable(data, length, tab) {
+
+  var i = 0, rowEl = null,
+    tableEl = document.createElement("table");
+
+
+  tableEl.setAttribute("class", "data-table");
+  
   // create 10 table rows, each with two cells
-  for (i=1; i <= length - 1; i++) {
+  for (i = 0; i <= length - 1; i++) {
     rowEl = tableEl.insertRow();  // DOM method for creating table rows
-    rowEl.insertCell().textContent = data[i][0] ;      
-    rowEl.insertCell().textContent = data[i][1] ;      
+    rowEl.insertCell().textContent = data[i][0];
+    rowEl.insertCell().textContent = data[i][1];
   }
-    document.getElementById(tab).appendChild(tableEl);
+  document.getElementById(tab).appendChild(tableEl);
 }

@@ -4,7 +4,7 @@ var urls = {
 };
 
 var margin = { top: 10, left: 10, bottom: 10, right: 10 },
-    width = parseInt(d3.select("#graphs").style("width")),
+    width = parseInt(d3.select("#maps").style("width")),
     mapRatio = .8,
     height = width * mapRatio,
     focused = null,
@@ -27,7 +27,7 @@ var projection = d3.geoMercator()
 
 d3.select(window).on("resize", resize);
 
-var svg = d3.select("#graphs")
+var svg = d3.select("#maps")
     .append("svg")
     .attr("id", "map-container")
     .style('height', height + 'px')
@@ -44,7 +44,7 @@ var g = svg.append("g")
 var geoPath = d3.geoPath().projection(projection);
 
 function resize() {
-    width = parseInt(d3.select("#graphs").style("width")),
+    width = parseInt(d3.select("#maps").style("width")),
         height = width * mapRatio,
         projection.translate([width / 2, height / 2])
             .center(germany_center)

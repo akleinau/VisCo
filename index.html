@@ -7,6 +7,7 @@
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
     <script src="JS/build-table.js"></script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -14,9 +15,9 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
-<body  onload="updateGlobalGraph()">
+<body onload="updateGlobalGraph()">
     <div id="tooltip" class="hidden">
-        <span id = "state-name"></span>
+        <span id="state-name"></span>
     </div>
     <nav>
         <div class="navigation-bar-container">
@@ -36,26 +37,26 @@
         </div>
     </nav>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row first-row-container">
             <div class="col-md-3">
-              <div class="tab">
-  <button class="tablinks active" onclick="openTab(event, 'Confirmed Cases')">Confirmed Cases</button>
-  <button class="tablinks" onclick="openTab(event, 'Recovered')">Recovered</button>
-  <button class="tablinks" onclick="openTab(event, 'Deaths')">Deaths</button>
-</div>
+                <div class="tab">
+                    <button class="tablinks active" onclick="openTab(event, 'Confirmed Cases')" title= "Confirmed Cases">Confirmed Cases</button>
+                    <button class="tablinks" onclick="openTab(event, 'Recovered')" title= "Recovered">Recovered</button>
+                    <button class="tablinks" onclick="openTab(event, 'Deaths')" title= "Deaths">Deaths</button>
+                </div>
 
-<!-- Tab content -->
-<div id="Confirmed Cases" class="tabcontent" style="display:block">
-    <script>parse("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", "Confirmed Cases");</script>
-</div>
+                <!-- Tab content -->
+                <div id="Confirmed Cases" class="tabcontent" style="display:block">
+                    <script>parse("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", "Confirmed Cases");</script>
+                </div>
 
-<div id="Recovered" class="tabcontent">
-  <script>parse("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv", "Recovered");</script>
-</div>
+                <div id="Recovered" class="tabcontent">
+                    <script>parse("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv", "Recovered");</script>
+                </div>
 
-<div id="Deaths" class="tabcontent">
-  <script>parse("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", "Deaths");</script>
-</div>  
+                <div id="Deaths" class="tabcontent">
+                    <script>parse("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", "Deaths");</script>
+                </div>
 
             </div>
             <!-- <div id="controls" class="nicebox">
@@ -70,29 +71,30 @@
                 <span id="data-value"></span>
             </div> -->
             <div class="col-md-6">
-               
-                <div class = "row">
-                    <div class= "col-9 col-sm-9y"></div>
-                    <div class= "col-3 col-sm-3">
+
+                <div class="row">
+                    <div class="col-9 col-sm-9y"></div>
+                    <div class="col-3 col-sm-3">
                         <div id="change-data"></div>
                     </div>
-                    
+
                 </div>
-                <div id="graphs"></div>
+                <div id="maps"></div>
             </div>
-            <div class="col-md-3" id="rightCol"> 
-                <select id="dataType" onchange="updateGlobalGraph()">
-                    <option value="confirmed">confirmed</option>
-                    <option value="recovered" selected>recovered</option>
-                    <option value="deaths">deaths</option>
-                </select>
-             
+            <div class="col-md-3">
+                <div id="graphs">
+                    <select id="dataType" onchange="updateGlobalGraph()">
+                        <option value="confirmed">confirmed</option>
+                        <option value="recovered" selected>recovered</option>
+                        <option value="deaths">deaths</option>
+                    </select>
+                </div>
 
             </div>
         </div>
     </div>
     <script src="JS/map.js">  </script>
-    <script src="coronaGlobal.js"> </script>
+    <script src="JS/coronaGlobal.js"> </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

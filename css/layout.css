@@ -24,16 +24,18 @@ html {
 }
 
 body {
-    height: 100%;
     padding: 0;
     margin: 0;
+    font-size: 12px;
     position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: "uni_sans_demoheavy_caps", sans-serif;
 }
-
+.first-row-container{
+    padding-top: 20px;
+}
 #tooltip {
     position: absolute;
     height: auto;
@@ -84,6 +86,9 @@ select {
 }
 
 @media (min-width:2000px) {
+    body{
+        font-size: 20px;
+    }
     select {
         font-size: 20px;
         padding: 15px 15px 15px 15px;
