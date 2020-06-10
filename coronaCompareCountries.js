@@ -63,7 +63,7 @@ function updateCompareGraph() {
                     if (x != "Province/State" && x != "Country/Region" && x != "Lat" && x != "Long") {
                         var old = sorted[sorted.length - 1];
                         var added = dataUnsorted[i];
-                        old[x] += added[x];
+                        old[x] = parseInt(old[x]) + parseInt(added[x]);
                     }
                 }
             }
