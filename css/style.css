@@ -33,3 +33,9 @@
   border: 1px solid #ccc;
   border-top: none;
 }
+
+tbody{
+  display: block;
+  height: 200;
+  overflow-y: scroll;
+}
