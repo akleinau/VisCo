@@ -243,3 +243,7 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     font-size: 14px;
     width: 14px
 }
+
+#dataType {
+    color:black;
+}
