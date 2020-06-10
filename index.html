@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
-<body  onload="updateGlobalGraph()">
+<body  onload="updateGlobalGraph(); updateCompareGraph()">
     <div id="tooltip" class="hidden">
         <span id = "state-name"></span>
     </div>
@@ -80,19 +80,25 @@
                 </div>
                 <div id="graphs"></div>
             </div>
-            <div class="col-md-3" id="rightCol"> 
-                <select id="dataType" onchange="updateGlobalGraph()">
+            <div class="col-md-3"> 
+                <select id="dataType" onchange="updateGlobalGraph(); updateCompareGraph()">
                     <option value="confirmed">confirmed</option>
                     <option value="recovered" selected>recovered</option>
                     <option value="deaths">deaths</option>
                 </select>
-             
+                <div id="rightCol1"></div>
+                <div id="rightCol2"></div>
+                <input type="text" id="country1" value="Germany" placeholder="Type a name!" onchange="updateCompareGraph()">
+                <input type="text" id="country2" placeholder="Type a name!" onchange="updateCompareGraph()">
+                <input type="text" id="country3" placeholder="Type a name!" onchange="updateCompareGraph()">
+                <input type="text" id="country4" placeholder="Type a name!" onchange="updateCompareGraph()">
 
             </div>
         </div>
     </div>
     <script src="JS/map.js">  </script>
     <script src="coronaGlobal.js"> </script>
+    <script src="coronaCompareCountries.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

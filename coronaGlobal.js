@@ -62,7 +62,7 @@ function updateGlobalGraph() {
             .range([height - margin.bottom, margin.top])
 
         d3.select("#globalGraph").remove();
-        var svg = d3.select("#rightCol").append("svg")
+        var svg = d3.select("#rightCol1").append("svg")
             .attr("id", "globalGraph")
             .attr("width", width)
             .attr("height", height);
