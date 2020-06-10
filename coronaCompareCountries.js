@@ -249,6 +249,70 @@ function updateCompareGraph() {
                 .y(function (d) { return y(d.value) })
             );
 
+        if (dataType != "confirmed") {
+            d3.select("#compareGraph3").remove();
+        } else {
+            d3.select("#compareGraph3").remove();
+            svg = d3.select("#rightCol3").append("svg")
+                .attr("id", "compareGraph3")
+                .attr("width", width)
+                .attr("height", height);
+    
+    
+            svg.append("g")
+                .attr("transform", `translate(0,${height - margin.bottom})`)
+                .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
+    
+            svg.append("g")
+                .attr("transform", `translate(${margin.left},0)`)
+                .call(d3.axisLeft(RateY).ticks(height / 40))
+                .call(g => g.select(".domain").remove())
+    
+    
+            svg.append("path")
+                .datum(RrateCountries[1])
+                .attr("fill", "none")
+                .attr("stroke", "orange")
+                .attr("stroke-width", 1.5)
+                .attr("stroke-miterlimit", 1)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.key) })
+                    .y(function (d) { return RateY(d.value) })
+                );
+            svg.append("path")
+                .datum(RrateCountries[2])
+                .attr("fill", "none")
+                .attr("stroke", "green")
+                .attr("stroke-width", 1.5)
+                .attr("stroke-miterlimit", 1)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.key) })
+                    .y(function (d) { return RateY(d.value) })
+                );
+            svg.append("path")
+                .datum(RrateCountries[3])
+                .attr("fill", "none")
+                .attr("stroke", "red")
+                .attr("stroke-width", 1.5)
+                .attr("stroke-miterlimit", 1)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.key) })
+                    .y(function (d) { return RateY(d.value) })
+                );
+    
+            svg.append("path")
+                .datum(RrateCountries[0])
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 1.5)
+                .attr("stroke-miterlimit", 1)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.key) })
+                    .y(function (d) { return RateY(d.value) })
+                );
+
+        }
+
     });
 
 }
