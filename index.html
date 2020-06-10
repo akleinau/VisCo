@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
-<body  onload="updateGlobalGraph(); updateCompareGraph()">
+<body onload="updateGlobalGraph(); updateCompareGraph()">
     <div id="tooltip" class="hidden">
         <span id="state-name"></span>
     </div>
@@ -40,9 +40,10 @@
         <div class="row first-row-container">
             <div class="col-md-3">
                 <div class="tab">
-                    <button class="tablinks active" onclick="openTab(event, 'Confirmed Cases')" title= "Confirmed Cases">Confirmed Cases</button>
-                    <button class="tablinks" onclick="openTab(event, 'Recovered')" title= "Recovered">Recovered</button>
-                    <button class="tablinks" onclick="openTab(event, 'Deaths')" title= "Deaths">Deaths</button>
+                    <button class="tablinks active" onclick="openTab(event, 'Confirmed Cases')"
+                        title="Confirmed Cases">Confirmed Cases</button>
+                    <button class="tablinks" onclick="openTab(event, 'Recovered')" title="Recovered">Recovered</button>
+                    <button class="tablinks" onclick="openTab(event, 'Deaths')" title="Deaths">Deaths</button>
                 </div>
 
                 <!-- Tab content -->
@@ -81,23 +82,26 @@
                 </div>
                 <div id="maps"></div>
             </div>
-            <div class="col-md-3"> 
-                <select id="dataType" onchange="updateGlobalGraph(); updateCompareGraph()">
-                    <option value="confirmed">confirmed</option>
-                    <option value="recovered" selected>recovered</option>
-                    <option value="deaths">deaths</option>
-                </select>
-               
-                    <input name="input" type="range" min="0" max= 138 value="0" step="1" style="width: 180px;" id="oldest" onchange="updateGlobalGraph(); updateCompareGraph()"></input>
-                  
-                <div id="rightCol1">Global </div>
-                <input type="text" id="country1" value="Germany" placeholder="Type a name!" onchange="updateCompareGraph()">
-                <input type="text" id="country2" placeholder="Type a name!" onchange="updateCompareGraph()">
-                <input type="text" id="country3" placeholder="Type a name!" onchange="updateCompareGraph()">
-                <input type="text" id="country4" placeholder="Type a name!" onchange="updateCompareGraph()">
-                <div id="rightCol2">Compare Countries</div>
-                <div id="rightCol3">Reproduction Rate </div>
+            <div class="col-md-3">
+                <div id="graphs">
+                    <select id="dataType" onchange="updateGlobalGraph(); updateCompareGraph()">
+                        <option value="confirmed">confirmed</option>
+                        <option value="recovered" selected>recovered</option>
+                        <option value="deaths">deaths</option>
+                    </select>
 
+                    <input name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
+                        id="oldest" onchange="updateGlobalGraph(); updateCompareGraph()"></input>
+
+                    <div id="rightCol1">Global </div>
+                    <input type="text" id="country1" value="Germany" placeholder="Type a name!"
+                        onchange="updateCompareGraph()">
+                    <input type="text" id="country2" placeholder="Type a name!" onchange="updateCompareGraph()">
+                    <input type="text" id="country3" placeholder="Type a name!" onchange="updateCompareGraph()">
+                    <input type="text" id="country4" placeholder="Type a name!" onchange="updateCompareGraph()">
+                    <div id="rightCol2">Compare Countries</div>
+                    <div id="rightCol3">Reproduction Rate </div>
+                </div>
             </div>
         </div>
     </div>

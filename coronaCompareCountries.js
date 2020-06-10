@@ -1,6 +1,5 @@
 dataType = "confirmed"
 
-
 Rintervall = 7;
 
 function checkCountry1(o) {
@@ -28,8 +27,8 @@ function jsonCopy(src) {
 }
 
 
-var height = 240;
-var width = 500;
+var heightGraph2 = 240;
+var widthGraph = parseInt(d3.select("#graphs").style("width"));
 
 var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
@@ -131,7 +130,7 @@ function updateCompareGraph() {
 
         var x = d3.scaleUtc()
             .domain(d3.extent(country[0], d => d.key))
-            .range([margin.left, width - margin.right])
+            .range([margin.left, widthGraph - margin.right])
 
         var data0 = entriesOfCountry(justData(data[0]), oldest)
 
@@ -154,12 +153,12 @@ function updateCompareGraph() {
 
         var y = d3.scaleLinear()
             .domain([0, maxValue(country) + 10000])
-            .range([height - margin.bottom, margin.top])
+            .range([heightGraph2 - margin.bottom, margin.top])
 
 
         var RateY = d3.scaleLinear()
             .domain([minValue(RrateCountries), maxValue(RrateCountries)])
-            .range([height - margin.bottom, margin.top])
+            .range([heightGraph2 - margin.bottom, margin.top])
 
 
         function formatDays() {
@@ -173,17 +172,17 @@ function updateCompareGraph() {
         d3.select("#compareGraph2").remove();
         var svg = d3.select("#rightCol2").append("svg")
             .attr("id", "compareGraph2")
-            .attr("width", width)
-            .attr("height", height);
+            .attr("width", widthGraph)
+            .attr("height", heightGraph2);
 
 
         svg.append("g")
-            .attr("transform", `translate(0,${height - margin.bottom})`)
-            .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
+            .attr("transform", `translate(0,${heightGraph2 - margin.bottom})`)
+            .call(d3.axisBottom(x).ticks(widthGraph / 80).tickSizeOuter(0))
 
         svg.append("g")
             .attr("transform", `translate(${margin.left},0)`)
-            .call(d3.axisLeft(y).ticks(height / 40))
+            .call(d3.axisLeft(y).ticks(heightGraph2 / 40))
             .call(g => g.select(".domain").remove())
 
 
@@ -235,13 +234,13 @@ function updateCompareGraph() {
             d3.select("#compareGraph3").remove();
             svg = d3.select("#rightCol3").append("svg")
                 .attr("id", "compareGraph3")
-                .attr("width", width)
-                .attr("height", height);
+                .attr("width", widthGraph)
+                .attr("height", heightGraph2);
 
 
             svg.append("g")
-                .attr("transform", `translate(0,${height - margin.bottom})`)
-                .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
+                .attr("transform", `translate(0,${heightGraph2 - margin.bottom})`)
+                .call(d3.axisBottom(x).ticks(widthGraph / 80).tickSizeOuter(0))
 
             svg.append("g")
                 .attr("transform", `translate(${margin.left},0)`)

@@ -1,7 +1,7 @@
-var height = 240;
 
-var width = 500;
 
+var widthGraph = parseInt(d3.select("#graphs").style("width"));
+var heightGraph1 = 240;
 var margin = { top: 20, right: 30, bottom: 30, left: 70 };
 
 function formatDays() {
@@ -62,27 +62,28 @@ function updateGlobalGraph() {
 
         var x = d3.scaleUtc()
             .domain(d3.extent(global, d => d.key))
-            .range([margin.left, width - margin.right])
+            .range([margin.left, widthGraph - margin.right])
 
         var y = d3.scaleLinear()
             .domain([0, d3.max(global, d => d.value) + 1000000])
-            .range([height - margin.bottom, margin.top])
+            .range([heightGraph1 - margin.bottom, margin.top])
 
         d3.select("#globalGraph").remove();
+
         var svg = d3.select("#rightCol1").append("svg")
             .attr("id", "globalGraph")
-            .attr("width", width)
-            .attr("height", height);
+            .attr("width", widthGraph)
+            .attr("height", heightGraph1);
 
 
         svg.append("g")
             .call(g => g.select(".domain").remove())
-            .attr("transform", `translate(0,${height - margin.bottom})`)
-            .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
+            .attr("transform", `translate(0,${heightGraph1 - margin.bottom})`)
+            .call(d3.axisBottom(x).ticks(widthGraph / 80).tickSizeOuter(0));
 
         svg.append("g")
             .attr("transform", `translate(${margin.left},0)`)
-            .call(d3.axisLeft(y).ticks(height / 40));
+            .call(d3.axisLeft(y).ticks(heightGraph1 / 40));
 
         svg.append("path")
             .datum(global)
