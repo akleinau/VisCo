@@ -252,3 +252,19 @@ a.project-name, a.project-name:visited, a.project-name:hover {
 #dataType {
     color:black;
 }
+
+#country1 {
+    color: steelblue;
+}
+
+#country2 {
+    color:orange;
+}
+
+#country3 {
+    color:green;
+}
+
+#country4 {
+    color:red;
+}

@@ -88,7 +88,7 @@ function updateGlobalGraph() {
 
             day = bisect(global, x.invert(xPos));
 
-            return "<p style='color:steelblue'>" + formatDays(day.key)+ ' <br> ' + day.value + "</p>";
+            return "<p style='color:black'>" + formatDays(day.key)+ ' <br> ' + day.value + "</p>";
         }
 
         d3.select("#globalGraph").remove();
@@ -119,8 +119,8 @@ function updateGlobalGraph() {
         svg.append("path")
             .datum(global)
             .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-width", 1.5)
+            .attr("stroke", "black")
+            .attr("stroke-width", 5)
             .attr("stroke-miterlimit", 1)
             .attr("d", d3.line()
                 .x(function (d) { return x(d.key) })
