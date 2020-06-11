@@ -35,7 +35,7 @@ var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
 function updateCompareGraph() {
 
-    var oldest = document.getElementById("oldest").value; 
+    var oldest = document.getElementById("oldest").value;
 
     countryName1 = document.getElementById("country1").value;
     countryName2 = document.getElementById("country2").value;
@@ -162,39 +162,39 @@ function updateCompareGraph() {
 
 
         var formatDays = d3.timeFormat("%x");
-        
+
         var formatValue = d3.format("0.2r");
-        
+
 
         var tooltip = d3.select("#rightCol2").append("div")
-        .attr("id", "tooltip")
-        .style("position", "absolute")
-        .style("visibility", "hidden")
-        .style("color", "black")
-        .attr("width", "100px")
-        .attr("height", "100px")
+            .attr("id", "tooltip")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .style("color", "black")
+            .attr("width", "100px")
+            .attr("height", "100px")
 
         function bisect(data, date) {
             const bisectDate = d3.bisector(d => d.key).left;
             const i = bisectDate(data, date, 1);
-              const a = data[i - 1];
-              const b = data[i];   
-              return date - a.key > b.key - date ? b.key : a.key;
-          }
+            const a = data[i - 1];
+            const b = data[i];
+            return date - a.key > b.key - date ? b.key : a.key;
+        }
 
 
-    function tooltipText(xPos) {
+        function tooltipText(xPos) {
 
-        var day = bisect(country[0], x.invert(xPos));
-        var text = "<p style='color:black'>" + formatDays(day)+"</p>";
-        if (countryName1 != "" && country[0].find(o => o.key.toString() == day.toString()) != undefined) 
-                text +="<p style='color:steelblue'>" +  country[0].find(o => o.key.toString() == day.toString()).value +  "</p>";
-        if (countryName2 != "")  text += "<p style='color:orange'>" + country[1].find(o => o.key.toString() == day.toString()).value +  "</p>";
-        if (countryName3 != "")  text += "<p style='color:red'>" + country[2].find(o => o.key.toString() == day.toString()).value +  "</p>" ;
-        if (countryName4 != "")  text += "<p style='color:green'>" + country[3].find(o => o.key.toString() == day.toString()).value +  "</p>";
+            var day = bisect(country[0], x.invert(xPos));
+            var text = "<p style='color:black'>" + formatDays(day) + "</p>";
+            if (countryName1 != "" && country[0].find(o => o.key.toString() == day.toString()) != undefined)
+                text += "<p style='color:steelblue'>" + country[0].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName2 != "") text += "<p style='color:orange'>" + country[1].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName3 != "") text += "<p style='color:red'>" + country[2].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName4 != "") text += "<p style='color:green'>" + country[3].find(o => o.key.toString() == day.toString()).value + "</p>";
 
-        return text;
-    }
+            return text;
+        }
 
 
         d3.select("#compareGraph2").remove();
@@ -266,11 +266,42 @@ function updateCompareGraph() {
         if (dataType != "confirmed") {
             d3.select("#compareGraph3").remove();
         } else {
+
+
+            var Rtooltip = d3.select("#rightCol2").append("div")
+                .attr("id", "tooltip")
+                .style("position", "absolute")
+                .style("visibility", "hidden")
+                .style("color", "black")
+                .attr("width", "100px")
+                .attr("height", "100px")
+
+            function RtooltipText(xPos) {
+
+                var day = bisect(RrateCountries[0], x.invert(xPos));
+                var text = "<p style='color:black'>" + formatDays(day) + "</p>";
+                if (countryName1 != "" && RrateCountries[0].find(o => o.key.toString() == day.toString()) != undefined)
+                    text += "<p style='color:steelblue'>" + country[0].find(o => o.key.toString() == day.toString()).value + "</p>";
+                if (countryName2 != "") text += "<p style='color:orange'>" + RrateCountries[1].find(o => o.key.toString() == day.toString()).value + "</p>";
+                if (countryName3 != "") text += "<p style='color:red'>" + RrateCountries[2].find(o => o.key.toString() == day.toString()).value + "</p>";
+                if (countryName4 != "") text += "<p style='color:green'>" + RrateCountries[3].find(o => o.key.toString() == day.toString()).value + "</p>";
+
+                return text;
+            }
+
+
             d3.select("#compareGraph3").remove();
             svg = d3.select("#rightCol3").append("svg")
                 .attr("id", "compareGraph3")
                 .attr("width", widthGraph)
-                .attr("height", heightGraph2);
+                .attr("height", heightGraph2)
+                .on("mouseover", function () { return Rtooltip.style("visibility", "visible"); })
+                .on("mousemove", function () {
+                    return Rtooltip.style("top", (d3.mouse(this)[1] + 800) + "px")
+                        .style("left", (d3.mouse(this)[0]) + "px")
+                        .html(RtooltipText(d3.mouse(this)[0]));
+                })
+                .on("mouseleave", function () { return Rtooltip.style("visibility", "hidden"); });
 
 
             svg.append("g")
