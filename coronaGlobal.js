@@ -4,14 +4,13 @@ var widthGraph = parseInt(d3.select("#graphs").style("width"));
 var heightGraph1 = 240;
 var margin = { top: 20, right: 30, bottom: 30, left: 70 };
 
-function formatDays() {
-    return d3.timeFormat("%x");
-}
+var formatDays = d3.timeFormat("%x");
+
 
 function updateGlobalGraph() {
 
-    var oldest = document.getElementById("oldest").value; 
-    var dataType =  document.getElementById("dataType").value;
+    var oldest = document.getElementById("oldest").value;
+    var dataType = document.getElementById("dataType").value;
     var link;
     if (dataType == "confirmed") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
     else if (dataType == "recovered") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
@@ -23,7 +22,7 @@ function updateGlobalGraph() {
         delete gd["Province/State"];
         delete gd.Lat;
         delete gd.Long;
-        
+
         var e = d3.entries(gd);
 
         for (var i in e) {
@@ -42,12 +41,12 @@ function updateGlobalGraph() {
             arrayG.push(d3.values(gd));
         }
 
-         for (var i = 1; i < arrayG.length; i++) {
+        for (var i = 1; i < arrayG.length; i++) {
 
             for (var j = 0; j < arrayG[j].length; j++) {
                 arrayG[0][j] = parseInt(arrayG[i][j]) + parseInt(arrayG[0][j]);
             }
-        } 
+        }
 
         var globalValues = arrayG[0];
 
@@ -68,12 +67,45 @@ function updateGlobalGraph() {
             .domain([0, d3.max(global, d => d.value) + 1000000])
             .range([heightGraph1 - margin.bottom, margin.top])
 
+        var tooltip = d3.select("#rightCol1").append("div")
+            .attr("id", "tooltip")
+            .style("position", "absolute")
+            .attr("visibility", "hidden")
+            .text("hi")
+            .style("color", "black")
+            .attr("width", "100px")
+            .attr("height", "100px")
+
+            function bisect(data, date) {
+                const bisectDate = d3.bisector(d => d.key).left;
+                const i = bisectDate(data, date, 1);
+                  const a = data[i - 1];
+                  const b = data[i];   
+                  return date - a.key > b.key - date ? b : a;
+              }
+
+
+        function tooltipText(xPos) {
+
+            day = bisect(global, x.invert(xPos));
+
+            return "<p style='color:steelblue'>" + formatDays(day.key)+ ' <br> ' + day.value + "</p>";
+        }
+
         d3.select("#globalGraph").remove();
+
 
         var svg = d3.select("#rightCol1").append("svg")
             .attr("id", "globalGraph")
             .attr("width", widthGraph)
-            .attr("height", heightGraph1);
+            .attr("height", heightGraph1)
+            .on("mouseover", function () { return tooltip.style("visibility", "visible"); })
+            .on("mousemove", function () {
+                return tooltip.style("top", (d3.mouse(this)[1]) + "px")
+                    .style("left", (d3.mouse(this)[0]) + "px")
+                    .html(tooltipText(d3.mouse(this)[0]));
+            })
+            .on("mouseleave", function () { return tooltip.style("visibility", "hidden"); });
 
 
         svg.append("g")
@@ -95,6 +127,8 @@ function updateGlobalGraph() {
                 .x(function (d) { return x(d.key) })
                 .y(function (d) { return y(d.value) })
             )
+
+
 
     });
 }
