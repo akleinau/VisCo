@@ -68,7 +68,7 @@ function updateGlobalGraph() {
             .range([heightGraph1 - margin.bottom, margin.top])
 
         var tooltip = d3.select("#rightCol1").append("div")
-            .attr("id", "tooltip")
+            .attr("class", "Tooltip")
             .style("position", "absolute")
             .style("visibility", "hidden")
             .style("color", "black")

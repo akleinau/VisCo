@@ -167,7 +167,7 @@ function updateCompareGraph() {
 
 
         var tooltip = d3.select("#rightCol2").append("div")
-            .attr("id", "tooltip")
+            .attr("class", "Tooltip")
             .style("position", "absolute")
             .style("visibility", "hidden")
             .style("color", "black")
@@ -269,7 +269,7 @@ function updateCompareGraph() {
 
 
             var Rtooltip = d3.select("#rightCol2").append("div")
-                .attr("id", "tooltip")
+                .attr("class", "Tooltip")
                 .style("position", "absolute")
                 .style("visibility", "hidden")
                 .style("color", "black")
