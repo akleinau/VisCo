@@ -204,7 +204,7 @@ function updateCompareGraph() {
             .attr("height", heightGraph2)
             .on("mouseover", function () { return tooltip.style("visibility", "visible"); })
             .on("mousemove", function () {
-                return tooltip.style("top", (d3.mouse(this)[1] + 400) + "px")
+                return tooltip.style("top", (d3.mouse(this)[1] + 300) + "px")
                     .style("left", (d3.mouse(this)[0]) + "px")
                     .html(tooltipText(d3.mouse(this)[0]));
             })
@@ -297,7 +297,7 @@ function updateCompareGraph() {
                 .attr("height", heightGraph2)
                 .on("mouseover", function () { return Rtooltip.style("visibility", "visible"); })
                 .on("mousemove", function () {
-                    return Rtooltip.style("top", (d3.mouse(this)[1] + 800) + "px")
+                    return Rtooltip.style("top", (d3.mouse(this)[1] + 550) + "px")
                         .style("left", (d3.mouse(this)[0]) + "px")
                         .html(RtooltipText(d3.mouse(this)[0]));
                 })
