@@ -161,19 +161,54 @@ function updateCompareGraph() {
             .range([heightGraph2 - margin.bottom, margin.top])
 
 
-        function formatDays() {
-            return d3.timeFormat("%x");
-        }
-        function formatValue(d) {
-            // return d3.format("0.2r");
-            return d;
-        }
+        var formatDays = d3.timeFormat("%x");
+        
+        var formatValue = d3.format("0.2r");
+        
+
+        var tooltip = d3.select("#rightCol2").append("div")
+        .attr("id", "tooltip")
+        .style("position", "absolute")
+        .style("visibility", "hidden")
+        .style("color", "black")
+        .attr("width", "100px")
+        .attr("height", "100px")
+
+        function bisect(data, date) {
+            const bisectDate = d3.bisector(d => d.key).left;
+            const i = bisectDate(data, date, 1);
+              const a = data[i - 1];
+              const b = data[i];   
+              return date - a.key > b.key - date ? b.key : a.key;
+          }
+
+
+    function tooltipText(xPos) {
+
+        var day = bisect(country[0], x.invert(xPos));
+        var text = "<p style='color:black'>" + formatDays(day)+"</p>";
+        if (countryName1 != "" && country[0].find(o => o.key.toString() == day.toString()) != undefined) 
+                text +="<p style='color:steelblue'>" +  country[0].find(o => o.key.toString() == day.toString()).value +  "</p>";
+        if (countryName2 != "")  text += "<p style='color:orange'>" + country[1].find(o => o.key.toString() == day.toString()).value +  "</p>";
+        if (countryName3 != "")  text += "<p style='color:red'>" + country[2].find(o => o.key.toString() == day.toString()).value +  "</p>" ;
+        if (countryName4 != "")  text += "<p style='color:green'>" + country[3].find(o => o.key.toString() == day.toString()).value +  "</p>";
+
+        return text;
+    }
+
 
         d3.select("#compareGraph2").remove();
         var svg = d3.select("#rightCol2").append("svg")
             .attr("id", "compareGraph2")
             .attr("width", widthGraph)
-            .attr("height", heightGraph2);
+            .attr("height", heightGraph2)
+            .on("mouseover", function () { return tooltip.style("visibility", "visible"); })
+            .on("mousemove", function () {
+                return tooltip.style("top", (d3.mouse(this)[1] + 400) + "px")
+                    .style("left", (d3.mouse(this)[0]) + "px")
+                    .html(tooltipText(d3.mouse(this)[0]));
+            })
+            .on("mouseleave", function () { return tooltip.style("visibility", "hidden"); });
 
 
         svg.append("g")
