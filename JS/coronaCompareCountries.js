@@ -281,11 +281,10 @@ function updateCompareGraph() {
                 var day = bisect(RrateCountries[0], x.invert(xPos));
                 var text = "<p style='color:black'>" + formatDays(day) + "</p>";
                 if (countryName1 != "" && RrateCountries[0].find(o => o.key.toString() == day.toString()) != undefined)
-                    text += "<p style='color:steelblue'>" + country[0].find(o => o.key.toString() == day.toString()).value + "</p>";
+                    text += "<p style='color:steelblue'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName2 != "") text += "<p style='color:orange'>" + RrateCountries[1].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName3 != "") text += "<p style='color:red'>" + RrateCountries[2].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName4 != "") text += "<p style='color:green'>" + RrateCountries[3].find(o => o.key.toString() == day.toString()).value + "</p>";
-
                 return text;
             }
 
@@ -369,13 +368,5 @@ function updateCompareGraph() {
     });
 
 }
-    //change to d3
-//    return Object.assign(html`<svg viewBox="0 0 ${width} ${height}">
- // <path d="${line(country[3])}" fill="none" stroke="steelblue" stroke-width="1.5" stroke-miterlimit="1"></path>
- // <path d="${line(country[2])}" fill="none" stroke="orange" stroke-width="1.5" stroke-miterlimit="1"></path>
-//  <path d="${line(country[1])}" fill="none" stroke="green" stroke-width="1.5" stroke-miterlimit="1"></path>
-//  <path d="${line(country[0])}" fill="none" stroke="red" stroke-width="1.5" stroke-miterlimit="1"></path>
-//  ${d3.select(svg`<g>`).call(xAxis).node()}
- // ${d3.select(svg`<g>`).call(yAxis).node()}
-//</svg>`
+
 
