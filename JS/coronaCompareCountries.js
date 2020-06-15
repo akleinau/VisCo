@@ -42,7 +42,7 @@ function updateCompareGraph() {
     countryName3 = document.getElementById("country3").value;
     countryName4 = document.getElementById("country4").value;
 
-    var dataType = document.getElementById("dataType").value;
+    var dataType = document.getElementById("data-type").value;
     var link;
     if (dataType == "confirmed") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
     else if (dataType == "recovered") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
@@ -166,7 +166,7 @@ function updateCompareGraph() {
         var formatValue = d3.format("0.2r");
 
 
-        var tooltip = d3.select("#rightCol2").append("div")
+        var tooltip = d3.select("#right-col-2").append("div")
             .attr("class", "Tooltip")
             .style("position", "absolute")
             .style("visibility", "hidden")
@@ -197,9 +197,9 @@ function updateCompareGraph() {
         }
 
 
-        d3.select("#compareGraph2").remove();
-        var svg = d3.select("#rightCol2").append("svg")
-            .attr("id", "compareGraph2")
+        d3.select("#compare-graph-2").remove();
+        var svg = d3.select("#right-col-2").append("svg")
+            .attr("id", "compare-graph-2")
             .attr("width", widthGraph)
             .attr("height", heightGraph2)
             .on("mouseover", function () { return tooltip.style("visibility", "visible"); })
@@ -264,11 +264,11 @@ function updateCompareGraph() {
             );
 
         if (dataType != "confirmed") {
-            d3.select("#compareGraph3").remove();
+            d3.select("#compare-graph-3").remove();
         } else {
 
 
-            var Rtooltip = d3.select("#rightCol2").append("div")
+            var Rtooltip = d3.select("#right-col-2").append("div")
                 .attr("class", "Tooltip")
                 .style("position", "absolute")
                 .style("visibility", "hidden")
@@ -289,9 +289,9 @@ function updateCompareGraph() {
             }
 
 
-            d3.select("#compareGraph3").remove();
-            svg = d3.select("#rightCol3").append("svg")
-                .attr("id", "compareGraph3")
+            d3.select("#compare-graph-3").remove();
+            svg = d3.select("#right-col-3").append("svg")
+                .attr("id", "compare-graph-3")
                 .attr("width", widthGraph)
                 .attr("height", heightGraph2)
                 .on("mouseover", function () { return Rtooltip.style("visibility", "visible"); })

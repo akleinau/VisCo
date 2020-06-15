@@ -276,7 +276,7 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     width: 14px
 }
 
-#dataType {
+#data-type {
     color:black;
 }
 
@@ -296,16 +296,16 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     color:red;
 }
 
-.view-change-button {
+.view-change{
     margin: 0 auto;
 }
 
-.changeViewButton {
+.change-view-button {
     margin: 0 auto;
 }
 
 
-#ViewImage {
+#view-image {
     width:50px;
 
 }
