@@ -55,7 +55,6 @@ function renderDataset(dataset, tab) {
 
   data_length = data.country.length;
 
-
   gfg.sort(compareSecondColumn);
   createTable(gfg, data_length, tab);
 

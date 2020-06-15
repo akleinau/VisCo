@@ -47,7 +47,7 @@
                     <button class="tablinks" onclick="openTab(event, 'Deaths')" title="Deaths">Deaths</button>
                 </div>
 
-                <!-- Tab content -->
+                
                 <div id="Confirmed Cases" class="tabcontent" style="display:block">
                     <script>parse("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", "Confirmed Cases");</script>
                 </div>
@@ -59,6 +59,27 @@
                 <div id="Deaths" class="tabcontent">
                     <script>parse("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", "Deaths");</script>
                 </div>
+
+
+                <div class="tab">
+                    <button class="tablinks active" onclick="openTab(event, 'death')"
+                        title="death">death</button>
+                    <button class="tablinks" onclick="openTab(event, 'fallzahl')" title="fallzahl">fallzahl</button>
+                    <button class="tablinks" onclick="openTab(event, 'pro100000')" title="pro100000">pro100000</button>
+                </div>
+
+                <div id="death" class="tabcontent" style="display:block">
+                    
+                </div>
+
+                <div id="fallzahl" class="tabcontent">
+                    
+                </div>
+
+                <div id="pro100000" class="tabcontent">
+                    
+                </div>
+
 
             </div>
             <!-- <div id="controls" class="nicebox">
