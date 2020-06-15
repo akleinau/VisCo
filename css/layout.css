@@ -300,11 +300,12 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     margin: 0 auto;
 }
 
-#changeViewButton {
+.changeViewButton {
     margin: 0 auto;
 }
 
-#globeImage {
+
+#ViewImage {
     width:50px;
 
 }
