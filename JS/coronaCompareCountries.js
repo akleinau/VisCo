@@ -268,7 +268,7 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[0])
                 .attr("fill", "none")
-                .attr("stroke", "steelblue")
+                .attr("stroke", "#c51b8a")
                 .attr("stroke-width", 1.5)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
