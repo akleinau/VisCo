@@ -1,17 +1,14 @@
-var urls = {
-    states: "data/3_mittel.geo.json",
-    coronaStates: "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronafälle_in_den_Bundesländern/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json"
-};
+
 
 var margin = { top: 10, left: 10, bottom: 10, right: 10 },
-    width = parseInt(d3.select("#maps").style("width")),
+    widthGermany = parseInt(d3.select("#map-germany").style("width")),
     mapRatio = .8,
-    height = width * mapRatio,
+    heightGermany = widthGermany * mapRatio,
     focused = null,
     lowColor = '#f4e8eb',
     highColor = '#7a003f',
     mapRatioAdjuster = 2.2,
-    germany_center = [10, 51];
+    germanyCenter = [10, 51];
 
 
 
@@ -19,19 +16,21 @@ var keyArray = ["Fallzahl", "Death", "Fallzahl_pro_100000_EW"];
 var selectedData = keyArray[0];
 
 
-var projection = d3.geoMercator()
-    .center(germany_center)
-    .translate([width / 2, height / 2])
-    .scale(width * [mapRatio + mapRatioAdjuster]);
+var projectionGermany = d3.geoMercator()
+    .center(germanyCenter)
+    .translate([widthGermany / 2, heightGermany / 2])
+    .scale(widthGermany * [mapRatio + mapRatioAdjuster]);
 
+
+var geoPath = d3.geoPath().projection(projectionGermany);
 
 d3.select(window).on("resize", resize);
 
-var svg = d3.select("#maps")
+var svg = d3.select("#map-germany")
     .append("svg")
-    .attr("id", "map-container")
-    .style('height', height + 'px')
-    .style('width', width + 'px');
+    .attr("id", "map-germany-container")
+    .style('height', heightGermany + 'px')
+    .style('width', widthGermany + 'px');
 
 svg.append("rect")
     .attr("class", "background")
@@ -41,16 +40,14 @@ svg.append("rect")
 var g = svg.append("g")
     .attr("id", "states");
 
-var geoPath = d3.geoPath().projection(projection);
-
 function resize() {
-    width = parseInt(d3.select("#maps").style("width")),
-        height = width * mapRatio,
-        projection.translate([width / 2, height / 2])
-            .center(germany_center)
-            .scale(width * [mapRatio + mapRatioAdjuster]),
-        svg.style("width", width + "px")
-            .style("height", height + "px"),
+    widthGermany = parseInt(d3.select("#map-germany").style("width")),
+        heightGermany = widthGermany * mapRatio,
+        projectionGermany.translate([widthGermany / 2, heightGermany / 2])
+            .center(germanyCenter)
+            .scale(widthGermany * [mapRatio + mapRatioAdjuster]),
+        svg.style("width", widthGermany + "px")
+            .style("height", heightGermany + "px"),
         svg.selectAll("path.regions").attr("d", geoPath);
 }
 
@@ -194,42 +191,6 @@ function buildMap(err, collection, coronaData) {
         .attr("value", function (d) { return d; });
 
 
-    /* var bounds = d3.geoBounds(collection),
-        bottomLeft = bounds[0],
-        topRight = bounds[1],
-        rotLong = -(topRight[0] + bottomLeft[0]) / 2,
-
-        center = [(topRight[0] + bottomLeft[0]) / 2 + rotLong, (topRight[1] + bottomLeft[1]) / 2];
-
-    //default scale projection
-    projection = d3.geoAlbers()
-        .parallels([bottomLeft[1], topRight[1]])
-        .rotate([rotLong, 0, 0])
-        .translate([width / 2, height / 2])
-        .center(center);
-
-    var bottomLeftPx = projection(bottomLeft),
-        topRightPx = projection(topRight),
-        scaleFactor = 1.00 * Math.min(width / (topRightPx[0] - bottomLeftPx[0]),
-            height / (-topRightPx[1] + bottomLeftPx[1]));
-
-    projection = d3.geoAlbers()
-        .parallels([bottomLeft[1], topRight[1]])
-        .rotate([rotLong, 0, 0])
-        .translate([width / 2, height / 2])
-        .scale(scaleFactor * 0.975 * 1000)
-        //.scale(4*1000)  //1000 is default for USA map
-        .center(center);
-
-    geoPath = d3.geoPath().projection(projection); */
-
-    /*     var graticule = d3.geoGraticule()
-            .step([1, 1]); */
-
-    /*    svg.append("path")
-           .datum(graticule)
-           .attr("class", "graticuleLine")
-           .attr("d", geoPath); */
 
     g.selectAll("path.regions")
         .data(collection.features)
@@ -279,12 +240,12 @@ function buildMap(err, collection, coronaData) {
 }
 
 function clickPath(d) {
-    var x = width / 2,
-        y = height / 2,
+    var x = widthGermany / 2,
+        y = heightGermany / 2,
         k = 1,
         value = d.properties[selectedData];
 
-
+    value = Math.round(value*100)/100;
     g.selectAll("text")
         .remove();
     if ((focused === null) || !(focused === d)) {
@@ -313,7 +274,7 @@ function clickPath(d) {
 
     g.transition()
         .duration(1000)
-        .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")")
+        .attr("transform", "translate(" + (widthGermany / 2) + "," + (heightGermany / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")")
         .style("stroke-width", 1.75 / k + "px");
 }
 

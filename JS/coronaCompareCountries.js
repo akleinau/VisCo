@@ -37,16 +37,24 @@ function updateCompareGraph() {
 
     var oldest = document.getElementById("oldest").value;
 
-    countryName1 = document.getElementById("country1").value;
-    countryName2 = document.getElementById("country2").value;
-    countryName3 = document.getElementById("country3").value;
-    countryName4 = document.getElementById("country4").value;
+    if (!document.getElementById("view-image").src.endsWith('images/germany.png')) {
+        countryName1 = "Germany";
+        countryName2 = "";
+        countryName3 = "";
+        countryName4 = "";
+    }
+    else {
+        countryName1 = document.getElementById("country1").value;
+        countryName2 = document.getElementById("country2").value;
+        countryName3 = document.getElementById("country3").value;
+        countryName4 = document.getElementById("country4").value;
+    }
 
-    var dataType = document.getElementById("dataType").value;
+    var dataType = document.getElementById("data-type").value;
     var link;
-    if (dataType == "confirmed") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
-    else if (dataType == "recovered") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
-    else if (dataType == "deaths") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
+    if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
+    else if (dataType == "recovered") link = urls.coronaWorldRecovered;
+    else if (dataType == "deaths") link = urls.coronaWorldDeaths;
     d3.csv(link, d3.autoType, function (dataUnsorted) {
 
         var sorted = [];
@@ -166,7 +174,7 @@ function updateCompareGraph() {
         var formatValue = d3.format("0.2r");
 
 
-        var tooltip = d3.select("#rightCol2").append("div")
+        var tooltip = d3.select("#right-col-2").append("div")
             .attr("class", "Tooltip")
             .style("position", "absolute")
             .style("visibility", "hidden")
@@ -197,9 +205,9 @@ function updateCompareGraph() {
         }
 
 
-        d3.select("#compareGraph2").remove();
-        var svg = d3.select("#rightCol2").append("svg")
-            .attr("id", "compareGraph2")
+        d3.select("#compare-graph-2").remove();
+        var svg = d3.select("#right-col-2").append("svg")
+            .attr("id", "compare-graph-2")
             .attr("width", widthGraph)
             .attr("height", heightGraph2)
             .on("mouseover", function () { return tooltip.style("visibility", "visible"); })
@@ -220,55 +228,62 @@ function updateCompareGraph() {
             .call(d3.axisLeft(y).ticks(heightGraph2 / 40))
             .call(g => g.select(".domain").remove())
 
-
-        svg.append("path")
-            .datum(country[1])
-            .attr("fill", "none")
-            .attr("stroke", "orange")
-            .attr("stroke-width", 1.5)
-            .attr("stroke-miterlimit", 1)
-            .attr("d", d3.line()
-                .x(function (d) { return x(d.key) })
-                .y(function (d) { return y(d.value) })
-            );
-        svg.append("path")
-            .datum(country[2])
-            .attr("fill", "none")
-            .attr("stroke", "green")
-            .attr("stroke-width", 1.5)
-            .attr("stroke-miterlimit", 1)
-            .attr("d", d3.line()
-                .x(function (d) { return x(d.key) })
-                .y(function (d) { return y(d.value) })
-            );
-        svg.append("path")
-            .datum(country[3])
-            .attr("fill", "none")
-            .attr("stroke", "red")
-            .attr("stroke-width", 1.5)
-            .attr("stroke-miterlimit", 1)
-            .attr("d", d3.line()
-                .x(function (d) { return x(d.key) })
-                .y(function (d) { return y(d.value) })
-            );
-
-        svg.append("path")
-            .datum(country[0])
-            .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-width", 1.5)
-            .attr("stroke-miterlimit", 1)
-            .attr("d", d3.line()
-                .x(function (d) { return x(d.key) })
-                .y(function (d) { return y(d.value) })
-            );
+        if (countryName2 != "") {
+            svg.append("path")
+                .datum(country[1])
+                .attr("fill", "none")
+                .attr("stroke", "orange")
+                .attr("stroke-width", 1.5)
+                .attr("stroke-miterlimit", 1)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.key) })
+                    .y(function (d) { return y(d.value) })
+                );
+        }
+        if (countryName3 != "") {
+            svg.append("path")
+                .datum(country[2])
+                .attr("fill", "none")
+                .attr("stroke", "green")
+                .attr("stroke-width", 1.5)
+                .attr("stroke-miterlimit", 1)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.key) })
+                    .y(function (d) { return y(d.value) })
+                );
+        }
+        if (countryName4 != "") {
+            svg.append("path")
+                .datum(country[3])
+                .attr("fill", "none")
+                .attr("stroke", "red")
+                .attr("stroke-width", 1.5)
+                .attr("stroke-miterlimit", 1)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.key) })
+                    .y(function (d) { return y(d.value) })
+                );
+        }
+        if (countryName1 != "") {
+            svg.append("path")
+                .datum(country[0])
+                .attr("fill", "none")
+                .attr("stroke", "#c51b8a")
+                .attr("stroke-width", 1.5)
+                .attr("stroke-miterlimit", 1)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.key) })
+                    .y(function (d) { return y(d.value) })
+                );
+        }
 
         if (dataType != "confirmed") {
-            d3.select("#compareGraph3").remove();
+            d3.select("#compare-graph-3").remove();
+            document.getElementById("right-col-3").innerHTML = "";
         } else {
+            document.getElementById("right-col-3").innerHTML = "Reproduction Rate";
 
-
-            var Rtooltip = d3.select("#rightCol2").append("div")
+            var Rtooltip = d3.select("#right-col-2").append("div")
                 .attr("class", "Tooltip")
                 .style("position", "absolute")
                 .style("visibility", "hidden")
@@ -281,7 +296,7 @@ function updateCompareGraph() {
                 var day = bisect(RrateCountries[0], x.invert(xPos));
                 var text = "<p style='color:black'>" + formatDays(day) + "</p>";
                 if (countryName1 != "" && RrateCountries[0].find(o => o.key.toString() == day.toString()) != undefined)
-                    text += "<p style='color:steelblue'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
+                    text += "<p style='color:#c51b8a'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName2 != "") text += "<p style='color:orange'>" + RrateCountries[1].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName3 != "") text += "<p style='color:red'>" + RrateCountries[2].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName4 != "") text += "<p style='color:green'>" + RrateCountries[3].find(o => o.key.toString() == day.toString()).value + "</p>";
@@ -289,9 +304,9 @@ function updateCompareGraph() {
             }
 
 
-            d3.select("#compareGraph3").remove();
-            svg = d3.select("#rightCol3").append("svg")
-                .attr("id", "compareGraph3")
+            d3.select("#compare-graph-3").remove();
+            svg = d3.select("#right-col-3").append("svg")
+                .attr("id", "compare-graph-3")
                 .attr("width", widthGraph)
                 .attr("height", heightGraph2)
                 .on("mouseover", function () { return Rtooltip.style("visibility", "visible"); })
@@ -312,49 +327,54 @@ function updateCompareGraph() {
                 .call(d3.axisLeft(RateY).tickFormat(function (d) { return formatValue(d) }))
                 .call(g => g.select(".domain").remove())
 
-
-            svg.append("path")
-                .datum(RrateCountries[1])
-                .attr("fill", "none")
-                .attr("stroke", "orange")
-                .attr("stroke-width", 1.5)
-                .attr("stroke-miterlimit", 1)
-                .attr("d", d3.line()
-                    .x(function (d) { return x(d.key) })
-                    .y(function (d) { return RateY(d.value) })
-                );
-            svg.append("path")
-                .datum(RrateCountries[2])
-                .attr("fill", "none")
-                .attr("stroke", "green")
-                .attr("stroke-width", 1.5)
-                .attr("stroke-miterlimit", 1)
-                .attr("d", d3.line()
-                    .x(function (d) { return x(d.key) })
-                    .y(function (d) { return RateY(d.value) })
-                );
-            svg.append("path")
-                .datum(RrateCountries[3])
-                .attr("fill", "none")
-                .attr("stroke", "red")
-                .attr("stroke-width", 1.5)
-                .attr("stroke-miterlimit", 1)
-                .attr("d", d3.line()
-                    .x(function (d) { return x(d.key) })
-                    .y(function (d) { return RateY(d.value) })
-                );
-
-            svg.append("path")
-                .datum(RrateCountries[0])
-                .attr("fill", "none")
-                .attr("stroke", "steelblue")
-                .attr("stroke-width", 1.5)
-                .attr("stroke-miterlimit", 1)
-                .attr("d", d3.line()
-                    .x(function (d) { return x(d.key) })
-                    .y(function (d) { return RateY(d.value) })
-                );
-
+            if (countryName2 != "") {
+                svg.append("path")
+                    .datum(RrateCountries[1])
+                    .attr("fill", "none")
+                    .attr("stroke", "orange")
+                    .attr("stroke-width", 1.5)
+                    .attr("stroke-miterlimit", 1)
+                    .attr("d", d3.line()
+                        .x(function (d) { return x(d.key) })
+                        .y(function (d) { return RateY(d.value) })
+                    );
+            }
+            if (countryName3 != "") {
+                svg.append("path")
+                    .datum(RrateCountries[2])
+                    .attr("fill", "none")
+                    .attr("stroke", "green")
+                    .attr("stroke-width", 1.5)
+                    .attr("stroke-miterlimit", 1)
+                    .attr("d", d3.line()
+                        .x(function (d) { return x(d.key) })
+                        .y(function (d) { return RateY(d.value) })
+                    );
+            }
+            if (countryName4 != "") {
+                svg.append("path")
+                    .datum(RrateCountries[3])
+                    .attr("fill", "none")
+                    .attr("stroke", "red")
+                    .attr("stroke-width", 1.5)
+                    .attr("stroke-miterlimit", 1)
+                    .attr("d", d3.line()
+                        .x(function (d) { return x(d.key) })
+                        .y(function (d) { return RateY(d.value) })
+                    );
+            }
+            if (countryName1 != "") {
+                svg.append("path")
+                    .datum(RrateCountries[0])
+                    .attr("fill", "none")
+                    .attr("stroke", "#c51b8a")
+                    .attr("stroke-width", 1.5)
+                    .attr("stroke-miterlimit", 1)
+                    .attr("d", d3.line()
+                        .x(function (d) { return x(d.key) })
+                        .y(function (d) { return RateY(d.value) })
+                    );
+            }
             svg.append("path")
                 .datum(data0)
                 .attr("fill", "green")

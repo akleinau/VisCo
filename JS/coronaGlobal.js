@@ -10,11 +10,11 @@ var formatDays = d3.timeFormat("%x");
 function updateGlobalGraph() {
 
     var oldest = document.getElementById("oldest").value;
-    var dataType = document.getElementById("dataType").value;
+    var dataType = document.getElementById("data-type").value;
     var link;
-    if (dataType == "confirmed") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
-    else if (dataType == "recovered") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
-    else if (dataType == "deaths") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
+    if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
+    else if (dataType == "recovered") link = urls.coronaWorldRecovered;
+    else if (dataType == "deaths") link = urls.coronaWorldDeaths;
     d3.csv(link, d3.autoType, function (data) {
 
         var gd = data[0];
@@ -67,7 +67,7 @@ function updateGlobalGraph() {
             .domain([0, d3.max(global, d => d.value) + 1000000])
             .range([heightGraph1 - margin.bottom, margin.top])
 
-        var tooltip = d3.select("#rightCol1").append("div")
+        var tooltip = d3.select("#right-col-1").append("div")
             .attr("class", "Tooltip")
             .style("position", "absolute")
             .style("visibility", "hidden")
@@ -91,11 +91,11 @@ function updateGlobalGraph() {
             return "<p style='color:black'>" + formatDays(day.key)+ ' <br> ' + day.value + "</p>";
         }
 
-        d3.select("#globalGraph").remove();
+        d3.select("#global-graph").remove();
 
 
-        var svg = d3.select("#rightCol1").append("svg")
-            .attr("id", "globalGraph")
+        var svg = d3.select("#right-col-1").append("svg")
+            .attr("id", "global-graph")
             .attr("width", widthGraph)
             .attr("height", heightGraph1)
             .on("mouseover", function () { return tooltip.style("visibility", "visible"); })

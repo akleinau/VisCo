@@ -3,16 +3,21 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
-    <script src="JS/build-table.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+    <script src="JS/build-table.js"></script>
+    <script src="JS/importData.js"></script>
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="css/layout.css" type="text/css" charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
     <link rel="icon" href="data/VisCo_logo4.png">
 </head>
 
@@ -33,10 +38,9 @@
                             <img class="project-logo" src="data/VisCo_logo4.png">
                         </a>
                     </div>
-                    <div class="view-change-button">
-                        <button id="changeViewButton" onclick="changeView()">
-                            <input type="image" src="images/globe.png" id="ViewImage"></button>
-                       
+                    <div class="view-change">
+                        <button id="change-view-button" onclick="changeView()">
+                            <input type="image" src="images/globe.png" id="view-image"></button>
                     </div>
                 </div>
             </div>
@@ -99,39 +103,49 @@
                 <span id="data-value"></span>
             </div> -->
             <div class="col-md-6">
+                <div class="germany">
+                    <div class="row">
+                        <div class="col-9 col-sm-9y"></div>
+                        <div class="col-3 col-sm-3">
+                            <div id="change-data"></div>
+                        </div>
 
-                <div class="row">
-                    <div class="col-9 col-sm-9y"></div>
-                    <div class="col-3 col-sm-3">
-                        <div id="change-data"></div>
                     </div>
-
+                    <div id="map-germany"></div>
                 </div>
-                <div id="maps"></div>
+                <div class="global">
+                    <div id = "map-globe"></div>
+                </div>
             </div>
             <div class="col-md-3">
-                <div id="graphs">
-                    <select id="dataType" onchange="updateGlobalGraph(); updateCompareGraph()">
-                        <option value="confirmed" selected>confirmed</option>
-                        <option value="recovered">recovered</option>
-                        <option value="deaths">deaths</option>
-                    </select>
-
-                    <input name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
-                        id="oldest" onchange="updateGlobalGraph(); updateCompareGraph()"></input>
-
-                    <div id="rightCol1">Global </div>
-                    <input type="text" id="country1" value="Germany" placeholder="Type a name!"
-                        onchange="updateCompareGraph()">
-                    <input type="text" id="country2" placeholder="Type a name!" onchange="updateCompareGraph()">
-                    <input type="text" id="country3" placeholder="Type a name!" onchange="updateCompareGraph()">
-                    <input type="text" id="country4" placeholder="Type a name!" onchange="updateCompareGraph()">
-                    <div id="rightCol2">Compare Countries</div>
-                    <div id="rightCol3">Reproduction Rate </div>
+                <div id="graphs" >
+                    <div class="row">
+                        <select id="data-type" onchange="updateGlobalGraph(); updateCompareGraph()">
+                            <option value="confirmed" selected>confirmed</option>
+                            <option value="recovered">recovered</option>
+                            <option value="deaths">deaths</option>
+                        </select>
+                    </div>
+                    <div class="row ">
+                        <input name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
+                            id="oldest" onchange="updateGlobalGraph(); updateCompareGraph()"></input>
+                    </div>
+                    <div class="global" class="row" id="right-col-1">Global</div>
+                    <div class="global" class="row">
+                        <input type="text" id="country1" value="Germany" placeholder="Type a name!"
+                            onchange="updateCompareGraph()">
+                        <input type="text" id="country2" placeholder="Type a name!" onchange="updateCompareGraph()">
+                        <input type="text" id="country3" placeholder="Type a name!" onchange="updateCompareGraph()">
+                        <input type="text" id="country4" placeholder="Type a name!" onchange="updateCompareGraph()">
+                    </div>
+                    <div class="row" id="right-col-2">Germany</div>
+                    <div class="row" id="right-col-3">Reproduction Rate </div>
                 </div>
+                <div class="germany"></div>
             </div>
         </div>
     </div>
+    
     <script src="JS/map.js">  </script>
     <script src="JS/coronaGlobal.js"> </script>
     <script src="JS/coronaCompareCountries.js"></script>
@@ -146,7 +160,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-    
+
 
 </body>
 
