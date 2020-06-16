@@ -59,6 +59,7 @@ d3.queue()
 function buildMap(err, collection, coronaData) {
 
     console.log(collection);
+
     var dataFields = coronaData.fields;
 
     for (var i = 0; i < dataFields.length; i++) {
