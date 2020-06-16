@@ -1,42 +1,23 @@
 function changeView() {
     Image = document.getElementById("view-image");
+    //change to germany view
     if (Image.src.endsWith("images/globe.png")) {
         Image.src = 'images/germany.png';
 
-       /*  globalObjects = document.getElementsByClassName("global");
-
-        for (var i = 0; i < globalObjects.length; i ++) {
-            globalObjects[i].style.visibility = 'visible';
-        }
-
-        germanyObjects = document.getElementsByClassName("germany");
-
-        for (var i = 0; i < germanyObjects.length; i ++) {
-            germanyObjects[i].style.visibility = 'hidden';
-        } */
-
     }
+
+    //change to global view
     else if (Image.src.endsWith('images/germany.png')) {
         Image.src = 'images/globe.png';
         
-                    /* globalObjects = document.getElementsByClassName("global");
-        
-                    for (var i = 0; i < globalObjects.length; i ++) {
-                        globalObjects[i].style.visibility = 'hidden';
-                    }
-        
-                    germanyObjects = document.getElementsByClassName("germany");
-        
-                    for (var i = 0; i < germanyObjects.length; i ++) {
-                        germanyObjects[i].style.visibility = 'visible';
-                    } */}
+    }
+
+     $('.germany, .global').toggle();
 
     }
 
+
+    //start in germany, therefore global hidden
     $(function(){
         $('.global').hide();
-            $('#change-view-button').click(function(){
-                $('.germany, .global').toggle();
-            });
-        
         });
