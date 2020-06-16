@@ -296,7 +296,7 @@ function updateCompareGraph() {
                 var day = bisect(RrateCountries[0], x.invert(xPos));
                 var text = "<p style='color:black'>" + formatDays(day) + "</p>";
                 if (countryName1 != "" && RrateCountries[0].find(o => o.key.toString() == day.toString()) != undefined)
-                    text += "<p style='color:steelblue'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
+                    text += "<p style='color:#c51b8a'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName2 != "") text += "<p style='color:orange'>" + RrateCountries[1].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName3 != "") text += "<p style='color:red'>" + RrateCountries[2].find(o => o.key.toString() == day.toString()).value + "</p>";
                 if (countryName4 != "") text += "<p style='color:green'>" + RrateCountries[3].find(o => o.key.toString() == day.toString()).value + "</p>";
@@ -367,7 +367,7 @@ function updateCompareGraph() {
                 svg.append("path")
                     .datum(RrateCountries[0])
                     .attr("fill", "none")
-                    .attr("stroke", "steelblue")
+                    .attr("stroke", "#c51b8a")
                     .attr("stroke-width", 1.5)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
