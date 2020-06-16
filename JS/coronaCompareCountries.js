@@ -37,10 +37,18 @@ function updateCompareGraph() {
 
     var oldest = document.getElementById("oldest").value;
 
+    if (!document.getElementById("view-image").src.endsWith('images/germany.png')) {
+        countryName1 = "Germany";
+        countryName2 = "";
+        countryName3 = "";
+        countryName4 = "";
+    }
+    else {
     countryName1 = document.getElementById("country1").value;
     countryName2 = document.getElementById("country2").value;
     countryName3 = document.getElementById("country3").value;
     countryName4 = document.getElementById("country4").value;
+    }
 
     var dataType = document.getElementById("data-type").value;
     var link;

@@ -3,7 +3,7 @@ function changeView() {
     //change to germany view
     if (Image.src.endsWith("images/globe.png")) {
         Image.src = 'images/germany.png';
-
+        countryName1 = document.getElementById("country1").value = "Germany";
     }
 
     //change to global view
@@ -12,6 +12,7 @@ function changeView() {
         
     }
 
+    updateCompareGraph();
      $('.germany, .global').toggle();
 
     }
