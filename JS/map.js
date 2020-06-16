@@ -1,7 +1,4 @@
-var urls = {
-    states: "data/3_mittel.geo.json",
-    coronaStates: "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronafälle_in_den_Bundesländern/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json"
-};
+
 
 var margin = { top: 10, left: 10, bottom: 10, right: 10 },
     width = parseInt(d3.select("#maps").style("width")),
