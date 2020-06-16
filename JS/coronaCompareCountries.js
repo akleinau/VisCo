@@ -44,9 +44,9 @@ function updateCompareGraph() {
 
     var dataType = document.getElementById("data-type").value;
     var link;
-    if (dataType == "confirmed") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
-    else if (dataType == "recovered") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
-    else if (dataType == "deaths") link = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
+    if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
+    else if (dataType == "recovered") link = urls.coronaWorldRecovered;
+    else if (dataType == "deaths") link = urls.coronaWorldDeaths;
     d3.csv(link, d3.autoType, function (dataUnsorted) {
 
         var sorted = [];
