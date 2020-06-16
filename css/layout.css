@@ -281,7 +281,7 @@ a.project-name, a.project-name:visited, a.project-name:hover {
 }
 
 #country1 {
-    color: steelblue;
+    color: #c51b8a;
 }
 
 #country2 {
@@ -298,12 +298,15 @@ a.project-name, a.project-name:visited, a.project-name:hover {
 
 .view-change{
     margin: 0 auto;
+   
 }
 
-.change-view-button {
-    margin: 0 auto;
+#change-view-button{
+    background-color: rgba(77, 77, 77, 1.0);
+    padding: 0px;
+    width:53px;
+    height:53px;
 }
-
 
 #view-image {
     width:50px;
