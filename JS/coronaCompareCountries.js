@@ -100,7 +100,7 @@ function updateCompareGraph() {
             gd[i] = entriesOfCountry(gd[i], oldest);
             if (perPeople) {
                 for (var j = 0; j < gd[i].length; j++) {
-                    gd[i][j].value /= 81.4;
+                    gd[i][j].value /= 814;
                 }
                 console.log(gd[i]);
             }
@@ -153,7 +153,7 @@ function updateCompareGraph() {
         }
 
         var y = d3.scaleLinear()
-            .domain([0, maxValue(country) + 1000])
+            .domain([0, maxValue(country)])
             .range([heightGraph2 - margin.bottom, margin.top])
 
 
