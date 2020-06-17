@@ -6,3 +6,26 @@ var urls = {
     coronaWorldRecovered: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv",
     coronaWorldDeaths: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
 };
+
+function sumUpStates(dataUnsorted) {
+    var sorted = [];
+    sorted.push(dataUnsorted[0]);
+    for (var i = 1; i < dataUnsorted.length; i++) {
+        if (!sameCountry(sorted[sorted.length - 1], dataUnsorted[i])) {
+            sorted.push(dataUnsorted[i]);
+            var s = sorted[sorted.length - 1];
+            s["Province/State"] = null;
+        }
+        else {
+            for (var x in dataUnsorted[i]) {
+                if (x != "Province/State" && x != "Country/Region" && x != "Lat" && x != "Long") {
+                    var old = sorted[sorted.length - 1];
+                    var added = dataUnsorted[i];
+                    old[x] = parseInt(old[x]) + parseInt(added[x]);
+                }
+            }
+        }
+    }
+    return sorted;
+
+}

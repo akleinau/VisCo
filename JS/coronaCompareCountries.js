@@ -55,27 +55,11 @@ function updateCompareGraph() {
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
     else if (dataType == "recovered") link = urls.coronaWorldRecovered;
     else if (dataType == "deaths") link = urls.coronaWorldDeaths;
+ 
+   
     d3.csv(link, d3.autoType, function (dataUnsorted) {
 
-        var sorted = [];
-        sorted.push(dataUnsorted[0]);
-        for (var i = 1; i < dataUnsorted.length; i++) {
-            if (!sameCountry(sorted[sorted.length - 1], dataUnsorted[i])) {
-                sorted.push(dataUnsorted[i]);
-                var s = sorted[sorted.length - 1];
-                s["Province/State"] = null;
-            }
-            else {
-                for (var x in dataUnsorted[i]) {
-                    if (x != "Province/State" && x != "Country/Region" && x != "Lat" && x != "Long") {
-                        var old = sorted[sorted.length - 1];
-                        var added = dataUnsorted[i];
-                        old[x] = parseInt(old[x]) + parseInt(added[x]);
-                    }
-                }
-            }
-        }
-        var data = sorted;
+        data = sumUpStates(dataUnsorted);
 
         function justData(c) {
             delete c["Country/Region"];
