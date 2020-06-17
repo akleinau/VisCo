@@ -39,8 +39,25 @@ d3.queue()
     .await(buildGlobalMap);
 
 function buildGlobalMap(err, countries, coronaData){
-    console.log(countries);
 
+    var sortedData = sumUpStates(coronaData);
+
+    // columns of the table
+    var keys = d3.keys(sortedData[0]);
+
+    var stateValues = {};
+
+    //map each country and the last date value
+    coronaData.map(function (d){
+        stateValues[d["Country/Region"]] = d[keys[keys.length-1]];
+    })
+
+    
+    for (var i in stateValues){
+        //console.log(i);
+        console.log(stateValues[i]); 
+    }
+   
     svgGlobe.append("circle")
         .attr("cx", widthGlobe / 2)
       	.attr("cy", heightGlobe / 2)
