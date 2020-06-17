@@ -167,7 +167,7 @@ function updateCompareGraph() {
         var formatValue = d3.format("0.2r");
 
 
-        var tooltip = d3.select("#tooltip");
+        var tooltip = d3.select("#Gtooltip");
 
         function bisect(data, date) {
             const bisectDate = d3.bisector(d => d.key).left;

@@ -70,7 +70,7 @@ function updateGlobalGraph() {
             .domain([0, d3.max(global, d => d.value) + 1000000])
             .range([heightGraph1 - margin.bottom, margin.top])
 
-        var tooltip = d3.select("#tooltip");
+        var tooltip = d3.select("#Gtooltip");
 
             function bisect(data, date) {
                 const bisectDate = d3.bisector(d => d.key).left;
