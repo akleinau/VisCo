@@ -283,10 +283,10 @@ function updateCompareGraph() {
                 var day = bisect(RrateCountries[0], x.invert(xPos));
                 var text = "<p style='color:black'>" + formatDays(day) + "</p>";
                 if (countryName1 != "" && RrateCountries[0].find(o => o.key.toString() == day.toString()) != undefined)
-                    text += "<p style='color:" + color1 + "'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName2 != "") text += "<p style='color:" + color2 + "'>" + RrateCountries[1].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName3 != "") text += "<p style='color:" + color3 + "'>" + RrateCountries[2].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName4 != "") text += "<p style='color:" + color4 + "'>" + RrateCountries[3].find(o => o.key.toString() == day.toString()).value + "</p>";
+                    text += "<p style='color:" + color1 + "'>" + formatValue(RrateCountries[0].find(o => o.key.toString() == day.toString()).value) + "</p>";
+                if (countryName2 != "") text += "<p style='color:" + color2 + "'>" + formatValue(RrateCountries[1].find(o => o.key.toString() == day.toString()).value) + "</p>";
+                if (countryName3 != "") text += "<p style='color:" + color3 + "'>" + formatValue(RrateCountries[2].find(o => o.key.toString() == day.toString()).value) + "</p>";
+                if (countryName4 != "") text += "<p style='color:" + color4 + "'>" + formatValue(RrateCountries[3].find(o => o.key.toString() == day.toString()).value) + "</p>";
                 return text;
             }
 
