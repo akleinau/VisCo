@@ -27,6 +27,7 @@ function sumUpStates(dataUnsorted) {
             sorted.push(dataUnsorted[i]);
             var s = sorted[sorted.length - 1];
             s["Province/State"] = null;
+ 
         }
         else {
             for (var x in dataUnsorted[i]) {
@@ -39,7 +40,6 @@ function sumUpStates(dataUnsorted) {
         }
     } 
 
-    
     return sorted; 
 
   

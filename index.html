@@ -12,7 +12,7 @@
     <script src="JS/build-table.js"></script>
     <script src="JS/importData.js"></script>
     <script src="JS/versor.js"></script>
-    
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -25,6 +25,9 @@
 <body onload="updateGlobalGraph(); updateCompareGraph()">
     <div id="tooltip" class="hidden">
         <span id="state-name"></span>
+    </div>
+    <div id="tooltipGlobe" class="hidden">
+        <span id="country-name"></span>
     </div>
     <div id="Gtooltip" class="Tooltip hidden">
     </div>
@@ -97,11 +100,11 @@
                     <div id="map-germany"></div>
                 </div>
                 <div class="global">
-                    <div id = "map-globe"></div>
+                    <div id="map-globe"></div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div id="graphs" >
+                <div id="graphs">
                     <div class="row">
                         <select id="data-type" onchange="updateGlobalGraph(); updateCompareGraph()">
                             <option value="confirmed" selected>confirmed</option>
@@ -129,7 +132,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="JS/map.js">  </script>
     <script src="JS/mapGlobe.js">  </script>
     <script src="JS/coronaGlobal.js"> </script>

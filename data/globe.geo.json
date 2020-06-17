@@ -6185,7 +6185,7 @@
             "type": "Feature",
             "id": "BHS",
             "properties": {
-                "name": "The Bahamas"
+                "name": "Bahamas"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -13987,7 +13987,7 @@
             "type": "Feature",
             "id": "COD",
             "properties": {
-                "name": "Democratic Republic of the Congo"
+                "name": "Congo (Kinshasa)"
             },
             "geometry": {
                 "type": "Polygon",
@@ -14489,7 +14489,7 @@
             "type": "Feature",
             "id": "COG",
             "properties": {
-                "name": "Republic of the Congo"
+                "name": "Congo (Brazzaville)"
             },
             "geometry": {
                 "type": "Polygon",
@@ -19129,7 +19129,7 @@
             "type": "Feature",
             "id": "GNB",
             "properties": {
-                "name": "Guinea Bissau"
+                "name": "Guinea-Bissau"
             },
             "geometry": {
                 "type": "Polygon",
@@ -27581,7 +27581,7 @@
             "type": "Feature",
             "id": "MKD",
             "properties": {
-                "name": "Macedonia"
+                "name": "North Macedonia"
             },
             "geometry": {
                 "type": "Polygon",
@@ -40729,7 +40729,7 @@
             "type": "Feature",
             "id": "TLS",
             "properties": {
-                "name": "East Timor"
+                "name": "Timor-Leste"
             },
             "geometry": {
                 "type": "Polygon",
@@ -41309,7 +41309,7 @@
             "type": "Feature",
             "id": "TZA",
             "properties": {
-                "name": "United Republic of Tanzania"
+                "name": "Tanzania"
             },
             "geometry": {
                 "type": "Polygon",
@@ -42145,7 +42145,7 @@
             "type": "Feature",
             "id": "USA",
             "properties": {
-                "name": "United States of America"
+                "name": "US"
             },
             "geometry": {
                 "type": "MultiPolygon",
