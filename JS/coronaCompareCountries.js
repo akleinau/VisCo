@@ -205,14 +205,13 @@ function updateCompareGraph() {
             .attr("id", "compare-graph-2")
             .attr("width", widthGraph)
             .attr("height", heightGraph2)
-            .on("mouseover", function () { return tooltip.style("visibility", "visible")
-                                                .classed("hidden", !1); })
+            .on("mouseover", function () { return tooltip.classed("hidden", !1); })
             .on("mousemove", function () {
                 return tooltip.style("top", (event.pageY + 20) + "px")
                     .style("left", (event.pageX + 20) + "px")
                     .html(tooltipText(d3.mouse(this)[0]));
             })
-            .on("mouseleave", function () { return tooltip.style("visibility", "hidden"); });
+            .on("mouseleave", function () { return  tooltip.classed("hidden", !0); })
 
 
         svg.append("g")
@@ -297,14 +296,13 @@ function updateCompareGraph() {
                 .attr("id", "compare-graph-3")
                 .attr("width", widthGraph)
                 .attr("height", heightGraph2)
-                .on("mouseover", function () { return tooltip.style("visibility", "visible")
-                                                .classed("hidden", !1); })
+                .on("mouseover", function () { return tooltip.classed("hidden", !1); })
                 .on("mousemove", function () {
                     return tooltip.style("top", (event.pageY + 20) + "px")
                         .style("left", (event.pageX + 20) + "px")
                         .html(RtooltipText(d3.mouse(this)[0]));
                 })
-                .on("mouseleave", function () { return tooltip.style("visibility", "hidden"); });
+                .on("mouseleave", function () { return tooltip.classed("hidden", !0); });
 
 
             svg.append("g")
