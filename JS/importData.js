@@ -11,11 +11,23 @@ function sameCountry(c1, c2) {
     return (c1["Country/Region"] == c2["Country/Region"]);
 }
 
+
 function sumUpStates(dataUnsorted) {
+    
     var sorted = [];
+
     sorted.push(dataUnsorted[0]);
     for (var i = 1; i < dataUnsorted.length; i++) {
-        if (!sameCountry(sorted[sorted.length - 1], dataUnsorted[i])) {
+
+        newCountry = dataUnsorted[i];
+
+        function checkCountry(o) {
+            return (o["Country/Region"] == newCountry["Country/Region"]);
+        }
+
+        var country = sorted.find(checkCountry);
+
+        if (country == null) {
             sorted.push(dataUnsorted[i]);
             var s = sorted[sorted.length - 1];
             s["Province/State"] = null;
@@ -23,13 +35,18 @@ function sumUpStates(dataUnsorted) {
         else {
             for (var x in dataUnsorted[i]) {
                 if (x != "Province/State" && x != "Country/Region" && x != "Lat" && x != "Long") {
-                    var old = sorted[sorted.length - 1];
+                    var old = country;
                     var added = dataUnsorted[i];
                     old[x] = parseInt(old[x]) + parseInt(added[x]);
                 }
             }
         }
-    }
-    return sorted;
+    } 
+
+    console.log(sorted);
+    
+    return sorted; 
+
+  
 
 }
