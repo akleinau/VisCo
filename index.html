@@ -103,7 +103,8 @@
                     <div class="row">
                         <select id="data-type" onchange="updateGlobalGraph(); updateCompareGraph()">
                             <option value="confirmed" selected>confirmed</option>
-                            <option value="recovered">recovered</option>
+                            <option class="global" value="recovered">recovered</option>
+                            <option class="germany" value="confirmed-perPeople">confirmed per 100.000</option>
                             <option value="deaths">deaths</option>
                         </select>
                     </div>

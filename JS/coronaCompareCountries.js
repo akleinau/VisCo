@@ -32,7 +32,6 @@ var widthGraph = parseInt(d3.select("#graphs").style("width"));
 
 var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
-
 function updateCompareGraph() {
 
     var oldest = document.getElementById("oldest").value;
@@ -50,13 +49,17 @@ function updateCompareGraph() {
         countryName4 = document.getElementById("country4").value;
     }
 
+    perPeople = false;
     var dataType = document.getElementById("data-type").value;
     var link;
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
-    else if (dataType == "recovered") link = urls.coronaWorldRecovered;
+    if (dataType == "confirmed-perPeople") {
+        link = urls.coronaWorldConfirmed;
+        perPeople = true;
+    }
     else if (dataType == "deaths") link = urls.coronaWorldDeaths;
- 
-   
+
+
     d3.csv(link, d3.autoType, function (dataUnsorted) {
 
         data = sumUpStates(dataUnsorted);
@@ -95,6 +98,12 @@ function updateCompareGraph() {
         for (var i = 0; i < 4; i++) {
             gd[i] = justData(gd[i]);
             gd[i] = entriesOfCountry(gd[i], oldest);
+            if (perPeople) {
+                for (var j = 0; j < gd[i].length; j++) {
+                    gd[i][j].value /= 81.4;
+                }
+                console.log(gd[i]);
+            }
         }
         var country = gd;
 
@@ -144,7 +153,7 @@ function updateCompareGraph() {
         }
 
         var y = d3.scaleLinear()
-            .domain([0, maxValue(country) + 10000])
+            .domain([0, maxValue(country) + 1000])
             .range([heightGraph2 - margin.bottom, margin.top])
 
 
