@@ -180,10 +180,10 @@ function updateCompareGraph() {
 
         
         strokeWidth = 2.0;
-        var color1 = "#c51b8a";
-        var color2 = "orange";
-        var color3 = "green";
-        var color4 = "red";
+        var color1 = "#dd0273";
+        var color2 = "#3005bc";
+        var color3 = "#01aa97";
+        var color4 = "#8e0050";
 
         function tooltipText(xPos) {
 

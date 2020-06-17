@@ -281,19 +281,19 @@ a.project-name, a.project-name:visited, a.project-name:hover {
 }
 
 #country1 {
-    color: #c51b8a;
+    color: #dd0273;
 }
 
 #country2 {
-    color:orange;
+    color:#3005bc;
 }
 
 #country3 {
-    color:green;
+    color:#01aa97;
 }
 
 #country4 {
-    color:red;
+    color:#8e0050;
 }
 
 .view-change{
