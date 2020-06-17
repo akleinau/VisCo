@@ -7,6 +7,10 @@ var urls = {
     coronaWorldDeaths: "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
 };
 
+function sameCountry(c1, c2) {
+    return (c1["Country/Region"] == c2["Country/Region"]);
+}
+
 function sumUpStates(dataUnsorted) {
     var sorted = [];
     sorted.push(dataUnsorted[0]);
