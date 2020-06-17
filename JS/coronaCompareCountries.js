@@ -178,18 +178,26 @@ function updateCompareGraph() {
         }
 
 
+        
+        strokeWidth = 2.0;
+        var color1 = "#c51b8a";
+        var color2 = "orange";
+        var color3 = "green";
+        var color4 = "red";
+
         function tooltipText(xPos) {
 
             var day = bisect(country[0], x.invert(xPos));
             var text = "<p style='color:black'>" + formatDays(day) + "</p>";
             if (countryName1 != "" && country[0].find(o => o.key.toString() == day.toString()) != undefined)
-                text += "<p style='color:#c51b8a'>" + country[0].find(o => o.key.toString() == day.toString()).value + "</p>";
-            if (countryName2 != "") text += "<p style='color:orange'>" + country[1].find(o => o.key.toString() == day.toString()).value + "</p>";
-            if (countryName3 != "") text += "<p style='color:green'>" + country[2].find(o => o.key.toString() == day.toString()).value + "</p>";
-            if (countryName4 != "") text += "<p style='color:red'>" + country[3].find(o => o.key.toString() == day.toString()).value + "</p>";
+                text += "<p style='color:" + color1 + "'>" + country[0].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName2 != "") text += "<p style='color:" + color2 + "'>" + country[1].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName3 != "") text += "<p style='color:" + color3 + "'>" + country[2].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName4 != "") text += "<p style='color:" + color4 + "'>" + country[3].find(o => o.key.toString() == day.toString()).value + "</p>";
 
             return text;
         }
+
 
 
         d3.select("#compare-graph-2").remove();
@@ -220,8 +228,8 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[1])
                 .attr("fill", "none")
-                .attr("stroke", "orange")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", color2)
+                .attr("stroke-width", strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -232,8 +240,8 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[2])
                 .attr("fill", "none")
-                .attr("stroke", "green")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", color3)
+                .attr("stroke-width", strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -244,8 +252,8 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[3])
                 .attr("fill", "none")
-                .attr("stroke", "red")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", color4)
+                .attr("stroke-width",strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -256,8 +264,8 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[0])
                 .attr("fill", "none")
-                .attr("stroke", "#c51b8a")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", color1)
+                .attr("stroke-width", strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -276,10 +284,10 @@ function updateCompareGraph() {
                 var day = bisect(RrateCountries[0], x.invert(xPos));
                 var text = "<p style='color:black'>" + formatDays(day) + "</p>";
                 if (countryName1 != "" && RrateCountries[0].find(o => o.key.toString() == day.toString()) != undefined)
-                    text += "<p style='color:#c51b8a'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName2 != "") text += "<p style='color:orange'>" + RrateCountries[1].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName3 != "") text += "<p style='color:green'>" + RrateCountries[2].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName4 != "") text += "<p style='color:red'>" + RrateCountries[3].find(o => o.key.toString() == day.toString()).value + "</p>";
+                    text += "<p style='color:" + color1 + "'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
+                if (countryName2 != "") text += "<p style='color:" + color2 + "'>" + RrateCountries[1].find(o => o.key.toString() == day.toString()).value + "</p>";
+                if (countryName3 != "") text += "<p style='color:" + color3 + "'>" + RrateCountries[2].find(o => o.key.toString() == day.toString()).value + "</p>";
+                if (countryName4 != "") text += "<p style='color:" + color4 + "'>" + RrateCountries[3].find(o => o.key.toString() == day.toString()).value + "</p>";
                 return text;
             }
 
@@ -312,8 +320,8 @@ function updateCompareGraph() {
                 svg.append("path")
                     .datum(RrateCountries[1])
                     .attr("fill", "none")
-                    .attr("stroke", "orange")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", color2)
+                    .attr("stroke-width", strokeWidth)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
                         .x(function (d) { return x(d.key) })
@@ -324,8 +332,8 @@ function updateCompareGraph() {
                 svg.append("path")
                     .datum(RrateCountries[2])
                     .attr("fill", "none")
-                    .attr("stroke", "green")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", color3)
+                    .attr("stroke-width", strokeWidth)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
                         .x(function (d) { return x(d.key) })
@@ -336,8 +344,8 @@ function updateCompareGraph() {
                 svg.append("path")
                     .datum(RrateCountries[3])
                     .attr("fill", "none")
-                    .attr("stroke", "red")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", color4)
+                    .attr("stroke-width", strokeWidth)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
                         .x(function (d) { return x(d.key) })
@@ -348,8 +356,8 @@ function updateCompareGraph() {
                 svg.append("path")
                     .datum(RrateCountries[0])
                     .attr("fill", "none")
-                    .attr("stroke", "#c51b8a")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", color1)
+                    .attr("stroke-width", strokeWidth)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
                         .x(function (d) { return x(d.key) })
