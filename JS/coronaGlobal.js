@@ -17,6 +17,8 @@ function updateGlobalGraph() {
     else if (dataType == "deaths") link = urls.coronaWorldDeaths;
     d3.csv(link, d3.autoType, function (data) {
 
+
+        //structure data
         var gd = data[0];
         delete gd["Country/Region"];
         delete gd["Province/State"];
@@ -57,8 +59,9 @@ function updateGlobalGraph() {
             global.push(globalDates[i]);
         }
 
+        document.getElementById("GlobalLastUpdated").innerHTML = "Last updated: " + formatDays(global[global.length-1].key);
 
-
+        //create graph
         var x = d3.scaleUtc()
             .domain(d3.extent(global, d => d.key))
             .range([margin.left, widthGraph - margin.right])
