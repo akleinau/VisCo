@@ -70,13 +70,7 @@ function updateGlobalGraph() {
             .domain([0, d3.max(global, d => d.value) + 1000000])
             .range([heightGraph1 - margin.bottom, margin.top])
 
-        var tooltip = d3.select("#right-col-1").append("div")
-            .attr("class", "Tooltip")
-            .style("position", "absolute")
-            .style("visibility", "hidden")
-            .style("color", "black")
-            .attr("width", "100px")
-            .attr("height", "100px")
+        var tooltip = d3.select("#tooltip");
 
             function bisect(data, date) {
                 const bisectDate = d3.bisector(d => d.key).left;
@@ -101,10 +95,11 @@ function updateGlobalGraph() {
             .attr("id", "global-graph")
             .attr("width", widthGraph)
             .attr("height", heightGraph1)
-            .on("mouseover", function () { return tooltip.style("visibility", "visible"); })
+            .on("mouseover", function () { return tooltip.style("visibility", "visible")
+                                                            .classed("hidden", !1); })
             .on("mousemove", function () {
-                return tooltip.style("top", (d3.mouse(this)[1]) + "px")
-                    .style("left", (d3.mouse(this)[0]) + "px")
+                return tooltip.style("top", (event.pageY + 20) + "px")
+                    .style("left", (event.pageX + 20) + "px")
                     .html(tooltipText(d3.mouse(this)[0]));
             })
             .on("mouseleave", function () { return tooltip.style("visibility", "hidden"); });
