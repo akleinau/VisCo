@@ -6,11 +6,12 @@ var marginGlobe = { top: 10, left: 10, bottom: 10, right: 10 },
     heightGlobe = widthGlobe * mapRatioGlobe;
 
 
-/* var keyArray = ["Fallzahl", "Death", "Fallzahl_pro_100000_EW"];
-var selectedData = keyArray[0]; */
+///var keyArray = ["Fallzahl", "Death", "Fallzahl_pro_100000_EW"];
+var selectedDataGlobe;
 
 
 var projectionGlobe = d3.geoOrthographic()
+    .rotate([0, 0])
     .scale((heightGlobe - 100) / 2)
     .translate([widthGlobe / 2, heightGlobe / 2])
     .clipAngle(90);
@@ -24,10 +25,14 @@ var graticuleGlobe = d3.geoGraticule();
 var rotate = [39.666666666666664, -30];
 var lastTime = Date.now();
 var velocity = [.015, -0];
-var rotationDelay = 3000;
-var degPerSec = 6;
-var degPerMs = degPerSec / 1000
-var autorotate, now, diff, roation;
+var focused;
+
+//var rotationDelay = 3000;
+//var degPerSec = 6;
+//var degPerMs = degPerSec / 1000
+//var autorotate, now, diff, roation;
+
+var globeFeatures;
 
 var svgGlobe = d3.select("#map-globe")
     .append("svg")
@@ -43,7 +48,7 @@ svgGlobe.append("rect")
 svgGlobe.call(d3.drag()
     .on("start", dragstarted)
     .on("drag", dragged));
-    //.on("end",dragended));
+//.on("end",dragended));
 
 
 d3.queue()
@@ -89,7 +94,7 @@ function buildGlobalMap(err, countries, coronaData) {
     var keys = d3.keys(sortedData[0]);
 
     var countryValues = {};
-    var globeFeatures = countries.features;
+    globeFeatures = countries.features;
 
     //map each country and the last date value
     sortedData.map(function (d) {
@@ -121,11 +126,11 @@ function buildGlobalMap(err, countries, coronaData) {
         .attr("r", projectionGlobe.scale())
         .attr("class", "noclicks")
         .attr("fill", "url(#ocean_fill)");
-
-    svgGlobe.append("path")
-        .datum(graticuleGlobe)
-        .attr("class", "graticuleLine noclicks")
-        .attr("d", geoPathGlobe);
+    /* 
+        svgGlobe.append("path")
+            .datum(graticuleGlobe)
+            .attr("class", "graticuleLine noclicks")
+            .attr("d", geoPathGlobe); */
 
     svgGlobe.append("circle")
         .attr("cx", widthGlobe / 2)
@@ -156,9 +161,9 @@ function buildGlobalMap(err, countries, coronaData) {
         .on("mouseout", hoverStateOutGlobe)
         .on("click", clickGlobe);
 
-
     refresh();
     spin();
+    selectCountry("US");
     //autorotate = d3.timer(spin);
     /* 
         d3.selectAll("tbody").selectAll("tr").on("click", function () {
@@ -189,6 +194,7 @@ function refresh() {
     svgGlobe.selectAll(".land").attr("d", geoPathGlobe);
     svgGlobe.selectAll(".land path").attr("d", geoPathGlobe);
     svgGlobe.selectAll(".graticuleLine").attr("d", geoPathGlobe);
+    svgGlobe.selectAll(".focused").classed("focused", focused = false);
     //position_labels();
 }
 
@@ -206,12 +212,10 @@ function stopRotation() {
 function spin() {
     timer = d3.timer(function () {
         var dt = Date.now() - lastTime;
-
         projectionGlobe.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
-
         refresh();
     });
-    
+
 }
 
 /* function spin(elapsed) {
@@ -276,6 +280,7 @@ function hoverStateOutGlobe(d, i) {
 }
 
 function clickGlobe(d, i) {
+    
     for (i = 1; i <= 5; i++) {
         if (i == 5) document.getElementById("country1").value = d.properties.name;
         else if (document.getElementById("country" + i).value == "") {
@@ -284,7 +289,54 @@ function clickGlobe(d, i) {
         }
     }
     updateCompareGraph();
+
+    transitionGlobe(d);
+
 }
+
+function transitionGlobe(d, i) {
+    timer.stop();
+    focusedCountry = d,
+
+    svgGlobe.selectAll(".focused").classed("focused", focused = false);
+
+    //Globe rotating    
+
+    (function transition() {
+        d3.transition()
+            .duration(2500)
+            .tween("rotate", function () {
+                var p = d3.geoCentroid(focusedCountry),
+                    r = d3.interpolate(projectionGlobe.rotate(), [-p[0], -p[1]]);
+                return function (t) {
+                    projectionGlobe.rotate(r(t));
+                    svgGlobe.selectAll("path").attr("d", geoPathGlobe)
+                        .classed("focused", function (d, i) {
+
+                            return d.properties.name == focusedCountry.properties.name ? focused = d : false;
+                        });
+                };
+            })
+    })();
+}
+
+function selectCountry(name){
+
+    for (var i in globeFeatures){
+        if (globeFeatures[i].properties.name == name){
+            return globeFeatures[i];
+        }
+    }
+
+}
+
+
+
+function country(cnt, id) {
+    for (var i = 0, l = cnt.length; i < l; i++) {
+        if (cnt[i].id == id) { return cnt[i]; }
+    }
+};
 
 function getColorScaleGlobe(features) {
 

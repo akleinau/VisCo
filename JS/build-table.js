@@ -80,22 +80,27 @@ function createTable(data, length, tab) {
   tableEl.setAttribute("class", "data-table");
   tableEl.setAttribute("id", "table1");
 
-  
+
   // create 10 table rows, each with two cells
   for (i = 0; i <= length - 1; i++) {
     rowEl = tableEl.insertRow();  // DOM method for creating table rows
     rowEl.insertCell().textContent = data[i][0];
     rowEl.insertCell().textContent = data[i][1];
-    rowEl.addEventListener("click", function () { 
+    rowEl.addEventListener("click", function () {
+
       var input = "country1";
       for (i = 1; i <= 5; i++) {
         if (i == 5) break;
         else if (document.getElementById("country" + i).value == "") {
-            input = "country" + i
-            break;
-        }  
-    }
-      fillInput(input, this.innerText.replace(/[0-9]/g, ''));});
+          input = "country" + i
+          break;
+        }
+      }
+      var c = this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, '');
+      var jsonCountry = selectCountry(this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, ''));
+      transitionGlobe(jsonCountry);
+      fillInput(input, this.innerText.replace(/[0-9]/g, ''));
+    });
   }
   document.getElementById(tab).appendChild(tableEl);
 }
