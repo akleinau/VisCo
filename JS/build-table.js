@@ -1,3 +1,5 @@
+var selectedCountry;
+
 function openTab(evt, Case) {
   // Declare all variables
   var i, tabcontent, tablinks;
@@ -76,6 +78,8 @@ function createTable(data, length, tab) {
 
 
   tableEl.setAttribute("class", "data-table");
+  tableEl.setAttribute("id", "table1");
+
   
   // create 10 table rows, each with two cells
   for (i = 0; i <= length - 1; i++) {
@@ -85,3 +89,27 @@ function createTable(data, length, tab) {
   }
   document.getElementById(tab).appendChild(tableEl);
 }
+
+
+// use table as selection field
+// needs to wait for the table to load
+// returns name of clicked row
+/* function addRowHandlers() {
+
+  var checkExist = setInterval(function () {
+      if ($('#table1').length) {
+
+          var rows = document.getElementById("table1").rows;
+          for (i = 0; i < rows.length; i++) {
+              rows[i].onclick = function () {
+                  return function () {
+                      selectedCountry = this.cells[0].innerHTML;
+
+                  };
+              }(rows[i]);
+          }
+      }
+      clearInterval(checkExist);
+  }
+, 100);}
+ */

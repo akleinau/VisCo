@@ -36,7 +36,6 @@ svgGlobe.call(d3.drag()
     .on("start", dragstarted)
     .on("drag", dragged));
 
-var countryTooltip = d3.select("body").append("div").attr("class", "countryTooltip");
 
 d3.queue()
     .defer(d3.json, urls.countries)
@@ -45,36 +44,36 @@ d3.queue()
 
 function buildGlobalMap(err, countries, coronaData) {
 
-     var ocean_fill = svgGlobe.append("defs").append("radialGradient")
-         .attr("id", "ocean_fill")
-         .attr("cx", "75%")
-         .attr("cy", "25%");
- 
-     ocean_fill.append("stop").attr("offset", "1%").attr("stop-color", "#ddf");
-     ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff");
- 
-     var globe_highlight = svgGlobe.append("defs").append("radialGradient")
-         .attr("id", "globe_highlight")
-         .attr("cx", "75%")
-         .attr("cy", "25%");
-     globe_highlight.append("stop")
-         .attr("offset", "1%").attr("stop-color", "#ffd")
-         .attr("stop-opacity", "0.6");
-     globe_highlight.append("stop")
-         .attr("offset", "100%").attr("stop-color", "#ba9")
-         .attr("stop-opacity", "0.1");
- 
-     var globe_shading = svgGlobe.append("defs").append("radialGradient")
-         .attr("id", "globe_shading")
-         .attr("cx", "50%")
-         .attr("cy", "40%");
-     globe_shading.append("stop")
-         .attr("offset", "50%").attr("stop-color", "#9ab")
-         .attr("stop-opacity", "0")
-     globe_shading.append("stop")
-         .attr("offset", "100%").attr("stop-color", "#3e6184")
-         .attr("stop-opacity", "0.3")
- 
+    var ocean_fill = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "ocean_fill")
+        .attr("cx", "75%")
+        .attr("cy", "25%");
+
+    ocean_fill.append("stop").attr("offset", "1%").attr("stop-color", "#ddf");
+    ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff");
+
+    var globe_highlight = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "globe_highlight")
+        .attr("cx", "75%")
+        .attr("cy", "25%");
+    globe_highlight.append("stop")
+        .attr("offset", "1%").attr("stop-color", "#ffd")
+        .attr("stop-opacity", "0.6");
+    globe_highlight.append("stop")
+        .attr("offset", "100%").attr("stop-color", "#ba9")
+        .attr("stop-opacity", "0.1");
+
+    var globe_shading = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "globe_shading")
+        .attr("cx", "50%")
+        .attr("cy", "40%");
+    globe_shading.append("stop")
+        .attr("offset", "50%").attr("stop-color", "#9ab")
+        .attr("stop-opacity", "0")
+    globe_shading.append("stop")
+        .attr("offset", "100%").attr("stop-color", "#3e6184")
+        .attr("stop-opacity", "0.3")
+
     var sortedData = sumUpStates(coronaData);
 
     // columns of the table
@@ -106,6 +105,10 @@ function buildGlobalMap(err, countries, coronaData) {
             }
         }
     }
+
+
+
+
 
     svgGlobe.append("circle")
         .attr("cx", widthGlobe / 2)
@@ -148,6 +151,29 @@ function buildGlobalMap(err, countries, coronaData) {
         .on("mouseout", hoverStateOutGlobe);
 
     refresh();
+/* 
+    d3.selectAll("tbody").selectAll("tr").on("click", function () {
+        console.log(selectedCountry); */
+      /*   var rotate = projectionGlobe.rotate(),
+            focusedCountry = selectedCountry,
+            p = d3.geoCentroid(selectedCountry);
+    
+        svg.selectAll(".focused").classed("focused", focused = false);
+    
+        (function transition() {
+            d3.transition()
+                .duration(2500)
+                .tween("rotate", function () {
+                    var r = d3.interpolate(projectionGlobe.rotate(), [-p[0], -p[1]]);
+                    return function (t) {
+                        projectionGlobe.rotate(r(t));
+                        svg.selectAll("path").attr("d", path)
+                            .classed("focused", function (d, i) { return d.id == selectedCountry.id ? focused = d : false; });
+                    };
+                })
+        })(); */
+    });
+
 }
 
 function refresh() {
@@ -229,3 +255,6 @@ function getColorGlobe(d, regionColor) {
         return "#ccc";
     };
 }
+
+
+
