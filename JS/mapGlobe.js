@@ -182,7 +182,7 @@ function hoverOverGlobe(d, i) {
         .select("#country-name")
         .text(d.properties.name)
         .on("click", function() {
-            document.getElementById("country1").value = d.properties.name;
+            document.getElementById("country1").value = "hi";
         })
 
     d3.select("#tooltipGlobe")
