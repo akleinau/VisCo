@@ -213,6 +213,7 @@ function clickGlobe(d, i) {
             break;
         }  
     }
+    updateCompareGraph();
 }
 
 function getColorScaleGlobe(features) {
