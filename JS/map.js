@@ -73,7 +73,7 @@ function buildTable(err, collection, coronaData){
 
     for (var i = 0; i < ft.length; i++) {
 
-        state_id[i] = ft[i].attributes.OBJECTID;        
+        state_id[i] = ft[i].attributes.LAN_ew_GEN;        
         state_death[i] = ft[i].attributes.Death;
         state_fallzahl[i] = ft[i].attributes.Fallzahl;
         state_fallzahl_pro_100000[i] = ft[i].attributes.faelle_100000_EW;
@@ -94,7 +94,7 @@ function buildTable(err, collection, coronaData){
     } 
 
     for (var j = 0; j < state_id.length; j++) {
-        var asdf = [state_id[j], state_fallzahl_pro_100000[j]];
+        var asdf = [state_id[j], Math.round(state_fallzahl_pro_100000[j])];
         fallzahl_pro_100000[j] = asdf;
     } 
     dataSort(death, "death");
@@ -107,10 +107,10 @@ function dataSort(array2D, tab){
  
     var data_length = 0;
 
-    data_length = 15;
+    data_length = 16;
 
     array2D.sort(compareSecondColumn);
-    doTable(array2D, data_length, tab);
+    createTable(array2D, data_length, tab);
 
     function compareSecondColumn(a, b) {
         if (a[1] === b[1]) {
@@ -123,20 +123,20 @@ function dataSort(array2D, tab){
     console.log(array2D); 
 }
     
-function doTable(data, length, tab) {
+// function createTable(data, length, tab) {
 
-  var i = 0, rowEl = null,
-    tableEl = document.createElement("table");
+//   var i = 0, rowEl = null,
+//     tableEl = document.createElement("table");
 
-  tableEl.setAttribute("class", "data-table");
+//   tableEl.setAttribute("class", "data-table");
   
-  for (i = 0; i <= length; i++) {
-    rowEl = tableEl.insertRow();  // DOM method for creating table rows
-    rowEl.insertCell().textContent = data[i][0];
-    rowEl.insertCell().textContent = data[i][1];
-  }
-  document.getElementById(tab).appendChild(tableEl);
-}
+//   for (i = 0; i <= length - 1; i++) {
+//     rowEl = tableEl.insertRow();  // DOM method for creating table rows
+//     rowEl.insertCell().textContent = data[i][0];
+//     rowEl.insertCell().textContent = data[i][1];
+//   }
+//   document.getElementById(tab).appendChild(tableEl);
+// }
 
 
 
