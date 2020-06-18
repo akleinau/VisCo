@@ -174,8 +174,8 @@ function buildGlobalMap(err, countries, coronaData) {
                     };
                 })
         })(); */
-    });
-
+  /*   });
+ */
 }
 
 function refresh() {
