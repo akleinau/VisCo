@@ -119,11 +119,30 @@
                     </div>
                     <div class="global" class="row" id="right-col-1">Global</div>
                     <div class="global" class="row">
-                        <input type="text" id="country1" value="Germany" placeholder="Type a name!"
-                            onchange="updateCompareGraph()">
-                        <input type="text" id="country2" placeholder="Type a name!" onchange="updateCompareGraph()">
-                        <input type="text" id="country3" placeholder="Type a name!" onchange="updateCompareGraph()">
-                        <input type="text" id="country4" placeholder="Type a name!" onchange="updateCompareGraph()">
+                        <form>
+                            <input type="text" id="country1" value="Germany" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country1', event)">
+                            <ul class="scrollmenu" id="country1List">
+                            </ul>
+                        </form>
+                        <form>
+                            <input type="text" id="country2" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country2', event)">
+                            <ul class="scrollmenu" id="country2List">
+                            </ul>
+                        </form>
+                        <form>
+                            <input type="text" id="country3" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country3', event)">
+                            <ul class="scrollmenu" id="country3List">
+                            </ul>
+                        </form>
+                        <form>
+                            <input type="text" id="country4" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country4', event)">
+                            <ul class="scrollmenu" id="country4List">
+                            </ul>
+                        </form>
                     </div>
                     <div class="row" id="right-col-2">Germany</div>
                     <div class="row" id="right-col-3">Reproduction Rate </div>
@@ -138,6 +157,7 @@
     <script src="JS/coronaGlobal.js"> </script>
     <script src="JS/coronaCompareCountries.js"></script>
     <script src="JS/changeView.js"></script>
+    <script src="JS/CountrySelection.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
