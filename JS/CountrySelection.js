@@ -26,10 +26,7 @@ function updateCountrySelection(input, event) {
         });
     }
     else {
-        document.getElementById("country1List").style.display = "none";
-        document.getElementById("country2List").style.display = "none";
-        document.getElementById("country3List").style.display = "none";
-        document.getElementById("country4List").style.display = "none";
+        hideLists();
         updateCompareGraph();
     }
 
@@ -40,6 +37,10 @@ function fillInput(input, value) {
     var ul = document.getElementById(input + "List");
     ul.style.display = "none";
     updateCompareGraph();
+    hideLists();
+}
+
+function hideLists() {
     document.getElementById("country1List").style.display = "none";
     document.getElementById("country2List").style.display = "none";
     document.getElementById("country3List").style.display = "none";
