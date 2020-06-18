@@ -11,7 +11,8 @@
 
     <script src="JS/build-table.js"></script>
     <script src="JS/importData.js"></script>
-    
+    <script src="JS/versor.js"></script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -24,6 +25,11 @@
 <body onload="updateGlobalGraph(); updateCompareGraph()">
     <div id="tooltip" class="hidden">
         <span id="state-name"></span>
+    </div>
+    <div id="tooltipGlobe" class="hidden">
+        <span id="country-name"></span>
+    </div>
+    <div id="Gtooltip" class="Tooltip hidden">
     </div>
     <nav>
         <div class="navigation-bar-container">
@@ -42,6 +48,7 @@
                         <button id="change-view-button" onclick="changeView()">
                             <input type="image" src="images/globe.png" id="view-image"></button>
                     </div>
+                    <div class="global date" id="GlobalLastUpdated"></div>
                 </div>
             </div>
         </div>
@@ -108,7 +115,7 @@
             <div class="col-md-6">
                 <div class="germany">
                     <div class="row">
-                        <div class="col-9 col-sm-9y"></div>
+                        <div class="col-9 col-sm-9"></div>
                         <div class="col-3 col-sm-3">
                             <div id="change-data"></div>
                         </div>
@@ -117,15 +124,16 @@
                     <div id="map-germany"></div>
                 </div>
                 <div class="global">
-                    <div id = "map-globe"></div>
+                    <div id="map-globe"></div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div id="graphs" >
+                <div id="graphs">
                     <div class="row">
                         <select id="data-type" onchange="updateGlobalGraph(); updateCompareGraph()">
                             <option value="confirmed" selected>confirmed</option>
-                            <option value="recovered">recovered</option>
+                            <option class="global" value="recovered">recovered</option>
+                            <option class="germany" value="confirmed-perPeople">confirmed per 100.000</option>
                             <option value="deaths">deaths</option>
                         </select>
                     </div>
@@ -135,11 +143,30 @@
                     </div>
                     <div class="global" class="row" id="right-col-1">Global</div>
                     <div class="global" class="row">
-                        <input type="text" id="country1" value="Germany" placeholder="Type a name!"
-                            onchange="updateCompareGraph()">
-                        <input type="text" id="country2" placeholder="Type a name!" onchange="updateCompareGraph()">
-                        <input type="text" id="country3" placeholder="Type a name!" onchange="updateCompareGraph()">
-                        <input type="text" id="country4" placeholder="Type a name!" onchange="updateCompareGraph()">
+                        <form>
+                            <input type="text" id="country1" value="Germany" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()">
+                            <ul class="scrollmenu" id="country1List">
+                            </ul>
+                        </form>
+                        <form>
+                            <input type="text" id="country2" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()">
+                            <ul class="scrollmenu" id="country2List">
+                            </ul>
+                        </form>
+                        <form>
+                            <input type="text" id="country3" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()">
+                            <ul class="scrollmenu" id="country3List">
+                            </ul>
+                        </form>
+                        <form>
+                            <input type="text" id="country4" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()">
+                            <ul class="scrollmenu" id="country4List">
+                            </ul>
+                        </form>
                     </div>
                     <div class="row" id="right-col-2">Germany</div>
                     <div class="row" id="right-col-3">Reproduction Rate </div>
@@ -148,11 +175,13 @@
             </div>
         </div>
     </div>
-    
+
     <script src="JS/map.js">  </script>
+    <script src="JS/mapGlobe.js">  </script>
     <script src="JS/coronaGlobal.js"> </script>
     <script src="JS/coronaCompareCountries.js"></script>
     <script src="JS/changeView.js"></script>
+    <script src="JS/CountrySelection.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

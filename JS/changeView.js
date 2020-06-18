@@ -14,12 +14,12 @@ function changeView() {
     }
 
     updateCompareGraph();
-     $('.germany, .global').toggle();
+    $('.germany, .global').toggle();
+    document.getElementById("data-type").value = "confirmed";
+}
 
-    }
 
-
-    //start in germany, therefore global hidden
-    $(function(){
-        $('.global').hide();
-        });
+//start in germany, therefore global hidden
+$(function () {
+    $('.global').hide();
+});

@@ -143,6 +143,7 @@ function dataSort(array2D, tab){
 function buildMap(err, collection, coronaData) {
 
     console.log(collection);
+
     var dataFields = coronaData.fields;
     console.log(coronaData);
 
@@ -193,7 +194,7 @@ function buildMap(err, collection, coronaData) {
 
 
     g.selectAll("path.regions")
-        .data(collection.features)
+        .data(mapFeatures)
         .enter()
         .append("path")
         .attr("class", "regions")
@@ -328,6 +329,7 @@ function getColorScale(features) {
 
     var minVal = d3.min(dataArray);
     var maxVal = d3.max(dataArray);
+
     var color = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor]);
     return color;
 }

@@ -3,19 +3,19 @@ dataType = "confirmed"
 Rintervall = 7;
 
 function checkCountry1(o) {
-    return (o["Country/Region"] == countryName1);
+    return (o["Country/Region"].toLowerCase() == countryName1.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry2(o) {
-    return (o["Country/Region"] == countryName2);
+    return (o["Country/Region"].toLowerCase() == countryName2.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry3(o) {
-    return (o["Country/Region"] == countryName3);
+    return (o["Country/Region"].toLowerCase() == countryName3.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry4(o) {
-    return (o["Country/Region"] == countryName4);
+    return (o["Country/Region"].toLowerCase() == countryName4.toLowerCase().replace(/\s+/g, ''));
 }
 
 function sameCountry(c1, c2) {
@@ -31,7 +31,6 @@ var heightGraph2 = 240;
 var widthGraph = parseInt(d3.select("#graphs").style("width"));
 
 var margin = { top: 20, right: 10, bottom: 30, left: 80 }
-
 
 function updateCompareGraph() {
 
@@ -50,32 +49,22 @@ function updateCompareGraph() {
         countryName4 = document.getElementById("country4").value;
     }
 
+    perPeople = false;
     var dataType = document.getElementById("data-type").value;
     var link;
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
-    else if (dataType == "recovered") link = urls.coronaWorldRecovered;
+    if (dataType == "confirmed-perPeople") {
+        link = urls.coronaWorldConfirmed;
+        perPeople = true;
+    }
     else if (dataType == "deaths") link = urls.coronaWorldDeaths;
+
+
     d3.csv(link, d3.autoType, function (dataUnsorted) {
 
-        var sorted = [];
-        sorted.push(dataUnsorted[0]);
-        for (var i = 1; i < dataUnsorted.length; i++) {
-            if (!sameCountry(sorted[sorted.length - 1], dataUnsorted[i])) {
-                sorted.push(dataUnsorted[i]);
-                var s = sorted[sorted.length - 1];
-                s["Province/State"] = null;
-            }
-            else {
-                for (var x in dataUnsorted[i]) {
-                    if (x != "Province/State" && x != "Country/Region" && x != "Lat" && x != "Long") {
-                        var old = sorted[sorted.length - 1];
-                        var added = dataUnsorted[i];
-                        old[x] = parseInt(old[x]) + parseInt(added[x]);
-                    }
-                }
-            }
-        }
-        var data = sorted;
+        data = sumUpStates(dataUnsorted);
+
+
 
         function justData(c) {
             delete c["Country/Region"];
@@ -111,6 +100,12 @@ function updateCompareGraph() {
         for (var i = 0; i < 4; i++) {
             gd[i] = justData(gd[i]);
             gd[i] = entriesOfCountry(gd[i], oldest);
+            if (perPeople) {
+                for (var j = 0; j < gd[i].length; j++) {
+                    gd[i][j].value /= 814;
+                }
+                console.log(gd[i]);
+            }
         }
         var country = gd;
 
@@ -160,7 +155,7 @@ function updateCompareGraph() {
         }
 
         var y = d3.scaleLinear()
-            .domain([0, maxValue(country) + 10000])
+            .domain([0, maxValue(country)])
             .range([heightGraph2 - margin.bottom, margin.top])
 
 
@@ -174,13 +169,7 @@ function updateCompareGraph() {
         var formatValue = d3.format("0.2r");
 
 
-        var tooltip = d3.select("#right-col-2").append("div")
-            .attr("class", "Tooltip")
-            .style("position", "absolute")
-            .style("visibility", "hidden")
-            .style("color", "black")
-            .attr("width", "100px")
-            .attr("height", "100px")
+        var tooltip = d3.select("#Gtooltip");
 
         function bisect(data, date) {
             const bisectDate = d3.bisector(d => d.key).left;
@@ -191,18 +180,26 @@ function updateCompareGraph() {
         }
 
 
+
+        strokeWidth = 2.0;
+        var color1 = "#dd0273";
+        var color2 = "#3005bc";
+        var color3 = "#01aa97";
+        var color4 = "#8e0050";
+
         function tooltipText(xPos) {
 
             var day = bisect(country[0], x.invert(xPos));
             var text = "<p style='color:black'>" + formatDays(day) + "</p>";
             if (countryName1 != "" && country[0].find(o => o.key.toString() == day.toString()) != undefined)
-                text += "<p style='color:steelblue'>" + country[0].find(o => o.key.toString() == day.toString()).value + "</p>";
-            if (countryName2 != "") text += "<p style='color:orange'>" + country[1].find(o => o.key.toString() == day.toString()).value + "</p>";
-            if (countryName3 != "") text += "<p style='color:red'>" + country[2].find(o => o.key.toString() == day.toString()).value + "</p>";
-            if (countryName4 != "") text += "<p style='color:green'>" + country[3].find(o => o.key.toString() == day.toString()).value + "</p>";
+                text += "<p style='color:" + color1 + "'>" + country[0].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName2 != "") text += "<p style='color:" + color2 + "'>" + country[1].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName3 != "") text += "<p style='color:" + color3 + "'>" + country[2].find(o => o.key.toString() == day.toString()).value + "</p>";
+            if (countryName4 != "") text += "<p style='color:" + color4 + "'>" + country[3].find(o => o.key.toString() == day.toString()).value + "</p>";
 
             return text;
         }
+
 
 
         d3.select("#compare-graph-2").remove();
@@ -210,13 +207,13 @@ function updateCompareGraph() {
             .attr("id", "compare-graph-2")
             .attr("width", widthGraph)
             .attr("height", heightGraph2)
-            .on("mouseover", function () { return tooltip.style("visibility", "visible"); })
+            .on("mouseover", function () { return tooltip.classed("hidden", !1); })
             .on("mousemove", function () {
-                return tooltip.style("top", (d3.mouse(this)[1] + 300) + "px")
-                    .style("left", (d3.mouse(this)[0]) + "px")
+                return tooltip.style("top", (event.pageY + 20) + "px")
+                    .style("left", (event.pageX + 20) + "px")
                     .html(tooltipText(d3.mouse(this)[0]));
             })
-            .on("mouseleave", function () { return tooltip.style("visibility", "hidden"); });
+            .on("mouseleave", function () { return tooltip.classed("hidden", !0); })
 
 
         svg.append("g")
@@ -232,8 +229,8 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[1])
                 .attr("fill", "none")
-                .attr("stroke", "orange")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", color2)
+                .attr("stroke-width", strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -244,8 +241,8 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[2])
                 .attr("fill", "none")
-                .attr("stroke", "green")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", color3)
+                .attr("stroke-width", strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -256,8 +253,8 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[3])
                 .attr("fill", "none")
-                .attr("stroke", "red")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", color4)
+                .attr("stroke-width", strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -268,8 +265,8 @@ function updateCompareGraph() {
             svg.append("path")
                 .datum(country[0])
                 .attr("fill", "none")
-                .attr("stroke", "#c51b8a")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", color1)
+                .attr("stroke-width", strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -283,23 +280,15 @@ function updateCompareGraph() {
         } else {
             document.getElementById("right-col-3").innerHTML = "Reproduction Rate";
 
-            var Rtooltip = d3.select("#right-col-2").append("div")
-                .attr("class", "Tooltip")
-                .style("position", "absolute")
-                .style("visibility", "hidden")
-                .style("color", "black")
-                .attr("width", "100px")
-                .attr("height", "100px")
-
             function RtooltipText(xPos) {
 
                 var day = bisect(RrateCountries[0], x.invert(xPos));
                 var text = "<p style='color:black'>" + formatDays(day) + "</p>";
                 if (countryName1 != "" && RrateCountries[0].find(o => o.key.toString() == day.toString()) != undefined)
-                    text += "<p style='color:#c51b8a'>" + RrateCountries[0].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName2 != "") text += "<p style='color:orange'>" + RrateCountries[1].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName3 != "") text += "<p style='color:red'>" + RrateCountries[2].find(o => o.key.toString() == day.toString()).value + "</p>";
-                if (countryName4 != "") text += "<p style='color:green'>" + RrateCountries[3].find(o => o.key.toString() == day.toString()).value + "</p>";
+                    text += "<p style='color:" + color1 + "'>" + formatValue(RrateCountries[0].find(o => o.key.toString() == day.toString()).value) + "</p>";
+                if (countryName2 != "") text += "<p style='color:" + color2 + "'>" + formatValue(RrateCountries[1].find(o => o.key.toString() == day.toString()).value) + "</p>";
+                if (countryName3 != "") text += "<p style='color:" + color3 + "'>" + formatValue(RrateCountries[2].find(o => o.key.toString() == day.toString()).value) + "</p>";
+                if (countryName4 != "") text += "<p style='color:" + color4 + "'>" + formatValue(RrateCountries[3].find(o => o.key.toString() == day.toString()).value) + "</p>";
                 return text;
             }
 
@@ -309,13 +298,13 @@ function updateCompareGraph() {
                 .attr("id", "compare-graph-3")
                 .attr("width", widthGraph)
                 .attr("height", heightGraph2)
-                .on("mouseover", function () { return Rtooltip.style("visibility", "visible"); })
+                .on("mouseover", function () { return tooltip.classed("hidden", !1); })
                 .on("mousemove", function () {
-                    return Rtooltip.style("top", (d3.mouse(this)[1] + 550) + "px")
-                        .style("left", (d3.mouse(this)[0]) + "px")
+                    return tooltip.style("top", (event.pageY + 20) + "px")
+                        .style("left", (event.pageX + 20) + "px")
                         .html(RtooltipText(d3.mouse(this)[0]));
                 })
-                .on("mouseleave", function () { return Rtooltip.style("visibility", "hidden"); });
+                .on("mouseleave", function () { return tooltip.classed("hidden", !0); });
 
 
             svg.append("g")
@@ -327,12 +316,21 @@ function updateCompareGraph() {
                 .call(d3.axisLeft(RateY).tickFormat(function (d) { return formatValue(d) }))
                 .call(g => g.select(".domain").remove())
 
+            svg.append("path")
+                .datum(data0)
+                .attr("fill", "#ccf9c7")
+                .attr("d", d3.area()
+                    .x(function (d) { return x(d.key) })
+                    .y0(function (d) { return RateY(minValue(RrateCountries)) })
+                    .y1(function (d) { return RateY(1) })
+                );
+
             if (countryName2 != "") {
                 svg.append("path")
                     .datum(RrateCountries[1])
                     .attr("fill", "none")
-                    .attr("stroke", "orange")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", color2)
+                    .attr("stroke-width", strokeWidth)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
                         .x(function (d) { return x(d.key) })
@@ -343,8 +341,8 @@ function updateCompareGraph() {
                 svg.append("path")
                     .datum(RrateCountries[2])
                     .attr("fill", "none")
-                    .attr("stroke", "green")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", color3)
+                    .attr("stroke-width", strokeWidth)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
                         .x(function (d) { return x(d.key) })
@@ -355,8 +353,8 @@ function updateCompareGraph() {
                 svg.append("path")
                     .datum(RrateCountries[3])
                     .attr("fill", "none")
-                    .attr("stroke", "red")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", color4)
+                    .attr("stroke-width", strokeWidth)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
                         .x(function (d) { return x(d.key) })
@@ -367,23 +365,14 @@ function updateCompareGraph() {
                 svg.append("path")
                     .datum(RrateCountries[0])
                     .attr("fill", "none")
-                    .attr("stroke", "#c51b8a")
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke", color1)
+                    .attr("stroke-width", strokeWidth)
                     .attr("stroke-miterlimit", 1)
                     .attr("d", d3.line()
                         .x(function (d) { return x(d.key) })
                         .y(function (d) { return RateY(d.value) })
                     );
             }
-            svg.append("path")
-                .datum(data0)
-                .attr("fill", "green")
-                .attr("opacity", "0.2")
-                .attr("d", d3.area()
-                    .x(function (d) { return x(d.key) })
-                    .y0(function (d) { return RateY(minValue(RrateCountries)) })
-                    .y1(function (d) { return RateY(1) })
-                );
         }
     });
 
