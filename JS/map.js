@@ -125,12 +125,11 @@ function buildMap(err, collection, coronaData) {
         .on("mouseover", hoverState)
         .on("mouseout", hoverStateOut);
 
-    var w = 300, h = 15;
 
     var key = d3.select(".color-key")
         .append("svg")
-        .attr("width", w)
-        .attr("height", h);
+        .attr("width", "100%")
+        .attr("height",  "100%");
 
     legend = key.append("defs")
         .append("linearGradient")
@@ -145,8 +144,8 @@ function buildMap(err, collection, coronaData) {
         .attr("stop-color", highColor);
 
     key.append("rect")
-        .attr("width", w)
-        .attr("height", h)
+        .attr("width", "100%")
+        .attr("height", "100%")
         .style("fill", "url(#gradient)");
 
     var caret = d3.select("#data-caret")

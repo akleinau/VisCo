@@ -256,17 +256,21 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     font-size: 13px;
     z-index: 5;
     box-shadow: 0 4px 6px -4px #333;
-    padding: 5px 10px;
+    padding: 5px 5px;
     background: rgb(255, 255, 255);
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 100%);
     border: rgb(229, 229, 229) 1px solid;
 }
 
 #controls {
-    top: 240px;
-    left: 110px;
-    width: 360px;
-    height: 45px;
+    max-width: 100%;
+    min-width: 80px;
+    height: 35px;
+    top: 15px;
+    left: 30px;
+    position: absolute;
+    display: block;
+
 }
 
 #data-box {
@@ -277,22 +281,33 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     display: none;
 }
 
-#census-variable {
-    width: 360px;
-    height: 20px;
-}
-
 #legend {
     display: flex;
-    display: -webkit-box;
-    padding-top: 7px
+
+
 }
 
 .color-key {
-    margin: 0 5px;
-    text-align: left;
-    font-size: 1.0em;
-    line-height: 1.0em;
+    max-height: 15px;
+
+}
+#census-min{
+    padding-right:5px;
+}
+#census-max{
+    padding-left: 5px;
+}
+@media (max-width:2000px) {
+    body {
+        font-size: 20px;
+    }
+    select {
+        font-size: 20px;
+        padding: 15px 15px 15px 15px;
+    }
+    #tooltip {
+        font-size: 15px;
+    }
 }
 
 #data-value {

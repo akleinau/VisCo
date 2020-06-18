@@ -105,26 +105,3 @@ function createTable(data, length, tab) {
   document.getElementById(tab).appendChild(tableEl);
 }
 
-
-// use table as selection field
-// needs to wait for the table to load
-// returns name of clicked row
-/* function addRowHandlers() {
-
-  var checkExist = setInterval(function () {
-      if ($('#table1').length) {
-
-          var rows = document.getElementById("table1").rows;
-          for (i = 0; i < rows.length; i++) {
-              rows[i].onclick = function () {
-                  return function () {
-                      selectedCountry = this.cells[0].innerHTML;
-
-                  };
-              }(rows[i]);
-          }
-      }
-      clearInterval(checkExist);
-  }
-, 100);}
- */
