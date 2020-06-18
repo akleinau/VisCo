@@ -45,36 +45,36 @@ d3.queue()
 
 function buildGlobalMap(err, countries, coronaData) {
 
-     var ocean_fill = svgGlobe.append("defs").append("radialGradient")
-         .attr("id", "ocean_fill")
-         .attr("cx", "75%")
-         .attr("cy", "25%");
- 
-     ocean_fill.append("stop").attr("offset", "1%").attr("stop-color", "#ddf");
-     ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff");
- 
-     var globe_highlight = svgGlobe.append("defs").append("radialGradient")
-         .attr("id", "globe_highlight")
-         .attr("cx", "75%")
-         .attr("cy", "25%");
-     globe_highlight.append("stop")
-         .attr("offset", "1%").attr("stop-color", "#ffd")
-         .attr("stop-opacity", "0.6");
-     globe_highlight.append("stop")
-         .attr("offset", "100%").attr("stop-color", "#ba9")
-         .attr("stop-opacity", "0.1");
- 
-     var globe_shading = svgGlobe.append("defs").append("radialGradient")
-         .attr("id", "globe_shading")
-         .attr("cx", "50%")
-         .attr("cy", "40%");
-     globe_shading.append("stop")
-         .attr("offset", "50%").attr("stop-color", "#9ab")
-         .attr("stop-opacity", "0")
-     globe_shading.append("stop")
-         .attr("offset", "100%").attr("stop-color", "#3e6184")
-         .attr("stop-opacity", "0.3")
- 
+    var ocean_fill = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "ocean_fill")
+        .attr("cx", "75%")
+        .attr("cy", "25%");
+
+    ocean_fill.append("stop").attr("offset", "1%").attr("stop-color", "#ddf");
+    ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff");
+
+    var globe_highlight = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "globe_highlight")
+        .attr("cx", "75%")
+        .attr("cy", "25%");
+    globe_highlight.append("stop")
+        .attr("offset", "1%").attr("stop-color", "#ffd")
+        .attr("stop-opacity", "0.6");
+    globe_highlight.append("stop")
+        .attr("offset", "100%").attr("stop-color", "#ba9")
+        .attr("stop-opacity", "0.1");
+
+    var globe_shading = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "globe_shading")
+        .attr("cx", "50%")
+        .attr("cy", "40%");
+    globe_shading.append("stop")
+        .attr("offset", "50%").attr("stop-color", "#9ab")
+        .attr("stop-opacity", "0")
+    globe_shading.append("stop")
+        .attr("offset", "100%").attr("stop-color", "#3e6184")
+        .attr("stop-opacity", "0.3")
+
     var sortedData = sumUpStates(coronaData);
 
     // columns of the table
@@ -133,7 +133,7 @@ function buildGlobalMap(err, countries, coronaData) {
         .attr("class", "noclicks")
         .attr("fill", "url(#globe_shading)");
 
-    svgGlobe.selectAll("path.land")
+      svgGlobe.selectAll("path.land")
         .data(countries.features)
         .enter()
         .append("path")
@@ -145,7 +145,9 @@ function buildGlobalMap(err, countries, coronaData) {
         .style("fill", function (d) { return getColorGlobe(d, getColorScaleGlobe(globeFeatures)) })
         .on("mousemove", hoverOverGlobe)
         .on("mouseover", hoverStateGlobe)
-        .on("mouseout", hoverStateOutGlobe);
+        .on("mouseout", hoverStateOutGlobe)
+        .on("click", clickGlobe);
+
 
     refresh();
 }
@@ -180,10 +182,7 @@ function hoverOverGlobe(d, i) {
         .style("top", d3.event.pageY + 20 + "px")
         .style("left", d3.event.pageX + 20 + "px")
         .select("#country-name")
-        .text(d.properties.name)
-        .on("click", function() {
-            document.getElementById("country1").value = "hi";
-        })
+        .text(d.properties.name);
 
     d3.select("#tooltipGlobe")
         .classed("hidden", !1);
@@ -204,6 +203,17 @@ function hoverStateOutGlobe(d, i) {
         .attr('opacity', '1');
 
     d3.select("#tooltipGlobe").classed("hidden", !0);
+}
+
+function clickGlobe(d, i) {
+    for (i = 1; i <= 5; i++) {
+        if (i == 5) document.getElementById("country1").value = d.properties.name;
+        else if (document.getElementById("country" + i).value == "") {
+            document.getElementById("country" + i).value = d.properties.name;
+            break;
+        }  
+        updateCompareGraph();
+    }
 }
 
 function getColorScaleGlobe(features) {
