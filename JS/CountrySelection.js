@@ -8,7 +8,8 @@ function updateCountrySelection(input, event) {
 
             var ul = document.getElementById(input + "List");
             ul.innerHTML = "";
-            ul.style.display = "inline";
+            ul.style.display = "block";
+
 
             filter = document.getElementById(input).value.toUpperCase();
 
