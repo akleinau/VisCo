@@ -82,6 +82,16 @@ function createTable(data, length, tab) {
     rowEl = tableEl.insertRow();  // DOM method for creating table rows
     rowEl.insertCell().textContent = data[i][0];
     rowEl.insertCell().textContent = data[i][1];
+    rowEl.addEventListener("click", function () { 
+      var input = "country1";
+      for (i = 1; i <= 5; i++) {
+        if (i == 5) break;
+        else if (document.getElementById("country" + i).value == "") {
+            input = "country" + i
+            break;
+        }  
+    }
+      fillInput(input, this.innerText.replace(/[0-9]/g, ''));});
   }
   document.getElementById(tab).appendChild(tableEl);
 }

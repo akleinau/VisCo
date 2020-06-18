@@ -29,6 +29,7 @@ function updateCountrySelection(input, event) {
         document.getElementById("country2List").style.display = "none";
         document.getElementById("country3List").style.display = "none";
         document.getElementById("country4List").style.display = "none";
+        updateCompareGraph();
     }
 
 }
@@ -37,4 +38,9 @@ function fillInput(input, value) {
     document.getElementById(input).value = value;
     var ul = document.getElementById(input + "List");
     ul.style.display = "none";
+    updateCompareGraph();
+    document.getElementById("country1List").style.display = "none";
+    document.getElementById("country2List").style.display = "none";
+    document.getElementById("country3List").style.display = "none";
+    document.getElementById("country4List").style.display = "none";
 }

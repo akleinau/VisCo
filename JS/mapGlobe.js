@@ -212,7 +212,6 @@ function clickGlobe(d, i) {
             document.getElementById("country" + i).value = d.properties.name;
             break;
         }  
-        updateCompareGraph();
     }
 }
 
