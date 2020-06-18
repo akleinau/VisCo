@@ -17,9 +17,17 @@ var projectionGlobe = d3.geoOrthographic()
 
 //d3.select(window).on("resize", resize);
 
-var geoPathGlobe = d3.geoPath().projection(projectionGlobe);
+var geoPathGlobe = d3.geoPath().projection(projectionGlobe).pointRadius(1.5);
 
 var graticuleGlobe = d3.geoGraticule();
+
+var rotate = [39.666666666666664, -30];
+var lastTime = Date.now();
+var velocity = [.015, -0];
+var rotationDelay = 3000;
+var degPerSec = 6;
+var degPerMs = degPerSec / 1000
+var autorotate, now, diff, roation;
 
 var svgGlobe = d3.select("#map-globe")
     .append("svg")
@@ -35,6 +43,7 @@ svgGlobe.append("rect")
 svgGlobe.call(d3.drag()
     .on("start", dragstarted)
     .on("drag", dragged));
+    //.on("end",dragended));
 
 
 d3.queue()
@@ -106,10 +115,6 @@ function buildGlobalMap(err, countries, coronaData) {
         }
     }
 
-
-
-
-
     svgGlobe.append("circle")
         .attr("cx", widthGlobe / 2)
         .attr("cy", heightGlobe / 2)
@@ -136,7 +141,7 @@ function buildGlobalMap(err, countries, coronaData) {
         .attr("class", "noclicks")
         .attr("fill", "url(#globe_shading)");
 
-      svgGlobe.selectAll("path.land")
+    svgGlobe.selectAll("path.land")
         .data(countries.features)
         .enter()
         .append("path")
@@ -153,29 +158,31 @@ function buildGlobalMap(err, countries, coronaData) {
 
 
     refresh();
-/* 
-    d3.selectAll("tbody").selectAll("tr").on("click", function () {
-        console.log(selectedCountry); */
-      /*   var rotate = projectionGlobe.rotate(),
-            focusedCountry = selectedCountry,
-            p = d3.geoCentroid(selectedCountry);
-    
-        svg.selectAll(".focused").classed("focused", focused = false);
-    
-        (function transition() {
-            d3.transition()
-                .duration(2500)
-                .tween("rotate", function () {
-                    var r = d3.interpolate(projectionGlobe.rotate(), [-p[0], -p[1]]);
-                    return function (t) {
-                        projectionGlobe.rotate(r(t));
-                        svg.selectAll("path").attr("d", path)
-                            .classed("focused", function (d, i) { return d.id == selectedCountry.id ? focused = d : false; });
-                    };
-                })
-        })(); */
-  /*   });
- */
+    spin();
+    //autorotate = d3.timer(spin);
+    /* 
+        d3.selectAll("tbody").selectAll("tr").on("click", function () {
+            console.log(selectedCountry); */
+    /*   var rotate = projectionGlobe.rotate(),
+          focusedCountry = selectedCountry,
+          p = d3.geoCentroid(selectedCountry);
+  
+      svg.selectAll(".focused").classed("focused", focused = false);
+  
+      (function transition() {
+          d3.transition()
+              .duration(2500)
+              .tween("rotate", function () {
+                  var r = d3.interpolate(projectionGlobe.rotate(), [-p[0], -p[1]]);
+                  return function (t) {
+                      projectionGlobe.rotate(r(t));
+                      svg.selectAll("path").attr("d", path)
+                          .classed("focused", function (d, i) { return d.id == selectedCountry.id ? focused = d : false; });
+                  };
+              })
+      })(); */
+    /*   });
+   */
 }
 
 function refresh() {
@@ -187,8 +194,40 @@ function refresh() {
 
 var timer, r0, q0;
 
-function dragstarted() {
+/* function startRotation(delay) {
+    autorotate.restart(spin, delay || 0)
+}
 
+function stopRotation() {
+    autorotate.stop()
+}
+ */
+
+function spin() {
+    timer = d3.timer(function () {
+        var dt = Date.now() - lastTime;
+
+        projectionGlobe.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
+
+        refresh();
+    });
+    
+}
+
+/* function spin(elapsed) {
+
+    now = d3.now()
+    diff = now - lastTime
+    if (diff < elapsed) {
+        projectionGlobe.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
+        refresh()
+    }
+    lastTime = now
+} */
+
+function dragstarted() {
+    //stopRotation();
+    timer.stop();
     v0 = versor.cartesian(projectionGlobe.invert(d3.mouse(this)));
     r0 = projectionGlobe.rotate();
     q0 = versor(r0);
@@ -201,6 +240,11 @@ function dragged() {
     projectionGlobe.rotate(r1);
     refresh();
 }
+
+/* function dragended() {
+    startRotation(rotationDelay)
+  }
+ */
 
 function hoverOverGlobe(d, i) {
 
@@ -237,7 +281,7 @@ function clickGlobe(d, i) {
         else if (document.getElementById("country" + i).value == "") {
             document.getElementById("country" + i).value = d.properties.name;
             break;
-        }  
+        }
     }
     updateCompareGraph();
 }
