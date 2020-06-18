@@ -180,7 +180,10 @@ function hoverOverGlobe(d, i) {
         .style("top", d3.event.pageY + 20 + "px")
         .style("left", d3.event.pageX + 20 + "px")
         .select("#country-name")
-        .text(d.properties.name);
+        .text(d.properties.name)
+        .onclick(function() {
+            document.getElementById("country1").value = d.properties.name;
+        })
 
     d3.select("#tooltipGlobe")
         .classed("hidden", !1);
