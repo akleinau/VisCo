@@ -181,7 +181,7 @@ function hoverOverGlobe(d, i) {
         .style("left", d3.event.pageX + 20 + "px")
         .select("#country-name")
         .text(d.properties.name)
-        .onclick(function() {
+        .on("click", function() {
             document.getElementById("country1").value = d.properties.name;
         })
 
