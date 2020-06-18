@@ -4,7 +4,7 @@ var margin = { top: 10, left: 10, bottom: 10, right: 10 },
     widthGermany = parseInt(d3.select("#map-germany").style("width")),
     mapRatio = .8,
     heightGermany = widthGermany * mapRatio,
-    focused = null,
+    focusedState,
     lowColor = '#f4e8eb',
     highColor = '#7a003f',
     mapRatioAdjuster = 2.2,
@@ -14,7 +14,7 @@ var margin = { top: 10, left: 10, bottom: 10, right: 10 },
 
 var keyArray = ["Fallzahl", "Death", "Fallzahl_pro_100000_EW"];
 var selectedData = keyArray[0];
-
+var mapFeatures;
 
 var projectionGermany = d3.geoMercator()
     .center(germanyCenter)
@@ -35,7 +35,8 @@ var svg = d3.select("#map-germany")
 svg.append("rect")
     .attr("class", "background")
     .attr("width", "100%")
-    .attr("height", "100%");
+    .attr("height", "100%")
+    .on("click", clickPath);
 
 var g = svg.append("g")
     .attr("id", "states");
@@ -55,7 +56,6 @@ d3.queue()
     .defer(d3.json, urls.states)
     .defer(d3.json, urls.coronaStates)
     .await(buildMap);
-
 
 
 function buildMap(err, collection, coronaData) {
@@ -92,7 +92,7 @@ function buildMap(err, collection, coronaData) {
         }
     }
 
-    var mapFeatures = collection.features;
+    mapFeatures = collection.features;
 
     var dropdownButton = d3.select("#change-data")
         .append("select")
@@ -132,7 +132,7 @@ function buildMap(err, collection, coronaData) {
     var key = d3.select(".color-key")
         .append("svg")
         .attr("width", "100%")
-        .attr("height",  "100%");
+        .attr("height", "100%");
 
     legend = key.append("defs")
         .append("linearGradient")
@@ -154,24 +154,23 @@ function buildMap(err, collection, coronaData) {
     var caret = d3.select("#data-caret")
         .style("opacity", 0);
 
-
+    console.log(mapFeatures);
 }
 
 function clickPath(d) {
     var x = widthGermany / 2,
         y = heightGermany / 2,
-        k = 1,
-        value = d.properties[selectedData];
+        k = 1;
 
-    value = Math.round(value*100)/100;
-    g.selectAll("text")
-        .remove();
-    if ((focused === null) || !(focused === d)) {
+    if (d && focusedState !== d) {
         var centroid = geoPath.centroid(d),
             x = +centroid[0],
             y = +centroid[1],
             k = 1.75;
-        focused = d;
+        focusedState = d;
+
+        var value = d.properties[selectedData];
+        value = Math.round(value * 100) / 100;
 
         g.append("text")
             .text(value)
@@ -184,11 +183,14 @@ function clickPath(d) {
             .style("font-family", "Verdana")
             .on("click", clickText);
     } else {
-        focused = null;
+
+        g.selectAll("text")
+            .remove();
+        focusedState = null;
     };
 
     g.selectAll("path")
-        .classed("active", focused && function (d) { return d === focused; });
+        .classed("active", focusedState && function (d) { return d === focusedState; });
 
     g.transition()
         .duration(1000)
@@ -197,7 +199,7 @@ function clickPath(d) {
 }
 
 function clickText(d) {
-    focused = null;
+    focusedState = null;
     g.selectAll("text")
         .remove();
     g.selectAll("path")
@@ -270,3 +272,12 @@ function updateMapColor(attribute, features) {
         });
 }
 
+function selectState(name) {
+
+    for (var i in mapFeatures) {
+        if (mapFeatures[i].properties.name == name) {
+            return mapFeatures[i];
+        }
+    }
+
+}

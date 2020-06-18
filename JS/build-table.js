@@ -210,6 +210,15 @@ d3.queue()
       rowEl = tableEl.insertRow();  // DOM method for creating table rows
       rowEl.insertCell().textContent = data[i][0];
       rowEl.insertCell().textContent = data[i][1];
+      rowEl.addEventListener("click", function () {
+
+        var c = this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, '');
+        var jsonState= selectState(this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, ''));
+        //transitionGlobe(jsonCountry);
+        clickPath(jsonState);
+        console.log(jsonState);
+        
+      });
     }
     document.getElementById(tab).appendChild(tableEl);
     }

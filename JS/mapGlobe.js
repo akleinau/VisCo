@@ -332,12 +332,6 @@ function selectCountry(name){
 
 
 
-function country(cnt, id) {
-    for (var i = 0, l = cnt.length; i < l; i++) {
-        if (cnt[i].id == id) { return cnt[i]; }
-    }
-};
-
 function getColorScaleGlobe(features) {
 
     var dataArray = [];
