@@ -110,7 +110,7 @@ function dataSort(array2D, tab){
     data_length = 16;
 
     array2D.sort(compareSecondColumn);
-    createTable(array2D, data_length, tab);
+    doTable(array2D, data_length, tab);
 
     function compareSecondColumn(a, b) {
         if (a[1] === b[1]) {
@@ -123,20 +123,20 @@ function dataSort(array2D, tab){
     console.log(array2D); 
 }
     
-// function createTable(data, length, tab) {
+function doTable(data, length, tab) {
 
-//   var i = 0, rowEl = null,
-//     tableEl = document.createElement("table");
+  var i = 0, rowEl = null,
+    tableEl = document.createElement("table");
 
-//   tableEl.setAttribute("class", "data-table");
+  tableEl.setAttribute("class", "data-table");
   
-//   for (i = 0; i <= length - 1; i++) {
-//     rowEl = tableEl.insertRow();  // DOM method for creating table rows
-//     rowEl.insertCell().textContent = data[i][0];
-//     rowEl.insertCell().textContent = data[i][1];
-//   }
-//   document.getElementById(tab).appendChild(tableEl);
-// }
+  for (i = 0; i <= length - 1; i++) {
+    rowEl = tableEl.insertRow();  // DOM method for creating table rows
+    rowEl.insertCell().textContent = data[i][0];
+    rowEl.insertCell().textContent = data[i][1];
+  }
+  document.getElementById(tab).appendChild(tableEl);
+}
 
 
 
