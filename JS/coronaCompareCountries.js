@@ -3,19 +3,19 @@ dataType = "confirmed"
 Rintervall = 7;
 
 function checkCountry1(o) {
-    return (o["Country/Region"] == countryName1);
+    return (o["Country/Region"].toLowerCase() == countryName1.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry2(o) {
-    return (o["Country/Region"] == countryName2);
+    return (o["Country/Region"].toLowerCase() == countryName2.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry3(o) {
-    return (o["Country/Region"] == countryName3);
+    return (o["Country/Region"].toLowerCase() == countryName3.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry4(o) {
-    return (o["Country/Region"] == countryName4);
+    return (o["Country/Region"].toLowerCase() == countryName4.toLowerCase().replace(/\s+/g, ''));
 }
 
 function sameCountry(c1, c2) {
@@ -63,6 +63,8 @@ function updateCompareGraph() {
     d3.csv(link, d3.autoType, function (dataUnsorted) {
 
         data = sumUpStates(dataUnsorted);
+
+
 
         function justData(c) {
             delete c["Country/Region"];
@@ -178,7 +180,7 @@ function updateCompareGraph() {
         }
 
 
-        
+
         strokeWidth = 2.0;
         var color1 = "#dd0273";
         var color2 = "#3005bc";
@@ -211,7 +213,7 @@ function updateCompareGraph() {
                     .style("left", (event.pageX + 20) + "px")
                     .html(tooltipText(d3.mouse(this)[0]));
             })
-            .on("mouseleave", function () { return  tooltip.classed("hidden", !0); })
+            .on("mouseleave", function () { return tooltip.classed("hidden", !0); })
 
 
         svg.append("g")
@@ -252,7 +254,7 @@ function updateCompareGraph() {
                 .datum(country[3])
                 .attr("fill", "none")
                 .attr("stroke", color4)
-                .attr("stroke-width",strokeWidth)
+                .attr("stroke-width", strokeWidth)
                 .attr("stroke-miterlimit", 1)
                 .attr("d", d3.line()
                     .x(function (d) { return x(d.key) })
@@ -314,6 +316,15 @@ function updateCompareGraph() {
                 .call(d3.axisLeft(RateY).tickFormat(function (d) { return formatValue(d) }))
                 .call(g => g.select(".domain").remove())
 
+            svg.append("path")
+                .datum(data0)
+                .attr("fill", "#ccf9c7")
+                .attr("d", d3.area()
+                    .x(function (d) { return x(d.key) })
+                    .y0(function (d) { return RateY(minValue(RrateCountries)) })
+                    .y1(function (d) { return RateY(1) })
+                );
+
             if (countryName2 != "") {
                 svg.append("path")
                     .datum(RrateCountries[1])
@@ -362,15 +373,6 @@ function updateCompareGraph() {
                         .y(function (d) { return RateY(d.value) })
                     );
             }
-            svg.append("path")
-                .datum(data0)
-                .attr("fill", "green")
-                .attr("opacity", "0.2")
-                .attr("d", d3.area()
-                    .x(function (d) { return x(d.key) })
-                    .y0(function (d) { return RateY(minValue(RrateCountries)) })
-                    .y1(function (d) { return RateY(1) })
-                );
         }
     });
 

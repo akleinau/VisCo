@@ -136,7 +136,7 @@ function buildGlobalMap(err, countries, coronaData) {
         .attr("class", "noclicks")
         .attr("fill", "url(#globe_shading)");
 
-    svgGlobe.selectAll("path.land")
+      svgGlobe.selectAll("path.land")
         .data(countries.features)
         .enter()
         .append("path")
@@ -148,7 +148,9 @@ function buildGlobalMap(err, countries, coronaData) {
         .style("fill", function (d) { return getColorGlobe(d, getColorScaleGlobe(globeFeatures)) })
         .on("mousemove", hoverOverGlobe)
         .on("mouseover", hoverStateGlobe)
-        .on("mouseout", hoverStateOutGlobe);
+        .on("mouseout", hoverStateOutGlobe)
+        .on("click", clickGlobe);
+
 
     refresh();
 /* 
@@ -227,6 +229,17 @@ function hoverStateOutGlobe(d, i) {
         .attr('opacity', '1');
 
     d3.select("#tooltipGlobe").classed("hidden", !0);
+}
+
+function clickGlobe(d, i) {
+    for (i = 1; i <= 5; i++) {
+        if (i == 5) document.getElementById("country1").value = d.properties.name;
+        else if (document.getElementById("country" + i).value == "") {
+            document.getElementById("country" + i).value = d.properties.name;
+            break;
+        }  
+    }
+    updateCompareGraph();
 }
 
 function getColorScaleGlobe(features) {
