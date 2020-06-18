@@ -58,7 +58,8 @@ function renderDataset(dataset, tab) {
   data_length = data.country.length;
 
   gfg.sort(compareSecondColumn);
-  createTable(gfg, data_length, tab);
+
+  deleteMultipleEntries(gfg, data_length, tab);   
 
   function compareSecondColumn(a, b) {
     if (a[1] === b[1]) {
@@ -68,6 +69,26 @@ function renderDataset(dataset, tab) {
       return (a[1] > b[1]) ? -1 : 1;
     }
   }
+}
+
+function deleteMultipleEntries(dataUnsorted, length, tab){
+    var sorted = dataUnsorted;    
+    // console.log(dataUnsorted[1][0]);
+    var n = 0;
+    var k = 0;
+        for (i = 0; i < length - 1; i++){
+          sorted[n][0] = dataUnsorted[i][0];
+          sorted[n][1] = dataUnsorted[i][1];
+          k = 0;
+          for (j = i + 1; j < length - 1; j++){
+            if (dataUnsorted[i][0] == dataUnsorted[j][0]){
+              sorted[n][1] += dataUnsorted[j][1];
+              dataUnsorted[j].splice(0,2);
+            }             
+          }
+          n++;
+        }
+  createTable(sorted, length, tab);
 }
 
 function createTable(data, length, tab) {
@@ -82,24 +103,26 @@ function createTable(data, length, tab) {
 
   // create 10 table rows, each with two cells
   for (i = 0; i <= length - 1; i++) {
-    rowEl = tableEl.insertRow();  // DOM method for creating table rows
-    rowEl.insertCell().textContent = data[i][0];
-    rowEl.insertCell().textContent = data[i][1];
-    rowEl.addEventListener("click", function () {
+    if (data[i][0] != undefined){
+      rowEl = tableEl.insertRow();  // DOM method for creating table rows
+      rowEl.insertCell().textContent = data[i][0];
+      rowEl.insertCell().textContent = data[i][1];
+      rowEl.addEventListener("click", function () {
 
-      var input = "country1";
-      for (i = 1; i <= 5; i++) {
-        if (i == 5) break;
-        else if (document.getElementById("country" + i).value == "") {
-          input = "country" + i
-          break;
+        var input = "country1";
+        for (i = 1; i <= 5; i++) {
+          if (i == 5) break;
+          else if (document.getElementById("country" + i).value == "") {
+            input = "country" + i
+            break;
+          }
         }
-      }
-      var c = this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, '');
-      var jsonCountry = selectCountry(this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, ''));
-      transitionGlobe(jsonCountry);
-      fillInput(input, this.innerText.replace(/[0-9]/g, ''));
-    });
+        var c = this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, '');
+        var jsonCountry = selectCountry(this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, ''));
+        transitionGlobe(jsonCountry);
+        fillInput(input, this.innerText.replace(/[0-9]/g, ''));
+      });
+    }
   }
   document.getElementById(tab).appendChild(tableEl);
 }
