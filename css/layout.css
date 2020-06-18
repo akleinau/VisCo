@@ -35,6 +35,10 @@ body {
 
 .first-row-container {
     padding-top: 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
 }
 
 #tooltip {
