@@ -21,6 +21,8 @@ function openTab(evt, Case) {
   evt.currentTarget.className += " active";
 }
 
+/* ---------------------------------------------------------------------------------------------- */
+//table global
 function parse(url, tab) {
   Papa.parse(url, {
     download: true,
@@ -33,14 +35,13 @@ function parse(url, tab) {
   });
 }
 
+
 function renderDataset(dataset, tab) {
 
   var data = { country: new Array(), number: new Array() };
   for (i = 0; i < dataset.length - 2; i++) {
     data.country[i] = dataset[i + 1][1];
   }
-
-
 
   for (i = 0; i < dataset.length - 2; i++) {
     data.number[i] = parseInt(dataset[i + 1][dataset[i + 1].length - 1]);
@@ -71,6 +72,7 @@ function renderDataset(dataset, tab) {
   }
 }
 
+
 function deleteMultipleEntries(dataUnsorted, length, tab){
     var sorted = dataUnsorted;    
     // console.log(dataUnsorted[1][0]);
@@ -90,6 +92,7 @@ function deleteMultipleEntries(dataUnsorted, length, tab){
         }
   createTable(sorted, length, tab);
 }
+
 
 function createTable(data, length, tab) {
 
@@ -127,3 +130,87 @@ function createTable(data, length, tab) {
   document.getElementById(tab).appendChild(tableEl);
 }
 
+/* ---------------------------------------------------------------------------------------------- */
+// table Germany
+d3.queue()
+    .defer(d3.json, urls.states)
+    .defer(d3.json, urls.coronaStates)
+    .await(buildTableGermany);
+
+    
+    function buildTableGermany(err, collection, coronaData){
+    
+      console.log(coronaData);
+      var ft = coronaData.features;
+      var state_id = new Array;
+      var state_death = new Array;
+      var state_fallzahl = new Array;
+      var state_fallzahl_pro_100000 = new Array;
+    
+      for (var i = 0; i < ft.length; i++) {
+    
+          state_id[i] = ft[i].attributes.LAN_ew_GEN;        
+          state_death[i] = ft[i].attributes.Death;
+          state_fallzahl[i] = ft[i].attributes.Fallzahl;
+          state_fallzahl_pro_100000[i] = ft[i].attributes.faelle_100000_EW;
+      }
+    
+      var death = new Array(2);
+      var fallzahl = new Array(2);
+      var fallzahl_pro_100000 = new Array(2);
+      
+      for (var j = 0; j < state_id.length; j++) {
+          var asdf = [state_id[j], state_death[j]];
+          death[j] = asdf;
+      } 
+    
+      for (var j = 0; j < state_id.length; j++) {
+          var asdf = [state_id[j], state_fallzahl[j]];
+          fallzahl[j] = asdf;
+      } 
+    
+      for (var j = 0; j < state_id.length; j++) {
+          var asdf = [state_id[j], Math.round(state_fallzahl_pro_100000[j])];
+          fallzahl_pro_100000[j] = asdf;
+      } 
+      dataSort(death, "death");
+      dataSort(fallzahl, "fallzahl");
+      dataSort(fallzahl_pro_100000, "pro100000");
+      
+    }
+    
+    function dataSort(array2D, tab){
+    
+      var data_length = 0;
+    
+      data_length = 16;
+    
+      array2D.sort(compareSecondColumn);
+      createTableGermany(array2D, data_length, tab);
+    
+      function compareSecondColumn(a, b) {
+          if (a[1] === b[1]) {
+            return 0;
+          }
+          else {
+            return (a[1] > b[1]) ? -1 : 1;
+          }
+      }  
+      console.log(array2D); 
+    }
+      
+    function createTableGermany(data, length, tab) {
+    
+    var i = 0, rowEl = null,
+      tableEl = document.createElement("table");
+    
+    tableEl.setAttribute("class", "data-table");
+    
+    for (i = 0; i <= length - 1; i++) {
+      rowEl = tableEl.insertRow();  // DOM method for creating table rows
+      rowEl.insertCell().textContent = data[i][0];
+      rowEl.insertCell().textContent = data[i][1];
+    }
+    document.getElementById(tab).appendChild(tableEl);
+    }
+    
