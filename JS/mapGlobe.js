@@ -56,7 +56,7 @@ function selectToUrl(select) {
     if (select == "Deaths") return urls.coronaWorldDeaths;
 }
 
-var dropdownButton = d3.select("#change-data")
+var dropdownButton = d3.select("#change-data-globe")
     .append("select")
     .attr("id", "dataMode")
     .on("change", function () {
