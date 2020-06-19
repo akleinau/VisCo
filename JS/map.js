@@ -12,7 +12,7 @@ var margin = { top: 10, left: 10, bottom: 10, right: 10 },
 
 
 
-var keyArray = ["Fallzahl", "Death", "Fallzahl_pro_100000_EW"];
+var keyArray = ["confirmed", "deaths", "confirmed_per_100000"];
 var selectedData = keyArray[0];
 var mapFeatures;
 
@@ -83,9 +83,9 @@ function buildMap(err, collection, coronaData) {
 
             if (state_id == map_id) {
 
-                collection.features[j].properties.Death = state_death;
-                collection.features[j].properties.Fallzahl = state_fallzahl;
-                collection.features[j].properties.Fallzahl_pro_100000_EW = state_fallzahl_pro_100000;
+                collection.features[j].properties.deaths = state_death;
+                collection.features[j].properties.confirmed = state_fallzahl;
+                collection.features[j].properties.confirmed_per_100000 = state_fallzahl_pro_100000;
 
                 break;
             }
