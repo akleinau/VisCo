@@ -173,9 +173,9 @@ d3.queue()
           var asdf = [state_id[j], Math.round(state_fallzahl_pro_100000[j])];
           fallzahl_pro_100000[j] = asdf;
       } 
-      dataSort(death, "death");
-      dataSort(fallzahl, "fallzahl");
-      dataSort(fallzahl_pro_100000, "pro100000");
+      dataSort(death, "Death");
+      dataSort(fallzahl, "Fallzahl");
+      dataSort(fallzahl_pro_100000, "Pro100000");
       
     }
     
