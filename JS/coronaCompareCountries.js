@@ -53,7 +53,7 @@ function updateCompareGraph() {
     var dataType = document.getElementById("dataMode").value;
     var link;
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
-    if (dataType == "confirmed-perPeople") {
+    if (dataType == "confirmed-per-100000") {
         link = urls.coronaWorldConfirmed;
         perPeople = true;
     }
