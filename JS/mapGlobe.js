@@ -6,7 +6,7 @@ var marginGlobe = { top: 10, left: 10, bottom: 10, right: 10 },
     heightGlobe = widthGlobe * mapRatioGlobe;
 
 
-var keyArray = ["confirmed", "recovered", "death"];
+var keyArrayG = ["confirmed", "recovered", "death"];
 var selectedDataGlobe = keyArray[0];
 
 
@@ -52,8 +52,8 @@ svgGlobe.call(d3.drag()
 
 function selectToUrl(select) {
     if (select == "confirmed") return urls.coronaWorldConfirmed;
-    if (select == "Recovered") return urls.coronaWorldRecovered;
-    if (select == "Deaths") return urls.coronaWorldDeaths;
+    if (select == "recovered") return urls.coronaWorldRecovered;
+    if (select == "deaths") return urls.coronaWorldDeaths;
 }
 
 var dropdownButtonG = d3.select("#change-data-globe")
@@ -67,7 +67,7 @@ var dropdownButtonG = d3.select("#change-data-globe")
 
 
 dropdownButtonG.selectAll("myOptions")
-    .data(keyArray)
+    .data(keyArrayG)
     .enter()
     .append("option")
     .text(function (d) { return d; })
