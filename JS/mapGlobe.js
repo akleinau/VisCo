@@ -58,7 +58,7 @@ function selectToUrl(select) {
 
 var dropdownButton = d3.select("#change-data-globe")
     .append("select")
-    .attr("id", "dataMode")
+    .attr("id", "dataModeGlobal")
     .on("change", function () {
         updateGlobe(selectToUrl(this.value));
         console.log(selectedData);
