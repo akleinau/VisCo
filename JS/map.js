@@ -99,7 +99,7 @@ function buildMap(err, collection, coronaData) {
         .attr("id", "dataMode")
         .on("change", function () {
             updateMapColor(this.value, mapFeatures);
-            console.log(selectedData);
+            console.log("map: " + selectedData);
             updateCompareGraph();
         });
 
