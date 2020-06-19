@@ -96,6 +96,7 @@ function buildMap(err, collection, coronaData) {
 
     var dropdownButton = d3.select("#change-data")
         .append("select")
+        .attr("id", "dataMode")
         .on("change", function () {
             updateMapColor(this.value, mapFeatures);
             console.log(selectedData);

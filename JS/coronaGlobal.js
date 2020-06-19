@@ -10,7 +10,7 @@ var formatDays = d3.timeFormat("%x");
 function updateGlobalGraph() {
 
     var oldest = document.getElementById("oldest").value;
-    var dataType = document.getElementById("change-data").value;
+    var dataType = document.getElementById("dataMode").value;
     console.log(dataType);
     var link;
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
