@@ -3,19 +3,19 @@ dataType = "confirmed"
 Rintervall = 7;
 
 function checkCountry1(o) {
-    return (o["Country/Region"].toLowerCase() == countryName1.toLowerCase().replace(/\s+/g, ''));
+    return (o["Country/Region"].toLowerCase().replace(/\s+/g, '') == countryName1.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry2(o) {
-    return (o["Country/Region"].toLowerCase() == countryName2.toLowerCase().replace(/\s+/g, ''));
+    return (o["Country/Region"].toLowerCase().replace(/\s+/g, '') == countryName2.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry3(o) {
-    return (o["Country/Region"].toLowerCase() == countryName3.toLowerCase().replace(/\s+/g, ''));
+    return (o["Country/Region"].toLowerCase().replace(/\s+/g, '') == countryName3.toLowerCase().replace(/\s+/g, ''));
 }
 
 function checkCountry4(o) {
-    return (o["Country/Region"].toLowerCase() == countryName4.toLowerCase().replace(/\s+/g, ''));
+    return (o["Country/Region"].toLowerCase().replace(/\s+/g, '') == countryName4.toLowerCase().replace(/\s+/g, ''));
 }
 
 function sameCountry(c1, c2) {
