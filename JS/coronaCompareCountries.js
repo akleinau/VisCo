@@ -32,6 +32,16 @@ var widthGraph = parseInt(d3.select("#graphs").style("width"));
 
 var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
+function initializeGraph(){
+    
+    if(document.getElementById("dataMode") !== null){
+        updateCompareGraph('germany');
+        updateGlobalGraph();
+    }
+    else{
+        setTimeout(initializeGraph, 250);
+    }
+}
 function updateCompareGraph(view) {
 
     var oldest = document.getElementById("oldest").value;

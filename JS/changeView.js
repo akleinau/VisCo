@@ -15,7 +15,7 @@ function changeView() {
 
     updateCompareGraph();
     $('.germany, .global').toggle();
-    document.getElementById("data-type").value = "confirmed";
+   
 }
 
 

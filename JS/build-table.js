@@ -140,7 +140,6 @@ d3.queue()
     
     function buildTableGermany(err, collection, coronaData){
     
-      console.log(coronaData);
       var ft = coronaData.features;
       var state_id = new Array;
       var state_death = new Array;
@@ -216,7 +215,6 @@ d3.queue()
         var jsonState= selectState(this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, ''));
         //transitionGlobe(jsonCountry);
         clickPath(jsonState);
-        console.log(jsonState);
         
       });
     }
