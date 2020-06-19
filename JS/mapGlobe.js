@@ -6,7 +6,7 @@ var marginGlobe = { top: 10, left: 10, bottom: 10, right: 10 },
     heightGlobe = widthGlobe * mapRatioGlobe;
 
 
-var keyArrayG = ["confirmed", "recovered", "death"];
+var keyArrayG = ["confirmed", "recovered", "deaths"];
 var selectedDataGlobe = keyArray[0];
 
 
