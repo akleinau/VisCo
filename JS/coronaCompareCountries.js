@@ -50,7 +50,7 @@ function updateCompareGraph() {
     }
 
     perPeople = false;
-    var dataType = document.getElementById("change-data").value;
+    var dataType = document.getElementById("data-type").value;
     var link;
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
     if (dataType == "confirmed-perPeople") {
