@@ -75,147 +75,147 @@ dropdownButtonG.selectAll("myOptions")
     .attr("value", function (d) { return d; });
 
 
-function updateGlobe(url) {
-    d3.queue()
-        .defer(d3.json, urls.countries)
-        .defer(d3.csv, url)
-        .await(buildGlobalMap);
 
-    function buildGlobalMap(err, countries, coronaData) {
+d3.queue()
+    .defer(d3.json, urls.countries)
+    .defer(d3.csv, urls.coronaWorldConfirmed)
+    .await(buildGlobalMap);
 
-        var ocean_fill = svgGlobe.append("defs").append("radialGradient")
-            .attr("id", "ocean_fill")
-            .attr("cx", "75%")
-            .attr("cy", "25%");
+function buildGlobalMap(err, countries, coronaData) {
 
-        ocean_fill.append("stop").attr("offset", "1%").attr("stop-color", "#ddf");
-        ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff");
+    var ocean_fill = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "ocean_fill")
+        .attr("cx", "75%")
+        .attr("cy", "25%");
 
-        var globe_highlight = svgGlobe.append("defs").append("radialGradient")
-            .attr("id", "globe_highlight")
-            .attr("cx", "75%")
-            .attr("cy", "25%");
-        globe_highlight.append("stop")
-            .attr("offset", "1%").attr("stop-color", "#ffd")
-            .attr("stop-opacity", "0.6");
-        globe_highlight.append("stop")
-            .attr("offset", "100%").attr("stop-color", "#ba9")
-            .attr("stop-opacity", "0.1");
+    ocean_fill.append("stop").attr("offset", "1%").attr("stop-color", "#ddf");
+    ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff");
 
-        var globe_shading = svgGlobe.append("defs").append("radialGradient")
-            .attr("id", "globe_shading")
-            .attr("cx", "50%")
-            .attr("cy", "40%");
-        globe_shading.append("stop")
-            .attr("offset", "50%").attr("stop-color", "#9ab")
-            .attr("stop-opacity", "0")
-        globe_shading.append("stop")
-            .attr("offset", "100%").attr("stop-color", "#3e6184")
-            .attr("stop-opacity", "0.3")
+    var globe_highlight = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "globe_highlight")
+        .attr("cx", "75%")
+        .attr("cy", "25%");
+    globe_highlight.append("stop")
+        .attr("offset", "1%").attr("stop-color", "#ffd")
+        .attr("stop-opacity", "0.6");
+    globe_highlight.append("stop")
+        .attr("offset", "100%").attr("stop-color", "#ba9")
+        .attr("stop-opacity", "0.1");
 
-        var sortedData = sumUpStates(coronaData);
+    var globe_shading = svgGlobe.append("defs").append("radialGradient")
+        .attr("id", "globe_shading")
+        .attr("cx", "50%")
+        .attr("cy", "40%");
+    globe_shading.append("stop")
+        .attr("offset", "50%").attr("stop-color", "#9ab")
+        .attr("stop-opacity", "0")
+    globe_shading.append("stop")
+        .attr("offset", "100%").attr("stop-color", "#3e6184")
+        .attr("stop-opacity", "0.3")
 
-        // columns of the table
-        var keys = d3.keys(sortedData[0]);
+    var sortedData = sumUpStates(coronaData);
 
-        var countryValues = {};
-        globeFeatures = countries.features;
+    // columns of the table
+    var keys = d3.keys(sortedData[0]);
+
+    var countryValues = {};
+    globeFeatures = countries.features;
 
 
-        //map each country and the last date value
-        sortedData.map(function (d) {
-            countryValues[d["Country/Region"]] = d[keys[keys.length - 1]];
-        })
+    //map each country and the last date value
+    sortedData.map(function (d) {
+        countryValues[d["Country/Region"]] = d[keys[keys.length - 1]];
+    })
 
-        for (var i = 0; i < globeFeatures.length; i++) {
-            globeFeatures[i].properties.Value = 0;
+    for (var i = 0; i < globeFeatures.length; i++) {
+        globeFeatures[i].properties.Value = 0;
 
-        }
+    }
 
-        for (var i in countryValues) {
-            //console.log(i);
-            var currentCountry = i;
-            var currentValue = +countryValues[i];
+    for (var i in countryValues) {
+        //console.log(i);
+        var currentCountry = i;
+        var currentValue = +countryValues[i];
 
-            for (var j = 0; j < countries.features.length; j++) {
-                var mapCountry = globeFeatures[j].properties.name;
+        for (var j = 0; j < countries.features.length; j++) {
+            var mapCountry = globeFeatures[j].properties.name;
 
-                if (mapCountry == currentCountry) {
-                    globeFeatures[j].properties.Value = currentValue;
-                }
+            if (mapCountry == currentCountry) {
+                globeFeatures[j].properties.Value = currentValue;
             }
         }
-
-        svgGlobe.append("circle")
-            .attr("cx", widthGlobe / 2)
-            .attr("cy", heightGlobe / 2)
-            .attr("r", projectionGlobe.scale())
-            .attr("class", "noclicks")
-            .attr("fill", "url(#ocean_fill)");
-        /* 
-            svgGlobe.append("path")
-                .datum(graticuleGlobe)
-                .attr("class", "graticuleLine noclicks")
-                .attr("d", geoPathGlobe); */
-
-        svgGlobe.append("circle")
-            .attr("cx", widthGlobe / 2)
-            .attr("cy", heightGlobe / 2)
-            .attr("r", projectionGlobe.scale())
-            .attr("class", "noclicks")
-            .attr("fill", "url(#globe_highlight)");
-
-        svgGlobe.append("circle")
-            .attr("cx", widthGlobe / 2)
-            .attr("cy", heightGlobe / 2)
-            .attr("r", projectionGlobe.scale())
-            .attr("class", "noclicks")
-            .attr("fill", "url(#globe_shading)");
-
-        svgGlobe.selectAll("path.land")
-            .data(countries.features)
-            .enter()
-            .append("path")
-            .attr("class", "land")
-            .attr("id", function (d) {
-                return d.id
-            })
-            .attr("d", geoPathGlobe)
-            .style("fill", function (d) { return getColorGlobe(d, getColorScaleGlobe(globeFeatures)) })
-            .on("mousemove", hoverOverGlobe)
-            .on("mouseover", hoverStateGlobe)
-            .on("mouseout", hoverStateOutGlobe)
-            .on("click", clickGlobe);
-
-        refresh();
-        spin();
-        selectCountry("US");
-        //autorotate = d3.timer(spin);
-        /* 
-            d3.selectAll("tbody").selectAll("tr").on("click", function () {
-                console.log(selectedCountry); */
-        /*   var rotate = projectionGlobe.rotate(),
-              focusedCountry = selectedCountry,
-              p = d3.geoCentroid(selectedCountry);
-      
-          svg.selectAll(".focused").classed("focused", focused = false);
-      
-          (function transition() {
-              d3.transition()
-                  .duration(2500)
-                  .tween("rotate", function () {
-                      var r = d3.interpolate(projectionGlobe.rotate(), [-p[0], -p[1]]);
-                      return function (t) {
-                          projectionGlobe.rotate(r(t));
-                          svg.selectAll("path").attr("d", path)
-                              .classed("focused", function (d, i) { return d.id == selectedCountry.id ? focused = d : false; });
-                      };
-                  })
-          })(); */
-        /*   });
-       */
     }
+
+    svgGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#ocean_fill)");
+    /* 
+        svgGlobe.append("path")
+            .datum(graticuleGlobe)
+            .attr("class", "graticuleLine noclicks")
+            .attr("d", geoPathGlobe); */
+
+    svgGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#globe_highlight)");
+
+    svgGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#globe_shading)");
+
+    svgGlobe.selectAll("path.land")
+        .data(countries.features)
+        .enter()
+        .append("path")
+        .attr("class", "land")
+        .attr("id", function (d) {
+            return d.id
+        })
+        .attr("d", geoPathGlobe)
+        .style("fill", function (d) { return getColorGlobe(d, getColorScaleGlobe(globeFeatures)) })
+        .on("mousemove", hoverOverGlobe)
+        .on("mouseover", hoverStateGlobe)
+        .on("mouseout", hoverStateOutGlobe)
+        .on("click", clickGlobe);
+
+    refresh();
+    spin();
+    selectCountry("US");
+    //autorotate = d3.timer(spin);
+    /* 
+        d3.selectAll("tbody").selectAll("tr").on("click", function () {
+            console.log(selectedCountry); */
+    /*   var rotate = projectionGlobe.rotate(),
+          focusedCountry = selectedCountry,
+          p = d3.geoCentroid(selectedCountry);
+  
+      svg.selectAll(".focused").classed("focused", focused = false);
+  
+      (function transition() {
+          d3.transition()
+              .duration(2500)
+              .tween("rotate", function () {
+                  var r = d3.interpolate(projectionGlobe.rotate(), [-p[0], -p[1]]);
+                  return function (t) {
+                      projectionGlobe.rotate(r(t));
+                      svg.selectAll("path").attr("d", path)
+                          .classed("focused", function (d, i) { return d.id == selectedCountry.id ? focused = d : false; });
+                  };
+              })
+      })(); */
+    /*   });
+   */
 }
+
 
 function refresh() {
     svgGlobe.selectAll(".land").attr("d", geoPathGlobe);
