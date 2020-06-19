@@ -50,10 +50,12 @@ function updateGlobalGraph() {
                 arrayG[0][j] = parseInt(arrayG[i][j]) + parseInt(arrayG[0][j]);
             }
         }
-
+        
         var globalValues = arrayG[0];
 
+
         var global = [];
+
 
         for (var i = oldest; i < globalDates.length; i++) {
             globalDates[i].value = globalValues[i];
