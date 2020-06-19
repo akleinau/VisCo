@@ -32,7 +32,7 @@ var widthGraph = parseInt(d3.select("#graphs").style("width"));
 
 var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
-function updateCompareGraph() {
+function updateCompareGraph(view) {
 
     var oldest = document.getElementById("oldest").value;
 
@@ -50,9 +50,13 @@ function updateCompareGraph() {
     }
 
     perPeople = false;
-    var dataType = document.getElementById("dataMode").value;
+
+    var datatype;
+    if (view == "germany") dataType = document.getElementById("dataMode").value;
+    if (view == "global") dataType = document.getElementById("dataModeGlobal").value;
     var link;
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
+    if (dataType == "recovered") link = urls.coronaWorldRecovered;
     if (dataType == "confirmed_per_100000") {
         link = urls.coronaWorldConfirmed;
         perPeople = true;

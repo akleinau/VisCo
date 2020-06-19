@@ -63,6 +63,7 @@ var dropdownButtonG = d3.select("#change-data-globe")
         updateGlobe(selectToUrl(this.value));
         console.log("globe: " + selectToUrl(this.value));
         updateGlobalGraph();
+        updateCompareGraph("global");
     });
 
 

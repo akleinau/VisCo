@@ -100,7 +100,7 @@ function buildMap(err, collection, coronaData) {
         .on("change", function () {
             updateMapColor(this.value, mapFeatures);
             console.log("map: " + selectedData);
-            updateCompareGraph();
+            updateCompareGraph("germany");
         });
 
 

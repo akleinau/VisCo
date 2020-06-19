@@ -27,7 +27,7 @@ function updateCountrySelection(input, event) {
     }
     else {
         hideLists();
-        updateCompareGraph();
+        updateCompareGraph("global");
     }
 
 }
@@ -36,7 +36,7 @@ function fillInput(input, value) {
     document.getElementById(input).value = value;
     var ul = document.getElementById(input + "List");
     ul.style.display = "none";
-    updateCompareGraph();
+    updateCompareGraph("global");
     hideLists();
 }
 
