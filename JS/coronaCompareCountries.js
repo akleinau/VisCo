@@ -2,6 +2,11 @@ dataType = "confirmed"
 
 Rintervall = 7;
 
+
+var formatDays = d3.timeFormat("%x");
+
+var formatValue = d3.format("0.2r");
+
 function checkCountry1(o) {
     return (o["Country/Region"].toLowerCase().replace(/\s+/g, '') == countryName1.toLowerCase().replace(/\s+/g, ''));
 }
@@ -153,7 +158,7 @@ function updateCompareGraph(view) {
             .range([margin.left, widthGraph - margin.right])
 
         var data0 = entriesOfCountry(justData(data[0]), oldest)
-
+        document.getElementById("oldestDate").innerHTML = "&nbsp;" + formatDays(data0[0].key);
 
         function maxValue(a4) {
             var max = [d3.max(a4[0], d => d.value),
@@ -181,9 +186,6 @@ function updateCompareGraph(view) {
             .range([heightGraph2 - margin.bottom, margin.top])
 
 
-        var formatDays = d3.timeFormat("%x");
-
-        var formatValue = d3.format("0.2r");
 
 
         var tooltip = d3.select("#Gtooltip");

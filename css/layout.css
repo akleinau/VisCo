@@ -393,3 +393,11 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     max-height: 200px;
     display:none;
   }
+
+#oldestDate {
+    font-size: 12px;
+}
+
+#oldestText {
+    font-size: 12px;
+}
