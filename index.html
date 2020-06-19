@@ -141,51 +141,47 @@
                         <div class="col-3 col-sm-3">
                             <div id="change-data-globe"></div>
                         </div>
-                        
+
                     </div>
                     <div id="map-globe"></div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div id="graphs">
-                    </div>
-                    <div class="row ">
-                        <input name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
-                            id="oldest" onchange="updateGlobalGraph(); updateCompareGraph()"></input>
-                    </div>
-                    <div class="global" class="row" id="right-col-1">Global</div>
-                    <div class="global" class="row">
-                        <form>
-                            <input type="text" id="country1" value="Germany" placeholder="Type a name!"
-                                onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()">
-                            <ul class="scrollmenu" id="country1List">
-                            </ul>
-                        </form>
-                        <form>
-                            <input type="text" id="country2" placeholder="Type a name!"
-                                onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()">
-                            <ul class="scrollmenu" id="country2List">
-                            </ul>
-                        </form>
-                        <form>
-                            <input type="text" id="country3" placeholder="Type a name!"
-                                onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()">
-                            <ul class="scrollmenu" id="country3List">
-                            </ul>
-                        </form>
-                        <form>
-                            <input type="text" id="country4" placeholder="Type a name!"
-                                onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()">
-                            <ul class="scrollmenu" id="country4List">
-                            </ul>
-                        </form>
-                    </div>
-                    <div class="row" id="right-col-2">Germany</div>
-                    <div class="row" id="right-col-3">Reproduction Rate </div>
                 </div>
-                <div class="germany"></div>
+                <div class="row ">
+                    <input name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
+                        id="oldest" onchange="updateGlobalGraph(); updateCompareGraph()"></input>
+                </div>
+                <div class="global" class="row" id="right-col-1">Global</div>
+                <div class="global" class="row">
+                    <input type="text" id="country1" value="Germany" placeholder="Type a name!"
+                        onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()">
+                    <ul class="scrollmenu" id="country1List">
+                    </ul>
+
+                    <input type="text" id="country2" placeholder="Type a name!"
+                        onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()">
+                    <ul class="scrollmenu" id="country2List">
+                    </ul>
+
+                    <input type="text" id="country3" placeholder="Type a name!"
+                        onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()">
+                    <ul class="scrollmenu" id="country3List">
+                    </ul>
+
+                    <input type="text" id="country4" placeholder="Type a name!"
+                        onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()">
+                    <ul class="scrollmenu" id="country4List">
+                    </ul>
+
+                </div>
+                <div class="row" id="right-col-2">Germany</div>
+                <div class="row" id="right-col-3">Reproduction Rate </div>
             </div>
+            <div class="germany"></div>
         </div>
+    </div>
     </div>
 
     <script src="JS/map.js">  </script>
