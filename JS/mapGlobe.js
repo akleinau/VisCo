@@ -56,32 +56,16 @@ function selectToUrl(select) {
     if (select == "deaths") return urls.coronaWorldDeaths;
 }
 
-var dropdownButtonG = d3.select("#change-data-globe")
-    .append("select")
-    .attr("id", "dataModeGlobal")
-    .on("change", function () {
-        updateGlobe(selectToUrl(this.value));
-        console.log("globe: " + selectToUrl(this.value));
-        updateGlobalGraph();
-        updateCompareGraph("global");
-    });
-
-
-dropdownButtonG.selectAll("myOptions")
-    .data(keyArrayG)
-    .enter()
-    .append("option")
-    .text(function (d) { return d; })
-    .attr("value", function (d) { return d; });
-
-
 
 d3.queue()
     .defer(d3.json, urls.countries)
     .defer(d3.csv, urls.coronaWorldConfirmed)
+    .defer(d3.csv, urls.coronaWorldRecovered)
+    .defer(d3.csv, urls.coronaWorldDeaths)
     .await(buildGlobalMap);
 
-function buildGlobalMap(err, countries, coronaData) {
+
+function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, coronaDeaths) {
 
     var ocean_fill = svgGlobe.append("defs").append("radialGradient")
         .attr("id", "ocean_fill")
@@ -113,18 +97,38 @@ function buildGlobalMap(err, countries, coronaData) {
         .attr("offset", "100%").attr("stop-color", "#3e6184")
         .attr("stop-opacity", "0.3")
 
-    var sortedData = sumUpStates(coronaData);
+
+
+
+    /*  var coronaData;
+     var datatype = document.getElementById("dataModeGlobal").value;
+     if (datatype == "confirmed") coronaData = coronaConfirmed;
+     if (datatype == "recovered") coronaData = coronaRecovered;
+     if (datatype == "deaths") coronaData = coronaDeaths;
+  */
+    var sortedDataConfirmed = sumUpStates(coronaConfirmed);
+    var sortedDataRecovered = sumUpStates(coronaRecovered);
+    var sortedDataDeaths = sumUpStates(coronaDeaths);
 
     // columns of the table
-    var keys = d3.keys(sortedData[0]);
+    var keys = d3.keys(sortedDataConfirmed[0]);
 
-    var countryValues = {};
+    var countryConfirmed = {},
+        countryRecovered = {},
+        countryDeaths = {};
     globeFeatures = countries.features;
 
-
     //map each country and the last date value
-    sortedData.map(function (d) {
-        countryValues[d["Country/Region"]] = d[keys[keys.length - 1]];
+    sortedDataConfirmed.map(function (d) {
+        countryConfirmed[d["Country/Region"]] = d[keys[keys.length - 1]];
+    })
+
+    sortedDataRecovered.map(function (d) {
+        countryRecovered[d["Country/Region"]] = d[keys[keys.length - 1]];
+    })
+
+    sortedDataDeaths.map(function (d) {
+        countryDeaths[d["Country/Region"]] = d[keys[keys.length - 1]];
     })
 
     for (var i = 0; i < globeFeatures.length; i++) {
@@ -132,19 +136,39 @@ function buildGlobalMap(err, countries, coronaData) {
 
     }
 
-    for (var i in countryValues) {
+    for (var i in countryConfirmed) {
         //console.log(i);
         var currentCountry = i;
-        var currentValue = +countryValues[i];
+        var currentValueConfirmed = +countryConfirmed[i];
+        var currentValueRecovered = +countryRecovered[i];
+        var currentValueDeaths = +countryDeaths[i];
 
         for (var j = 0; j < countries.features.length; j++) {
             var mapCountry = globeFeatures[j].properties.name;
 
             if (mapCountry == currentCountry) {
-                globeFeatures[j].properties.Value = currentValue;
+                globeFeatures[j].properties.confirmed = currentValueConfirmed;
+                globeFeatures[j].properties.recovered = currentValueRecovered;
+                globeFeatures[j].properties.deaths = currentValueDeaths;
             }
         }
     }
+
+    var dropdownButtonG = d3.select("#change-data-globe")
+        .append("select")
+        .attr("id", "dataModeGlobal")
+        .on("change", function () {
+            updateColorGlobe(this.value, globeFeatures);
+            updateGlobalGraph();
+            updateCompareGraph("global");
+        });
+
+    dropdownButtonG.selectAll("myOptions")
+        .data(keyArrayG)
+        .enter()
+        .append("option")
+        .text(function (d) { return d; })
+        .attr("value", function (d) { return d; });
 
     svgGlobe.append("circle")
         .attr("cx", widthGlobe / 2)
@@ -152,6 +176,7 @@ function buildGlobalMap(err, countries, coronaData) {
         .attr("r", projectionGlobe.scale())
         .attr("class", "noclicks")
         .attr("fill", "url(#ocean_fill)");
+
     /* 
         svgGlobe.append("path")
             .datum(graticuleGlobe)
@@ -347,23 +372,12 @@ function transitionGlobe(d, i) {
     })();
 }
 
-function selectCountry(name) {
-
-    for (var i in globeFeatures) {
-        if (globeFeatures[i].properties.name == name) {
-            return globeFeatures[i];
-        }
-    }
-
-}
-
-
 
 function getColorScaleGlobe(features) {
 
     var dataArray = [];
     for (var i in features) {
-        dataArray.push(parseFloat(features[i].properties["Value"]));
+        dataArray.push(parseFloat(features[i].properties[selectedDataGlobe]));
     }
 
     var minVal = d3.min(dataArray);
@@ -378,7 +392,7 @@ function getColorScaleGlobe(features) {
 
 function getColorGlobe(d, regionColor) {
 
-    var value = d.properties["Value"];
+    var value = d.properties[selectedDataGlobe];
     if (value) {
         return regionColor(value);
     } else {
@@ -386,5 +400,21 @@ function getColorGlobe(d, regionColor) {
     };
 }
 
+function updateColorGlobe(attribute, features) {
 
+    selectedDataGlobe = attribute;
+    d3.selectAll(".land")
+        .style("fill", function (d) {
+            return getColorGlobe(d, getColorScaleGlobe(features));
+        });
+}
 
+function selectCountry(name) {
+
+    for (var i in globeFeatures) {
+        if (globeFeatures[i].properties.name == name) {
+            return globeFeatures[i];
+        }
+    }
+
+}

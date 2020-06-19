@@ -170,6 +170,17 @@ select option {
     margin: 0 auto;
 }
 
+#change-data-globe {
+    max-width: 100%;
+    min-width: 80px;
+    padding-right: 15px;
+    top: 15px;
+    right: 15px;
+    position: absolute;
+    display: block;
+    margin: 0 auto;
+}
+
 .navigation-bar-container a, .navigation-bar-container a:hover {
     text-decoration: none;
 }
@@ -301,6 +312,7 @@ a.project-name, a.project-name:visited, a.project-name:hover {
 #census-max{
     padding-left: 5px;
 }
+
 @media (max-width:2000px) {
     body {
         font-size: 20px;
