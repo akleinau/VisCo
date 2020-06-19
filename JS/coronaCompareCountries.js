@@ -139,6 +139,9 @@ function updateCompareGraph(view) {
                 if (oldR != 0) {
                     r.push({ key: c[i].key, value: newR / oldR });
                 }
+                else {
+                    r.push({ key: c[i].key, value: 0 });
+                }
             }
             return r;
         }
