@@ -31,6 +31,7 @@ body {
     display: flex;
     flex-direction: column;
     font-family: "uni_sans_demoheavy_caps", sans-serif;
+    overflow: hidden;
 }
 
 .first-row-container {
@@ -194,6 +195,7 @@ select option {
     align-items: center;
     padding: 10px;
     flex-direction: row;
+
 }
 
 .project-logo-and-name {
@@ -235,6 +237,29 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     color: rgb(94, 189, 165);
 }
 
+.view-change {
+    text-align: center;
+    margin: 0 auto;
+}
+
+#change-view-button {
+    background-color: rgba(77, 77, 77, 1.0);
+    padding: 0px;
+    width: 53px;
+    height: 53px;
+}
+
+#view-image {
+    width: 50px;
+}
+
+.date {
+    color: white;
+}
+#date-container{
+    text-align: right;
+    right: 10px;
+}
 .background {
     fill: rgba(77, 77, 77, 1.0);
     pointer-events: all;
@@ -366,25 +391,6 @@ a.project-name, a.project-name:visited, a.project-name:hover {
 
 #country4 {
     color: #8e0050;
-}
-
-.view-change {
-    margin: 0 auto;
-}
-
-#change-view-button {
-    background-color: rgba(77, 77, 77, 1.0);
-    padding: 0px;
-    width: 53px;
-    height: 53px;
-}
-
-#view-image {
-    width: 50px;
-}
-
-.date {
-    color: white;
 }
 
 .scrollmenu {

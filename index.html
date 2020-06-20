@@ -34,8 +34,8 @@
     <nav>
         <div class="navigation-bar-container">
             <div class="navigation-bar">
-                <div class="navigation-bar-content">
-                    <div class="project-logo-and-name">
+                <div class="navigation-bar-content row">
+                    <div class="project-logo-and-name col-sm-3">
                         <a class="project-name" href="/">
                             <span class="project-name-color-letter">V</span>is<span
                                 class="project-name-color-letter">C</span>o
@@ -44,12 +44,14 @@
                             <img class="project-logo" src="data/VisCo_logo4.png">
                         </a>
                     </div>
-                    <div class="view-change">
+                    <div class="view-change col-sm-6">
                         <button id="change-view-button" onclick="changeView()">
                             <input type="image" src="images/globe.png" id="view-image"></button>
                     </div>
-                    <div class="global date" id="GlobalLastUpdated"></div>
-                    <div class="germany date" id="GermanyLastUpdated"></div>
+                    <div class="col-sm-3" id = "date-container">
+                        <div class="global date" id="GlobalLastUpdated"></div>
+                        <div class="germany date" id="GermanyLastUpdated"></div>
+                    </div>
                 </div>
             </div>
         </div>

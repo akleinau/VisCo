@@ -9,7 +9,7 @@ function resize() {
             .style("height", heightGermany + "px"),
         svgGermany.selectAll("path.regions").attr("d", geoPath);
 
-    if (focusedState !== null) {
+    if (focusedState !== null && focusedState !== void(0)) {
         g.selectAll("text")
             .remove();
 
