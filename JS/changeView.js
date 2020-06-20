@@ -8,7 +8,8 @@ function changeView() {
         icon.src = 'images/germany.png';
         document.getElementById("right-col-2").innerHTML = "> compare Countries";
 
-        document.getElementById("confirmedCases").className = "tablinks active";
+        document.getElementById("confirmedCases").className = "tablinks";
+        document.getElementById("confirmedCases").click();
         document.getElementById("Confirmed Cases").style.display = "block";
         document.getElementById("recovered").className = "tablinks";
         document.getElementById("deaths").className = "tablinks";
@@ -26,8 +27,9 @@ function changeView() {
 
 
         document.getElementById("death").className = "tablinks";
-        document.getElementById("Death").style.display = "block";
-        document.getElementById("fallzahl").className = "tablinks active";
+        document.getElementById("Fallzahl").style.display = "block";
+        document.getElementById("fallzahl").className = "tablinks";
+        document.getElementById("fallzahl").click();
         document.getElementById("pro100000").className = "tablinks";
 
         updateCompareGraph("germany");
