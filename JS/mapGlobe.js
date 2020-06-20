@@ -3,7 +3,8 @@
 var marginGlobe = { top: 10, left: 10, bottom: 10, right: 10 },
     widthGlobe = parseInt(d3.select(".maps").style("width")),
     mapRatioGlobe = .8,
-    heightGlobe = widthGlobe * mapRatioGlobe;
+    heightGlobe = widthGlobe * mapRatioGlobe,
+    scaleGlobe = (heightGlobe - 100) / 2;
 
 
 var keyArrayG = ["confirmed", "recovered", "deaths"];
@@ -11,7 +12,7 @@ var selectedDataGlobe = keyArray[0];
 
 var projectionGlobe = d3.geoOrthographic()
     .rotate([0, 0])
-    .scale((heightGlobe - 100) / 2)
+    .scale(scaleGlobe)
     .translate([widthGlobe / 2, heightGlobe / 2])
     .clipAngle(90);
 
@@ -25,11 +26,6 @@ var rotate = [39.666666666666664, -30];
 var lastTime = Date.now();
 var velocity = [.015, -0];
 var focused;
-
-//var rotationDelay = 3000;
-//var degPerSec = 6;
-//var degPerMs = degPerSec / 1000
-//var autorotate, now, diff, roation;
 
 var globeFeatures;
 
@@ -48,6 +44,14 @@ svgGlobe.call(d3.drag()
     .on("start", dragstarted)
     .on("drag", dragged));
 //.on("end",dragended));
+
+// enable zoom
+var zoom = d3.zoom()
+    .scaleExtent([0.75, 50]) //bound zoom
+    .on("zoom", zoomedGlobe);
+
+svgGlobe.call(zoom);
+
 
 var ocean_fill = svgGlobe.append("defs").append("radialGradient")
     .attr("id", "ocean_fill")
@@ -80,63 +84,57 @@ globe_shading.append("stop")
     .attr("stop-opacity", "0.3");
 
 
-    svgGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
-        .attr("cy", heightGlobe / 2)
-        .attr("r", projectionGlobe.scale())
-        .attr("class", "noclicks")
-        .attr("fill", "url(#ocean_fill)");
+svgGlobe.append("circle")
+    .attr("cx", widthGlobe / 2)
+    .attr("cy", heightGlobe / 2)
+    .attr("r", projectionGlobe.scale())
+    .attr("class", "noclicks")
+    .attr("fill", "url(#ocean_fill)");
 
-    /* 
-        svgGlobe.append("path")
-            .datum(graticuleGlobe)
-            .attr("class", "graticuleLine noclicks")
-            .attr("d", geoPathGlobe); */
+/* 
+    svgGlobe.append("path")
+        .datum(graticuleGlobe)
+        .attr("class", "graticuleLine noclicks")
+        .attr("d", geoPathGlobe); */
 
-    svgGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
-        .attr("cy", heightGlobe / 2)
-        .attr("r", projectionGlobe.scale())
-        .attr("class", "noclicks")
-        .attr("fill", "url(#globe_highlight)");
+svgGlobe.append("circle")
+    .attr("cx", widthGlobe / 2)
+    .attr("cy", heightGlobe / 2)
+    .attr("r", projectionGlobe.scale())
+    .attr("class", "noclicks")
+    .attr("fill", "url(#globe_highlight)");
 
-    svgGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
-        .attr("cy", heightGlobe / 2)
-        .attr("r", projectionGlobe.scale())
-        .attr("class", "noclicks")
-        .attr("fill", "url(#globe_shading)");
+svgGlobe.append("circle")
+    .attr("cx", widthGlobe / 2)
+    .attr("cy", heightGlobe / 2)
+    .attr("r", projectionGlobe.scale())
+    .attr("class", "noclicks")
+    .attr("fill", "url(#globe_shading)");
 
-function initializeGlobe(){
-d3.queue()
-    .defer(d3.json, urls.countries)
-    .defer(d3.csv, urls.coronaWorldConfirmed)
-    .defer(d3.csv, urls.coronaWorldRecovered)
-    .defer(d3.csv, urls.coronaWorldDeaths)
-    .await(buildGlobalMap);
+function initializeGlobe() {
+    d3.queue()
+        .defer(d3.json, urls.countries)
+        .defer(d3.csv, urls.coronaWorldConfirmed)
+        .defer(d3.csv, urls.coronaWorldRecovered)
+        .defer(d3.csv, urls.coronaWorldDeaths)
+        .await(buildGlobalMap);
 }
 
 function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, coronaDeaths) {
 
-    /*  var coronaData;
-     var datatype = document.getElementById("dataModeGlobal").value;
-     if (datatype == "confirmed") coronaData = coronaConfirmed;
-     if (datatype == "recovered") coronaData = coronaRecovered;
-     if (datatype == "deaths") coronaData = coronaDeaths;
-  */
- 
     globeFeatures = countries.features;
 
     var provinceListConfirmed = createProvinceList(coronaConfirmed, globeFeatures);
     var sortedDataConfirmed = sumUpStatesAndProvinces(coronaConfirmed, provinceListConfirmed);
 
     var provinceListRecovered = createProvinceList(coronaRecovered, globeFeatures);
-    var sortedDataRecovered = sumUpStatesAndProvinces(coronaRecovered,provinceListRecovered);
+    var sortedDataRecovered = sumUpStatesAndProvinces(coronaRecovered, provinceListRecovered);
 
     var provinceListDeaths = createProvinceList(coronaDeaths, globeFeatures);
-    var sortedDataDeaths = sumUpStatesAndProvinces(coronaDeaths,provinceListDeaths);
+    var sortedDataDeaths = sumUpStatesAndProvinces(coronaDeaths, provinceListDeaths);
 
     createProvinceList(coronaConfirmed, globeFeatures);
+
     // columns of the table
     var keys = d3.keys(sortedDataConfirmed[0]);
 
@@ -144,7 +142,7 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
         countryRecovered = {},
         countryDeaths = {};
 
-    
+
 
     //map each country and the last date value
     sortedDataConfirmed.map(function (d) {
@@ -217,31 +215,6 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
 
     refresh();
     spin();
-    console.log(countries);
-    //autorotate = d3.timer(spin);
-    /* 
-        d3.selectAll("tbody").selectAll("tr").on("click", function () {
-            console.log(selectedCountry); */
-    /*   var rotate = projectionGlobe.rotate(),
-          focusedCountry = selectedCountry,
-          p = d3.geoCentroid(selectedCountry);
-  
-      svg.selectAll(".focused").classed("focused", focused = false);
-  
-      (function transition() {
-          d3.transition()
-              .duration(2500)
-              .tween("rotate", function () {
-                  var r = d3.interpolate(projectionGlobe.rotate(), [-p[0], -p[1]]);
-                  return function (t) {
-                      projectionGlobe.rotate(r(t));
-                      svg.selectAll("path").attr("d", path)
-                          .classed("focused", function (d, i) { return d.id == selectedCountry.id ? focused = d : false; });
-                  };
-              })
-      })(); */
-    /*   });
-   */
 }
 
 
@@ -255,14 +228,6 @@ function refresh() {
 
 var timer, r0, q0;
 
-/* function startRotation(delay) {
-    autorotate.restart(spin, delay || 0)
-}
-
-function stopRotation() {
-    autorotate.stop()
-}
- */
 
 function spin() {
     timer = d3.timer(function () {
@@ -273,19 +238,8 @@ function spin() {
 
 }
 
-/* function spin(elapsed) {
-
-    now = d3.now()
-    diff = now - lastTime
-    if (diff < elapsed) {
-        projectionGlobe.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
-        refresh()
-    }
-    lastTime = now
-} */
 
 function dragstarted() {
-    //stopRotation();
     timer.stop();
     v0 = versor.cartesian(projectionGlobe.invert(d3.mouse(this)));
     r0 = projectionGlobe.rotate();
@@ -300,10 +254,11 @@ function dragged() {
     refresh();
 }
 
-/* function dragended() {
-    startRotation(rotationDelay)
-  }
- */
+function zoomedGlobe() {
+   
+    projectionGlobe.scale(d3.event.transform.translate(projectionGlobe).k * scaleGlobe)
+    svgGlobe.selectAll("path.land").attr("d", geoPathGlobe);
+}
 
 function hoverOverGlobe(d, i) {
 
@@ -351,9 +306,8 @@ function clickGlobe(d, i) {
 
 function transitionGlobe(d, i) {
     timer.stop();
-    focusedCountry = d,
-
-        svgGlobe.selectAll(".focused").classed("focused", focused = false);
+    focusedCountry = d;
+    svgGlobe.selectAll(".focused").classed("focused", focused = false);
 
     //Globe rotating    
 
