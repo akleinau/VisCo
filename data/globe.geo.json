@@ -15605,7 +15605,7 @@
             "type": "Feature",
             "id": "CZE",
             "properties": {
-                "name": "Czech Republic"
+                "name": "Czechia"
             },
             "geometry": {
                 "type": "Polygon",
@@ -25117,7 +25117,7 @@
             "type": "Feature",
             "id": "KOR",
             "properties": {
-                "name": "South Korea"
+                "name": "Korea, South"
             },
             "geometry": {
                 "type": "Polygon",
@@ -28065,7 +28065,7 @@
             "type": "Feature",
             "id": "MMR",
             "properties": {
-                "name": "Myanmar"
+                "name": "Burma"
             },
             "geometry": {
                 "type": "Polygon",
@@ -33557,7 +33557,7 @@
             "type": "Feature",
             "id": "PRK",
             "properties": {
-                "name": "North Korea"
+                "name": "Korea, North"
             },
             "geometry": {
                 "type": "Polygon",
@@ -41259,7 +41259,7 @@
             "type": "Feature",
             "id": "TWN",
             "properties": {
-                "name": "Taiwan"
+                "name": "Taiwan*"
             },
             "geometry": {
                 "type": "Polygon",

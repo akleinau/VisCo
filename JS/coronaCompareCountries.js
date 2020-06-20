@@ -67,7 +67,7 @@ function updateCompareGraph(view) {
 
     perPeople = false;
 
-    var datatype;
+
     if (view == "germany") dataType = document.getElementById("dataMode").value;
     if (view == "global") dataType = document.getElementById("dataModeGlobal").value;
     var link;
@@ -82,7 +82,7 @@ function updateCompareGraph(view) {
 
     d3.csv(link, d3.autoType, function (dataUnsorted) {
 
-        data = sumUpStates(dataUnsorted);
+        var data = sumUpStates(dataUnsorted);
 
 
 

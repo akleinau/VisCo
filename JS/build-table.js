@@ -75,7 +75,6 @@ function renderDataset(dataset, tab) {
 
 function deleteMultipleEntries(dataUnsorted, length, tab){
     var sorted = dataUnsorted;    
-    // console.log(dataUnsorted[1][0]);
     var n = 0;
     var k = 0;
         for (i = 0; i < length - 1; i++){
@@ -90,6 +89,7 @@ function deleteMultipleEntries(dataUnsorted, length, tab){
           }
           n++;
         }
+
   createTable(sorted, length, tab);
 }
 
@@ -195,7 +195,7 @@ d3.queue()
             return (a[1] > b[1]) ? -1 : 1;
           }
       }  
-      console.log(array2D); 
+      //console.log(array2D); 
     }
       
     function createTableGermany(data, length, tab) {
@@ -218,6 +218,7 @@ d3.queue()
         
       });
     }
+    
     document.getElementById(tab).appendChild(tableEl);
     }
     

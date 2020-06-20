@@ -43,12 +43,12 @@ var g = svgGermany.append("g")
     .attr("id", "states");
 
 
-
+function initializeMap(){
 d3.queue()
     .defer(d3.json, urls.states)
     .defer(d3.json, urls.coronaStates)
     .await(buildMap);
-
+}
 
 function buildMap(err, collection, coronaData) {
 

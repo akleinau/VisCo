@@ -9,7 +9,6 @@ var marginGlobe = { top: 10, left: 10, bottom: 10, right: 10 },
 var keyArrayG = ["confirmed", "recovered", "deaths"];
 var selectedDataGlobe = keyArray[0];
 
-
 var projectionGlobe = d3.geoOrthographic()
     .rotate([0, 0])
     .scale((heightGlobe - 100) / 2)
@@ -108,13 +107,14 @@ globe_shading.append("stop")
         .attr("class", "noclicks")
         .attr("fill", "url(#globe_shading)");
 
+function initializeGlobe(){
 d3.queue()
     .defer(d3.json, urls.countries)
     .defer(d3.csv, urls.coronaWorldConfirmed)
     .defer(d3.csv, urls.coronaWorldRecovered)
     .defer(d3.csv, urls.coronaWorldDeaths)
     .await(buildGlobalMap);
-
+}
 
 function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, coronaDeaths) {
 
@@ -124,10 +124,19 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
      if (datatype == "recovered") coronaData = coronaRecovered;
      if (datatype == "deaths") coronaData = coronaDeaths;
   */
-    var sortedDataConfirmed = sumUpStates(coronaConfirmed);
-    var sortedDataRecovered = sumUpStates(coronaRecovered);
-    var sortedDataDeaths = sumUpStates(coronaDeaths);
+ 
+    globeFeatures = countries.features;
 
+    var provinceListConfirmed = createProvinceList(coronaConfirmed, globeFeatures);
+    var sortedDataConfirmed = sumUpStatesAndProvinces(coronaConfirmed, provinceListConfirmed);
+
+    var provinceListRecovered = createProvinceList(coronaRecovered, globeFeatures);
+    var sortedDataRecovered = sumUpStatesAndProvinces(coronaRecovered,provinceListRecovered);
+
+    var provinceListDeaths = createProvinceList(coronaDeaths, globeFeatures);
+    var sortedDataDeaths = sumUpStatesAndProvinces(coronaDeaths,provinceListDeaths);
+
+    createProvinceList(coronaConfirmed, globeFeatures);
     // columns of the table
     var keys = d3.keys(sortedDataConfirmed[0]);
 
@@ -135,7 +144,7 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
         countryRecovered = {},
         countryDeaths = {};
 
-    globeFeatures = countries.features;
+    
 
     //map each country and the last date value
     sortedDataConfirmed.map(function (d) {
@@ -151,8 +160,9 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
     })
 
     for (var i = 0; i < globeFeatures.length; i++) {
-        globeFeatures[i].properties.Value = 0;
-
+        globeFeatures[i].properties.confirmed = 0;
+        globeFeatures[i].properties.recovered = 0;
+        globeFeatures[i].properties.deaths = 0;
     }
 
     for (var i in countryConfirmed) {
@@ -207,7 +217,7 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
 
     refresh();
     spin();
-    selectCountry("US");
+    console.log(countries);
     //autorotate = d3.timer(spin);
     /* 
         d3.selectAll("tbody").selectAll("tr").on("click", function () {
@@ -377,7 +387,6 @@ function getColorScaleGlobe(features) {
 
     var maxVal = d3.max(dataArray);
 
-    console.log(maxVal);
     var color = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor]);
 
     return color;
