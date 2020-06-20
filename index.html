@@ -10,8 +10,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <script src="JS/importData.js"></script>
-    <script src="JS/build-table.js"></script>
-    <script src="JS/versor.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -46,7 +44,7 @@
                     </div>
                     <div class="view-change col-sm-6">
                         <button id="change-view-button" onclick="changeView()">
-                            <input type="image" src="images/globe.png" id="view-image"></button>
+                            <img src="images/globe.png" id="view-image"></button>
                     </div>
                     <div class="col-sm-3" id = "date-container">
                         <div class="global date" id="GlobalLastUpdated"></div>
@@ -90,12 +88,12 @@
 
                 <div class="germany">
                     <div class="tab">
-                        <button id="death" class="tablinks active" onclick="openTab(event, 'Death')"
-                            title="Death">Death</button>
-                        <button id="fallzahl" class="tablinks" onclick="openTab(event, 'Fallzahl')"
-                            title="Fallzahl">Fallzahl</button>
+                        <button id="fallzahl" class="tablinks active" onclick="openTab(event, 'Fallzahl')"
+                            title="Fallzahl">Confirmed</button>
                         <button id="pro100000" class="tablinks" onclick="openTab(event, 'Pro100000')"
-                            title="Pro100000">Pro100000</button>
+                            title="Pro100000">per 100.000</button>
+                        <button id="death" class="tablinks" onclick="openTab(event, 'Death')"
+                            title="Death">Deaths</button>
                     </div>
 
                     <div id="Death" class="tabcontent" style="display:block">
@@ -187,14 +185,16 @@
                     </ul>
 
                 </div>
-                <div class="row" id="right-col-2">Germany</div>
-                <div class="row" id="right-col-3">Reproduction Rate </div>
+                <div class="row" id="right-col-2" onclick="toggleRepGraph()">Germany</div>
+                <div class="row" id="right-col-3" onclick="toggleRepGraph()">Reproduction Rate </div>
             </div>
             <div class="germany"></div>
         </div>
     </div>
     </div>
 
+    <script src="JS/build-table.js"></script>
+    <script src="JS/versor.js"></script>
     <script src="JS/map.js">  </script>
     <script src="JS/mapGlobe.js">  </script>
     <script src="JS/coronaGlobal.js"> </script>

@@ -47,3 +47,4 @@ function hideLists() {
     document.getElementById("country3List").style.display = "none";
     document.getElementById("country4List").style.display = "none";
 }
+

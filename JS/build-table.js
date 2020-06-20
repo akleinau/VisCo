@@ -23,17 +23,7 @@ function openTab(evt, Case) {
 
 /* ---------------------------------------------------------------------------------------------- */
 //table global
-function parse(url, tab) {
-  Papa.parse(url, {
-    download: true,
-    complete: function (results) {
-      //console.log(results);
-      var data = results.data;
-      renderDataset(data, tab);
-      //console.log(data);
-    }
-  });
-}
+
 
 
 function renderDataset(dataset, tab) {

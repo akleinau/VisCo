@@ -37,19 +37,18 @@ var widthGraph = parseInt(d3.select("#graphs").style("width"));
 
 var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
-function initializeGraph(){
-    
-    if(document.getElementById("dataMode") !== null){
+function initializeGraph() {
+
+    if (document.getElementById("dataMode") !== null) {
         updateCompareGraph('germany');
         updateGlobalGraph();
     }
-    else{
+    else {
         setTimeout(initializeGraph, 250);
     }
 }
 
 function updateCompareGraph(view) {
-
     var oldest = document.getElementById("oldest").value;
 
     if (!document.getElementById("view-image").src.endsWith('images/germany.png')) {
@@ -298,7 +297,7 @@ function updateCompareGraph(view) {
             d3.select("#compare-graph-3").remove();
             document.getElementById("right-col-3").innerHTML = "";
         } else {
-            document.getElementById("right-col-3").innerHTML = "Reproduction Rate";
+            document.getElementById("right-col-3").innerHTML = (view == "global" ? "> " : "") + "Reproduction Rate";
 
             function RtooltipText(xPos) {
 
@@ -393,9 +392,18 @@ function updateCompareGraph(view) {
                         .y(function (d) { return RateY(d.value) })
                     );
             }
+
+        }
+
+        if (view === "global") {
+            $("#compare-graph-3").hide();
         }
     });
-
 }
 
-
+function toggleRepGraph() {
+    var icon = document.getElementById("view-image");
+    if (icon.src.endsWith("images/germany.png")) {
+        $("#compare-graph-3, #compare-graph-2").toggle();
+    }
+}

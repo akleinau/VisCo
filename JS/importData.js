@@ -116,3 +116,15 @@ function sumUpStatesAndProvinces(dataUnsorted, provinceList) {
 
     return sorted;
 }
+
+function parse(url, tab) {
+    Papa.parse(url, {
+      download: true,
+      complete: function (results) {
+        //console.log(results);
+        var data = results.data;
+        renderDataset(data, tab);
+        //console.log(data);
+      }
+    });
+  }
