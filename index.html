@@ -49,6 +49,7 @@
                             <input type="image" src="images/globe.png" id="view-image"></button>
                     </div>
                     <div class="global date" id="GlobalLastUpdated"></div>
+                    <div class="germany date" id="GermanyLastUpdated"></div>
                 </div>
             </div>
         </div>
@@ -62,7 +63,8 @@
                             title="Confirmed Cases">Confirmed Cases</button>
                         <button id="recovered" class="tablinks" onclick="openTab(event, 'Recovered')"
                             title="Recovered">Recovered</button>
-                        <button id="deaths" class="tablinks" onclick="openTab(event, 'Deaths')" title="Deaths">Deaths</button>
+                        <button id="deaths" class="tablinks" onclick="openTab(event, 'Deaths')"
+                            title="Deaths">Deaths</button>
                     </div>
 
                     <!-- Tab content -->
@@ -86,8 +88,10 @@
 
                 <div class="germany">
                     <div class="tab">
-                        <button id="death" class="tablinks active" onclick="openTab(event, 'Death')" title="Death">Death</button>
-                        <button id="fallzahl" class="tablinks" onclick="openTab(event, 'Fallzahl')" title="Fallzahl">Fallzahl</button>
+                        <button id="death" class="tablinks active" onclick="openTab(event, 'Death')"
+                            title="Death">Death</button>
+                        <button id="fallzahl" class="tablinks" onclick="openTab(event, 'Fallzahl')"
+                            title="Fallzahl">Fallzahl</button>
                         <button id="pro100000" class="tablinks" onclick="openTab(event, 'Pro100000')"
                             title="Pro100000">Pro100000</button>
                     </div>
@@ -96,11 +100,11 @@
 
                     </div>
 
-                    <div id="Fallzahl" class="tabcontent" >
+                    <div id="Fallzahl" class="tabcontent">
 
                     </div>
 
-                    <div id="Pro100000" class="tabcontent" >
+                    <div id="Pro100000" class="tabcontent">
 
                     </div>
                 </div>
@@ -109,41 +113,44 @@
             </div>
 
             <div class="col-md-5">
-                <div class="germany">
-                    <div class="row">
-                        <div class="col-4 col-sm-4">
-                            <div id="controls" class="nicebox">
-                                <div id="legend">
-                                    <div id="census-min">min</div>
-                                    <div class="color-key">
-                                        <!-- <span id="data-caret">◆</span> -->
+                <div class="maps">
+                    <div class="germany">
+                        <div class="row">
+
+                            <div class="col-4 col-sm-4">
+                                <div id="controls" class="nicebox">
+                                    <div id="legend">
+                                        <div id="census-min">min</div>
+                                        <div class="color-key">
+                                            <!-- <span id="data-caret">◆</span> -->
+                                        </div>
+                                        <div id="census-max">max</div>
                                     </div>
-                                    <div id="census-max">max</div>
                                 </div>
-                            </div>
-                            <!-- <div id="data-box" class="nicebox">
+                                <!-- <div id="data-box" class="nicebox">
                                 <label id="data-label" for="data-value"></label>
                                 <span id="data-value"></span>
                             </div> -->
-                        </div>
-                        <div class="col-5 col-sm-5"></div>
-                        <div class="col-3 col-sm-3">
-                            <div id="change-data"></div>
-                        </div>
+                            </div>
+                            <div class="col-5 col-sm-5"></div>
+                            <div class="col-3 col-sm-3">
+                                <div id="change-data"></div>
+                            </div>
 
-                    </div>
-                    <div id="map-germany"></div>
-                </div>
-                <div class="global">
-                    <div class="row">
-                        <div class="col-4 col-sm-4"></div>
-                        <div class="col-5 col-sm-5"></div>
-                        <div class="col-3 col-sm-3">
-                            <div id="change-data-globe"></div>
                         </div>
-
+                        <div class="maps" id="map-germany"></div>
                     </div>
-                    <div id="map-globe"></div>
+                    <div class="global">
+                        <div class="row">
+                            <div class="col-4 col-sm-4"></div>
+                            <div class="col-5 col-sm-5"></div>
+                            <div class="col-3 col-sm-3">
+                                <div id="change-data-globe"></div>
+                            </div>
+
+                        </div>
+                        <div class="maps" id="map-globe"></div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -191,7 +198,8 @@
     <script src="JS/coronaGlobal.js"> </script>
     <script src="JS/coronaCompareCountries.js"></script>
     <script src="JS/changeView.js"></script>
-    <script src="JS/CountrySelection.js"></script>
+    <script src="JS/countrySelection.js"></script>
+    <script src="JS/resize.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

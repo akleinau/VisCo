@@ -1,7 +1,7 @@
 
 
 var margin = { top: 10, left: 10, bottom: 10, right: 10 },
-    widthGermany = parseInt(d3.select("#map-germany").style("width")),
+    widthGermany = parseInt(d3.select(".maps").style("width")),
     mapRatio = .8,
     heightGermany = widthGermany * mapRatio,
     focusedState,
@@ -15,6 +15,7 @@ var margin = { top: 10, left: 10, bottom: 10, right: 10 },
 var keyArray = ["confirmed", "deaths", "confirmed_per_100000"];
 var selectedData = keyArray[0];
 var mapFeatures;
+var mapText;
 
 var projectionGermany = d3.geoMercator()
     .center(germanyCenter)
@@ -24,33 +25,24 @@ var projectionGermany = d3.geoMercator()
 
 var geoPath = d3.geoPath().projection(projectionGermany);
 
-d3.select(window).on("resize", resize);
+//d3.select(window).on("resize", resizeGermany);
 
-var svg = d3.select("#map-germany")
+var svgGermany = d3.select("#map-germany")
     .append("svg")
     .attr("id", "map-germany-container")
     .style('height', heightGermany + 'px')
     .style('width', widthGermany + 'px');
 
-svg.append("rect")
+svgGermany.append("rect")
     .attr("class", "background")
     .attr("width", "100%")
     .attr("height", "100%")
     .on("click", clickPath);
 
-var g = svg.append("g")
+var g = svgGermany.append("g")
     .attr("id", "states");
 
-function resize() {
-    widthGermany = parseInt(d3.select("#map-germany").style("width")),
-        heightGermany = widthGermany * mapRatio,
-        projectionGermany.translate([widthGermany / 2, heightGermany / 2])
-            .center(germanyCenter)
-            .scale(widthGermany * [mapRatio + mapRatioAdjuster]),
-        svg.style("width", widthGermany + "px")
-            .style("height", heightGermany + "px"),
-        svg.selectAll("path.regions").attr("d", geoPath);
-}
+
 
 d3.queue()
     .defer(d3.json, urls.states)
@@ -74,6 +66,7 @@ function buildMap(err, collection, coronaData) {
     for (var i = 0; i < ft.length; i++) {
 
         var state_id = ft[i].attributes.OBJECTID;
+        var state_update = ft[i].attributes.Aktualisierung;
         var state_death = ft[i].attributes.Death;
         var state_fallzahl = ft[i].attributes.Fallzahl;
         var state_fallzahl_pro_100000 = ft[i].attributes.faelle_100000_EW;
@@ -83,6 +76,7 @@ function buildMap(err, collection, coronaData) {
 
             if (state_id == map_id) {
 
+                collection.features[j].properties.update = state_update;
                 collection.features[j].properties.deaths = state_death;
                 collection.features[j].properties.confirmed = state_fallzahl;
                 collection.features[j].properties.confirmed_per_100000 = state_fallzahl_pro_100000;
@@ -156,13 +150,25 @@ function buildMap(err, collection, coronaData) {
     var caret = d3.select("#data-caret")
         .style("opacity", 0);
 
-    console.log(mapFeatures);
+    //takes last update of Bavaria data
+    var lastPatch = mapFeatures[1].properties.update;
+    document.getElementById("GermanyLastUpdated").innerHTML = "Last updated: " + formatDays(lastPatch);
+
+    var date = new Date(1592517600000);
+
+    console.log(date);
 }
 
 function clickPath(d) {
+
+    g.selectAll("text")
+    .remove();
+
     var x = widthGermany / 2,
         y = heightGermany / 2,
         k = 1;
+
+    console.log(d);
 
     if (d && focusedState !== d) {
         var centroid = geoPath.centroid(d),
@@ -201,7 +207,7 @@ function clickPath(d) {
 }
 
 function clickText(d) {
-    focusedState = null;
+
     g.selectAll("text")
         .remove();
     g.selectAll("path")
@@ -283,3 +289,4 @@ function selectState(name) {
     }
 
 }
+

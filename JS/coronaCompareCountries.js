@@ -47,6 +47,7 @@ function initializeGraph(){
         setTimeout(initializeGraph, 250);
     }
 }
+
 function updateCompareGraph(view) {
 
     var oldest = document.getElementById("oldest").value;

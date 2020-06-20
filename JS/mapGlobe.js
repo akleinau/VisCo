@@ -1,7 +1,7 @@
 
 
 var marginGlobe = { top: 10, left: 10, bottom: 10, right: 10 },
-    widthGlobe = parseInt(d3.select("#map-globe").style("width")),
+    widthGlobe = parseInt(d3.select(".maps").style("width")),
     mapRatioGlobe = .8,
     heightGlobe = widthGlobe * mapRatioGlobe;
 
@@ -50,12 +50,63 @@ svgGlobe.call(d3.drag()
     .on("drag", dragged));
 //.on("end",dragended));
 
-function selectToUrl(select) {
-    if (select == "confirmed") return urls.coronaWorldConfirmed;
-    if (select == "recovered") return urls.coronaWorldRecovered;
-    if (select == "deaths") return urls.coronaWorldDeaths;
-}
+var ocean_fill = svgGlobe.append("defs").append("radialGradient")
+    .attr("id", "ocean_fill")
+    .attr("cx", "75%")
+    .attr("cy", "25%");
 
+ocean_fill.append("stop").attr("offset", "1%").attr("stop-color", "#ddf");
+ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff");
+
+var globe_highlight = svgGlobe.append("defs").append("radialGradient")
+    .attr("id", "globe_highlight")
+    .attr("cx", "75%")
+    .attr("cy", "25%");
+globe_highlight.append("stop")
+    .attr("offset", "1%").attr("stop-color", "#ffd")
+    .attr("stop-opacity", "0.6");
+globe_highlight.append("stop")
+    .attr("offset", "100%").attr("stop-color", "#ba9")
+    .attr("stop-opacity", "0.1");
+
+var globe_shading = svgGlobe.append("defs").append("radialGradient")
+    .attr("id", "globe_shading")
+    .attr("cx", "50%")
+    .attr("cy", "40%");
+globe_shading.append("stop")
+    .attr("offset", "50%").attr("stop-color", "#9ab")
+    .attr("stop-opacity", "0");
+globe_shading.append("stop")
+    .attr("offset", "100%").attr("stop-color", "#3e6184")
+    .attr("stop-opacity", "0.3");
+
+
+    svgGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#ocean_fill)");
+
+    /* 
+        svgGlobe.append("path")
+            .datum(graticuleGlobe)
+            .attr("class", "graticuleLine noclicks")
+            .attr("d", geoPathGlobe); */
+
+    svgGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#globe_highlight)");
+
+    svgGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#globe_shading)");
 
 d3.queue()
     .defer(d3.json, urls.countries)
@@ -66,39 +117,6 @@ d3.queue()
 
 
 function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, coronaDeaths) {
-
-    var ocean_fill = svgGlobe.append("defs").append("radialGradient")
-        .attr("id", "ocean_fill")
-        .attr("cx", "75%")
-        .attr("cy", "25%");
-
-    ocean_fill.append("stop").attr("offset", "1%").attr("stop-color", "#ddf");
-    ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff");
-
-    var globe_highlight = svgGlobe.append("defs").append("radialGradient")
-        .attr("id", "globe_highlight")
-        .attr("cx", "75%")
-        .attr("cy", "25%");
-    globe_highlight.append("stop")
-        .attr("offset", "1%").attr("stop-color", "#ffd")
-        .attr("stop-opacity", "0.6");
-    globe_highlight.append("stop")
-        .attr("offset", "100%").attr("stop-color", "#ba9")
-        .attr("stop-opacity", "0.1");
-
-    var globe_shading = svgGlobe.append("defs").append("radialGradient")
-        .attr("id", "globe_shading")
-        .attr("cx", "50%")
-        .attr("cy", "40%");
-    globe_shading.append("stop")
-        .attr("offset", "50%").attr("stop-color", "#9ab")
-        .attr("stop-opacity", "0")
-    globe_shading.append("stop")
-        .attr("offset", "100%").attr("stop-color", "#3e6184")
-        .attr("stop-opacity", "0.3")
-
-
-
 
     /*  var coronaData;
      var datatype = document.getElementById("dataModeGlobal").value;
@@ -116,6 +134,7 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
     var countryConfirmed = {},
         countryRecovered = {},
         countryDeaths = {};
+
     globeFeatures = countries.features;
 
     //map each country and the last date value
@@ -170,32 +189,6 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
         .text(function (d) { return d; })
         .attr("value", function (d) { return d; });
 
-    svgGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
-        .attr("cy", heightGlobe / 2)
-        .attr("r", projectionGlobe.scale())
-        .attr("class", "noclicks")
-        .attr("fill", "url(#ocean_fill)");
-
-    /* 
-        svgGlobe.append("path")
-            .datum(graticuleGlobe)
-            .attr("class", "graticuleLine noclicks")
-            .attr("d", geoPathGlobe); */
-
-    svgGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
-        .attr("cy", heightGlobe / 2)
-        .attr("r", projectionGlobe.scale())
-        .attr("class", "noclicks")
-        .attr("fill", "url(#globe_highlight)");
-
-    svgGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
-        .attr("cy", heightGlobe / 2)
-        .attr("r", projectionGlobe.scale())
-        .attr("class", "noclicks")
-        .attr("fill", "url(#globe_shading)");
 
     svgGlobe.selectAll("path.land")
         .data(countries.features)

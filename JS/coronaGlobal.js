@@ -50,7 +50,7 @@ function updateGlobalGraph() {
                 arrayG[0][j] = parseInt(arrayG[i][j]) + parseInt(arrayG[0][j]);
             }
         }
-        
+
         var globalValues = arrayG[0];
 
 
@@ -62,7 +62,7 @@ function updateGlobalGraph() {
             global.push(globalDates[i]);
         }
 
-        document.getElementById("GlobalLastUpdated").innerHTML = "Last updated: " + formatDays(global[global.length-1].key);
+        document.getElementById("GlobalLastUpdated").innerHTML = "Last updated: " + formatDays(global[global.length - 1].key);
 
         //create graph
         var x = d3.scaleUtc()
@@ -75,20 +75,20 @@ function updateGlobalGraph() {
 
         var tooltip = d3.select("#Gtooltip");
 
-            function bisect(data, date) {
-                const bisectDate = d3.bisector(d => d.key).left;
-                const i = bisectDate(data, date, 1);
-                  const a = data[i - 1];
-                  const b = data[i];   
-                  return date - a.key > b.key - date ? b : a;
-              }
+        function bisect(data, date) {
+            const bisectDate = d3.bisector(d => d.key).left;
+            const i = bisectDate(data, date, 1);
+            const a = data[i - 1];
+            const b = data[i];
+            return date - a.key > b.key - date ? b : a;
+        }
 
 
         function tooltipText(xPos) {
 
             day = bisect(global, x.invert(xPos));
 
-            return "<p style='color:black'>" + formatDays(day.key)+ ' <br> ' + day.value + "</p>";
+            return "<p style='color:black'>" + formatDays(day.key) + ' <br> ' + day.value + "</p>";
         }
 
         d3.select("#global-graph").remove();
@@ -98,13 +98,13 @@ function updateGlobalGraph() {
             .attr("id", "global-graph")
             .attr("width", widthGraph)
             .attr("height", heightGraph1)
-            .on("mouseover", function () { return  tooltip.classed("hidden", !1); })
+            .on("mouseover", function () { return tooltip.classed("hidden", !1); })
             .on("mousemove", function () {
                 return tooltip.style("top", (event.pageY + 20) + "px")
                     .style("left", (event.pageX + 20) + "px")
                     .html(tooltipText(d3.mouse(this)[0]));
             })
-            .on("mouseleave", function () { return  tooltip.classed("hidden", !0); })
+            .on("mouseleave", function () { return tooltip.classed("hidden", !0); })
 
 
         svg.append("g")
