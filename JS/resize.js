@@ -9,7 +9,7 @@ function resize() {
             .style("height", heightGermany + "px"),
         svgGermany.selectAll("path.regions").attr("d", geoPath);
 
-    if (focusedState !== null && focusedState !== void(0)) {
+    if (focusedState !== null && focusedState !== void (0)) {
         g.selectAll("text")
             .remove();
 
@@ -38,13 +38,17 @@ function resize() {
     //resize globe
     widthGlobe = parseInt(d3.select(".maps").style("width")),
         heightGlobe = widthGlobe * mapRatioGlobe,
-        projectionGlobe.rotate([0, 0])
+        projectionGlobe
             .scale((heightGlobe - 100) / 2)
             .translate([widthGlobe / 2, heightGlobe / 2])
             .clipAngle(90),
         svgGlobe.style('height', heightGlobe + 'px')
             .style('width', widthGlobe + 'px'),
         svgGlobe.selectAll("path.land").attr("d", geoPathGlobe);
+        
+    if((d3.event.transform.translate(projectionGlobe).k) !== 1){
+        projectionGlobe.scale(d3.event.transform.translate(projectionGlobe).k * scaleGlobe);
+    }
 }
 
 
