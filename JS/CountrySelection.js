@@ -25,6 +25,7 @@ function updateCountrySelection(input, event) {
 
         });
     }
+    
     else {
         hideLists();
         updateCompareGraph("global");
