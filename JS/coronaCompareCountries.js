@@ -104,17 +104,28 @@ function updateCompareGraph(view) {
         }
 
         var countryData1 = data.find(checkCountry1);
-        if (countryData1 == null) countryData1 = data[62];
+        if (countryData1 == null) {
+            countryData1 = data[62];
+            countryName1 = "";
+        }
 
         var countryData2 = data.find(checkCountry2);
-        if (countryData2 == null) countryData2 = countryData1
+        if (countryData2 == null) {
+            countryData2 = countryData1;
+            countryName2 = "";
+        }
 
         var countryData3 = data.find(checkCountry3);
-        if (countryData3 == null) countryData3 = countryData1
+        if (countryData3 == null) {
+            countryData3 = countryData1;
+            countryName3 = "";
+        }
 
         var countryData4 = data.find(checkCountry4);
-        if (countryData4 == null) countryData4 = countryData1
-
+        if (countryData4 == null) {
+            countryData4 = countryData1;
+            countryName4 = "";
+        }
         var gd = [jsonCopy(countryData1), jsonCopy(countryData2), jsonCopy(countryData3), jsonCopy(countryData4)];
         for (var i = 0; i < 4; i++) {
             gd[i] = justData(gd[i]);
