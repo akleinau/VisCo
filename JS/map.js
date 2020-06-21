@@ -168,8 +168,6 @@ function clickPath(d) {
         y = heightGermany / 2,
         k = 1;
 
-    console.log(d);
-
     if (d && focusedState !== d) {
         var centroid = geoPath.centroid(d),
             x = +centroid[0],

@@ -44,11 +44,20 @@ function resize() {
             .clipAngle(90),
         svgGlobe.style('height', heightGlobe + 'px')
             .style('width', widthGlobe + 'px'),
-        svgGlobe.selectAll("path.land").attr("d", geoPathGlobe);
-        
-    if((d3.event.transform.translate(projectionGlobe).k) !== 1){
-        projectionGlobe.scale(d3.event.transform.translate(projectionGlobe).k * scaleGlobe);
-    }
+        gGlobe.selectAll("path.land").attr("d", geoPathGlobe);
+
+     circle1.attr("cx", widthGlobe / 2)
+     .attr("cy", heightGlobe / 2)
+     .attr("r", projectionGlobe.scale());
+
+     circle2.attr("cx", widthGlobe / 2)
+     .attr("cy", heightGlobe / 2)
+     .attr("r", projectionGlobe.scale());
+
+     circle3.attr("cx", widthGlobe / 2)
+     .attr("cy", heightGlobe / 2)
+     .attr("r", projectionGlobe.scale());
+
 }
 
 

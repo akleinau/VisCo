@@ -25,9 +25,10 @@ var graticuleGlobe = d3.geoGraticule();
 var rotate = [39.666666666666664, -30];
 var lastTime = Date.now();
 var velocity = [.015, -0];
-var focused;
+var focused, focusedCountry;
 
 var globeFeatures;
+var circle1, circle2, circle3;
 
 var svgGlobe = d3.select("#map-globe")
     .append("svg")
@@ -43,7 +44,6 @@ svgGlobe.append("rect")
 svgGlobe.call(d3.drag()
     .on("start", dragstarted)
     .on("drag", dragged));
-//.on("end",dragended));
 
 // enable zoom
 var zoom = d3.zoom()
@@ -83,33 +83,14 @@ globe_shading.append("stop")
     .attr("offset", "100%").attr("stop-color", "#3e6184")
     .attr("stop-opacity", "0.3");
 
-
-svgGlobe.append("circle")
-    .attr("cx", widthGlobe / 2)
-    .attr("cy", heightGlobe / 2)
-    .attr("r", projectionGlobe.scale())
-    .attr("class", "noclicks")
-    .attr("fill", "url(#ocean_fill)");
-
 /* 
     svgGlobe.append("path")
         .datum(graticuleGlobe)
         .attr("class", "graticuleLine noclicks")
         .attr("d", geoPathGlobe); */
 
-svgGlobe.append("circle")
-    .attr("cx", widthGlobe / 2)
-    .attr("cy", heightGlobe / 2)
-    .attr("r", projectionGlobe.scale())
-    .attr("class", "noclicks")
-    .attr("fill", "url(#globe_highlight)");
-
-svgGlobe.append("circle")
-    .attr("cx", widthGlobe / 2)
-    .attr("cy", heightGlobe / 2)
-    .attr("r", projectionGlobe.scale())
-    .attr("class", "noclicks")
-    .attr("fill", "url(#globe_shading)");
+var gGlobe = svgGlobe.append("g")
+    .attr("id", "countries");
 
 function initializeGlobe() {
     d3.queue()
@@ -198,7 +179,29 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
         .attr("value", function (d) { return d; });
 
 
-    svgGlobe.selectAll("path.land")
+
+    circle1 = gGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#ocean_fill)");
+
+    circle2 = gGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#globe_highlight)");
+
+    circle3 = gGlobe.append("circle")
+        .attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale())
+        .attr("class", "noclicks")
+        .attr("fill", "url(#globe_shading)");
+
+    gGlobe.selectAll("path.land")
         .data(countries.features)
         .enter()
         .append("path")
@@ -219,10 +222,10 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
 
 
 function refresh() {
-    svgGlobe.selectAll(".land").attr("d", geoPathGlobe);
-    svgGlobe.selectAll(".land path").attr("d", geoPathGlobe);
+    gGlobe.selectAll(".land").attr("d", geoPathGlobe);
+    gGlobe.selectAll(".land path").attr("d", geoPathGlobe);
     svgGlobe.selectAll(".graticuleLine").attr("d", geoPathGlobe);
-    svgGlobe.selectAll(".focused").classed("focused", focused = false);
+    gGlobe.selectAll(".focused").classed("focused", focused = false);
     //position_labels();
 }
 
@@ -255,9 +258,17 @@ function dragged() {
 }
 
 function zoomedGlobe() {
-   
-    projectionGlobe.scale(d3.event.transform.translate(projectionGlobe).k * scaleGlobe)
-    svgGlobe.selectAll("path.land").attr("d", geoPathGlobe);
+    /* if (d3.event) {
+        svgGlobe.attr("transform", "scale(" + d3.event.transform.k + ")");
+    } */
+    projectionGlobe.scale(d3.event.transform.translate(projectionGlobe).k * scaleGlobe);
+    circle1
+        .attr("r", projectionGlobe.scale());
+    circle2
+        .attr("r", projectionGlobe.scale());
+    circle3
+        .attr("r", projectionGlobe.scale());
+    gGlobe.selectAll("path.land").attr("d", geoPathGlobe);
 }
 
 function hoverOverGlobe(d, i) {
@@ -303,32 +314,85 @@ function clickGlobe(d, i) {
     transitionGlobe(d);
 
 }
-
 function transitionGlobe(d, i) {
+
     timer.stop();
-    focusedCountry = d;
-    svgGlobe.selectAll(".focused").classed("focused", focused = false);
+    gGlobe.selectAll(".focused").classed("focused", focusedCountry && function (d) { return d === focusedCountry; });
 
-    //Globe rotating    
+    if (d && focusedCountry !== d) {
+        console.log(d);
+        focusedCountry = d;
 
+        //Globe rotating
+
+        var p = d3.geoCentroid(focusedCountry);
+
+        var currentRotate = projectionGlobe.rotate();
+        var currentScale = projectionGlobe.scale();
+
+        projectionGlobe.rotate([-p[0], -p[1]]);
+        geoPathGlobe.projection(projectionGlobe);
+
+        var b = geoPathGlobe.bounds(focusedCountry);
+        var nextScale = currentScale * 1 / Math.max((b[1][0] - b[0][0]) / (widthGlobe / 2), (b[1][1] - b[0][1]) / (heightGlobe / 2));
+        var nextRotate = projectionGlobe.rotate();
+
+        (function transition() {
+            gGlobe.transition()
+                .duration(2500)
+                .tween("rotate", function () {
+                    var r = d3.interpolate(currentRotate, nextRotate),
+                        s = d3.interpolate(currentScale, nextScale);
+                    return function (t) {
+                        projectionGlobe
+                            .rotate(r(t))
+                            .scale(s(t));
+                        circle1
+                            .attr("r", projectionGlobe.scale());
+                        circle2
+                            .attr("r", projectionGlobe.scale());
+                        circle3
+                            .attr("r", projectionGlobe.scale());
+                        gGlobe.selectAll("path").attr("d", geoPathGlobe)
+                            .classed("focused", function (d, i) {
+                                return d.properties.name == focusedCountry.properties.name ? focused = d : false;
+                            });
+                    };
+                })
+        })();
+    }
+    else {
+        return reset();
+    }
+}
+
+//TODO
+/* function reset() {
+    gGlobe.selectAll(".focused").classed("focused", false);
+    console.log("hello");
     (function transition() {
-        d3.transition()
-            .duration(2500)
-            .tween("rotate", function () {
-                var p = d3.geoCentroid(focusedCountry),
-                    r = d3.interpolate(projectionGlobe.rotate(), [-p[0], -p[1]]);
+        gGlobe.transition()
+            .duration(1000)
+            .tween("d", function () {
+                var s = d3.interpolate(projectionGlobe.scale(), 250);
                 return function (t) {
-                    projectionGlobe.rotate(r(t));
-                    svgGlobe.selectAll("path").attr("d", geoPathGlobe)
+                    projectionGlobe
+                        .scale(s(t));
+                    circle1
+                        .attr("r", projectionGlobe.scale());
+                    circle2
+                        .attr("r", projectionGlobe.scale());
+                    circle3
+                        .attr("r", projectionGlobe.scale());
+                    gGlobe.selectAll("path").attr("d", geoPathGlobe)
                         .classed("focused", function (d, i) {
-
                             return d.properties.name == focusedCountry.properties.name ? focused = d : false;
                         });
                 };
             })
-    })();
-}
+    })
 
+} */
 
 function getColorScaleGlobe(features) {
 
@@ -359,7 +423,7 @@ function getColorGlobe(d, regionColor) {
 function updateColorGlobe(attribute, features) {
 
     selectedDataGlobe = attribute;
-    d3.selectAll(".land")
+    gGlobe.selectAll(".land")
         .style("fill", function (d) {
             return getColorGlobe(d, getColorScaleGlobe(features));
         });
