@@ -309,8 +309,8 @@ function updateCompareGraph(view) {
             document.getElementById("right-col-3").innerHTML = "";
         } else {
             document.getElementById("right-col-3").innerHTML = (view == "global" ? "> " : "") + "Reproduction Rate";
-            ttext = "The Reproduction Rate states how many people one infected person will infect. A rate under 1 means the virus is subsiding."
-            ttext +=" There are different ways to calculate the RRate, here it is calculated by comparing the newly infected people of one week with the week before."
+            ttext = "The reproduction rate states how many people on average one infected person will infect. A rate under 1 means the virus is subsiding."
+            ttext +=" There are different ways to calculate the reproduction rate, here it is calculated by comparing the newly infected people of one week with the newly infected of the week before."
             document.getElementById("right-col-3").innerHTML += " <button id='RepQuestion' onclick='toggleRepTooltip()'>?</button> <div id='RepTooltip'>" + ttext + "</div>"
 
             function RtooltipText(xPos) {
