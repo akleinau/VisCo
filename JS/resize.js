@@ -46,18 +46,25 @@ function resize() {
             .style('width', widthGlobe + 'px'),
         gGlobe.selectAll("path.land").attr("d", geoPathGlobe);
 
-     circle1.attr("cx", widthGlobe / 2)
-     .attr("cy", heightGlobe / 2)
-     .attr("r", projectionGlobe.scale());
+    circle1.attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale());
 
-     circle2.attr("cx", widthGlobe / 2)
-     .attr("cy", heightGlobe / 2)
-     .attr("r", projectionGlobe.scale());
+    circle2.attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale());
 
-     circle3.attr("cx", widthGlobe / 2)
-     .attr("cy", heightGlobe / 2)
-     .attr("r", projectionGlobe.scale());
+    circle3.attr("cx", widthGlobe / 2)
+        .attr("cy", heightGlobe / 2)
+        .attr("r", projectionGlobe.scale());
 
+    /* ------------------------------------------------------------------------------------ */
+    //resize globalGraph
+    widthGraph1 = parseInt(d3.select("#graphs").style("width"));
+    widthGraph2 = parseInt(d3.select("#graphs").style("width"));
+    updateGlobalGraph();
+    updateCompareGraph("global");
+    updateCompareGraph("germany");
 }
 
 

@@ -1,6 +1,6 @@
 
 
-var widthGraph = parseInt(d3.select("#graphs").style("width"));
+var widthGraph1 = parseInt(d3.select("#graphs").style("width"));
 var heightGraph1 = 240;
 var margin = { top: 20, right: 30, bottom: 30, left: 70 };
 
@@ -67,7 +67,7 @@ function updateGlobalGraph() {
         //create graph
         var x = d3.scaleUtc()
             .domain(d3.extent(global, d => d.key))
-            .range([margin.left, widthGraph - margin.right])
+            .range([margin.left, widthGraph1 - margin.right])
 
         var y = d3.scaleLinear()
             .domain([0, d3.max(global, d => d.value) + 1000000])
@@ -96,7 +96,7 @@ function updateGlobalGraph() {
 
         var svg = d3.select("#right-col-1").append("svg")
             .attr("id", "global-graph")
-            .attr("width", widthGraph)
+            .attr("width", widthGraph1)
             .attr("height", heightGraph1)
             .on("mouseover", function () { return tooltip.classed("hidden", !1); })
             .on("mousemove", function () {
@@ -110,7 +110,7 @@ function updateGlobalGraph() {
         svg.append("g")
             .call(g => g.select(".domain").remove())
             .attr("transform", `translate(0,${heightGraph1 - margin.bottom})`)
-            .call(d3.axisBottom(x).ticks(widthGraph / 80).tickSizeOuter(0));
+            .call(d3.axisBottom(x).ticks(widthGraph1 / 80).tickSizeOuter(0));
 
         svg.append("g")
             .attr("transform", `translate(${margin.left},0)`)
