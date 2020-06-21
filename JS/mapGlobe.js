@@ -310,7 +310,7 @@ function clickGlobe(d, i) {
             break;
         }
     }
-    updateCompareGraph();
+    updateCompareGraph("global");
 
     transitionGlobe(d);
 
