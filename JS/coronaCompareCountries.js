@@ -49,8 +49,17 @@ function initializeGraph() {
 }
 
 function updateCompareGraph(view) {
-    var oldest = document.getElementById("oldest").value;
+    var oldest, dataType;
+    if (view == "germany") {
+        dataType = document.getElementById("dataMode").value;
+        oldest = document.getElementById("oldestG").value;
+    }
+    if (view == "global") {
+        dataType = document.getElementById("dataModeGlobal").value;
+        oldest = document.getElementById("oldest").value;
+    } 
 
+    
     if (!document.getElementById("view-image").src.endsWith('images/germany.png')) {
         countryName1 = "Germany";
         countryName2 = "";
@@ -66,9 +75,6 @@ function updateCompareGraph(view) {
 
     perPeople = false;
 
-
-    if (view == "germany") dataType = document.getElementById("dataMode").value;
-    if (view == "global") dataType = document.getElementById("dataModeGlobal").value;
     var link;
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
     if (dataType == "recovered") link = urls.coronaWorldRecovered;
