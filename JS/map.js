@@ -1,13 +1,13 @@
 
 
-var margin = { top: 10, left: 10, bottom: 10, right: 10 },
-    widthGermany = parseInt(d3.select(".maps").style("width")),
+var widthGermany = parseInt(d3.select(".maps").style("width")),
     mapRatio = .8,
     heightGermany = widthGermany * mapRatio,
     focusedState,
     lowColor = '#f4e8eb',
     highColor = '#7a003f',
     mapRatioAdjuster = 2.2,
+    marginGermany = { top: 10, left: 10, bottom: 10, right: 10 },
     germanyCenter = [10, 51];
 
 

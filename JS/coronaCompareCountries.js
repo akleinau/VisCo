@@ -33,7 +33,7 @@ function jsonCopy(src) {
 
 
 var heightGraph2 = 240;
-var widthGraph = parseInt(d3.select("#graphs").style("width"));
+var widthGraph2 = parseInt(d3.select("#graphs").style("width"));
 
 var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
@@ -172,7 +172,7 @@ function updateCompareGraph(view) {
 
         var x = d3.scaleUtc()
             .domain(d3.extent(country[0], d => d.key))
-            .range([margin.left, widthGraph - margin.right])
+            .range([margin.left, widthGraph2 - margin.right])
 
         var data0 = entriesOfCountry(justData(data[0]), oldest)
         document.getElementById("oldestDate").innerHTML = "&nbsp;" + formatDays(data0[0].key);
@@ -241,7 +241,7 @@ function updateCompareGraph(view) {
         d3.select("#compare-graph-2").remove();
         var svg = d3.select("#right-col-2").append("svg")
             .attr("id", "compare-graph-2")
-            .attr("width", widthGraph)
+            .attr("width", widthGraph2)
             .attr("height", heightGraph2)
             .on("mouseover", function () { return tooltip.classed("hidden", !1); })
             .on("mousemove", function () {
@@ -254,7 +254,7 @@ function updateCompareGraph(view) {
 
         svg.append("g")
             .attr("transform", `translate(0,${heightGraph2 - margin.bottom})`)
-            .call(d3.axisBottom(x).ticks(widthGraph / 80).tickSizeOuter(0))
+            .call(d3.axisBottom(x).ticks(widthGraph2 / 80).tickSizeOuter(0))
 
         svg.append("g")
             .attr("transform", `translate(${margin.left},0)`)
@@ -335,7 +335,7 @@ function updateCompareGraph(view) {
             d3.select("#compare-graph-3").remove();
             svg = d3.select("#right-col-3").append("svg")
                 .attr("id", "compare-graph-3")
-                .attr("width", widthGraph)
+                .attr("width", widthGraph2)
                 .attr("height", heightGraph2)
                 .on("mouseover", function () { return tooltip.classed("hidden", !1); })
                 .on("mousemove", function () {
@@ -348,7 +348,7 @@ function updateCompareGraph(view) {
 
             svg.append("g")
                 .attr("transform", `translate(0,${heightGraph2 - margin.bottom})`)
-                .call(d3.axisBottom(x).ticks(widthGraph / 80).tickSizeOuter(0))
+                .call(d3.axisBottom(x).ticks(widthGraph2 / 80).tickSizeOuter(0))
 
             svg.append("g")
                 .attr("transform", `translate(${margin.left},0)`)
