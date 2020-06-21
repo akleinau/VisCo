@@ -417,6 +417,10 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     font-size: 12px;
 }
 
+.graph-name{
+    cursor: pointer;
+}
+
 #RepQuestion {
     font-size: 14px;
     border-radius: 50%;

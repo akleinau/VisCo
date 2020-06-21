@@ -155,40 +155,43 @@
             </div>
             <div class="col-md-5">
                 <div id="graphs">
+
+                    <div class="row ">
+                        <div id="oldestText">First shown date: &nbsp;</div>
+                        <input class="global" name="input" type="range" min="0" max=138 value="0" step="1"
+                            style="width: 180px;" id="oldest"
+                            onchange="updateGlobalGraph(); updateCompareGraph('global')"></input>
+                        <input class="germany" name="input" type="range" min="0" max=138 value="0" step="1"
+                            style="width: 180px;" id="oldest"
+                            onchange="updateGlobalGraph(); updateCompareGraph('germany')"></input>
+                        <div id="oldestDate"></div>
+                    </div>
+                    <div class="global" class="row" id="right-col-1">Global</div>
+                    <div class="global" class="row">
+                        <input type="text" id="country1" value="Germany" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()">
+                        <ul class="scrollmenu" id="country1List">
+                        </ul>
+
+                        <input type="text" id="country2" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()">
+                        <ul class="scrollmenu" id="country2List">
+                        </ul>
+
+                        <input type="text" id="country3" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()">
+                        <ul class="scrollmenu" id="country3List">
+                        </ul>
+
+                        <input type="text" id="country4" placeholder="Type a name!"
+                            onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()">
+                        <ul class="scrollmenu" id="country4List">
+                        </ul>
+
+                    </div>
+                    <div class="row " id="right-col-2" onclick="toggleRepGraph()">Germany</div>
+                    <div class="row graph-name" id="right-col-3" onclick="toggleRepGraph()">Reproduction Rate </div>
                 </div>
-                <div class="row ">
-                    <div id="oldestText">First shown date: &nbsp;</div>
-                    <input class= "global" name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
-                        id="oldest" onchange="updateGlobalGraph(); updateCompareGraph('global')"></input>
-                    <input class= "germany" name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
-                        id="oldest" onchange="updateGlobalGraph(); updateCompareGraph('germany')"></input>
-                    <div id="oldestDate"></div>
-                </div>
-                <div class="global" class="row" id="right-col-1">Global</div>
-                <div class="global" class="row">
-                    <input type="text" id="country1" value="Germany" placeholder="Type a name!"
-                        onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()">
-                    <ul class="scrollmenu" id="country1List">
-                    </ul>
-
-                    <input type="text" id="country2" placeholder="Type a name!"
-                        onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()">
-                    <ul class="scrollmenu" id="country2List">
-                    </ul>
-
-                    <input type="text" id="country3" placeholder="Type a name!"
-                        onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()">
-                    <ul class="scrollmenu" id="country3List">
-                    </ul>
-
-                    <input type="text" id="country4" placeholder="Type a name!"
-                        onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()">
-                    <ul class="scrollmenu" id="country4List">
-                    </ul>
-
-                </div>
-                <div class="row" id="right-col-2" onclick="toggleRepGraph()">Germany</div>
-                <div class="row" id="right-col-3" onclick="toggleRepGraph()">Reproduction Rate </div>
             </div>
             <div class="germany"></div>
         </div>
