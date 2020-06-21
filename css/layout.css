@@ -416,3 +416,16 @@ a.project-name, a.project-name:visited, a.project-name:hover {
 #oldestText {
     font-size: 12px;
 }
+
+#RepQuestion {
+    font-size: 14px;
+    border-radius: 50%;
+    border: 1px solid rgb(201, 204, 203);
+    margin-left: 5px;
+}
+
+#RepTooltip {
+    font-size: 12px;
+    display: none;
+    font-family: sans-serif;
+}
