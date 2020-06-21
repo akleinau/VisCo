@@ -294,6 +294,10 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     opacity: .2;
 }
 
+.noclicks{
+    pointer-events:none;
+}
+
 .nicebox {
     position: absolute;
     text-align: center;

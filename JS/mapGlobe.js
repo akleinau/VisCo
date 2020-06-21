@@ -48,10 +48,11 @@ svgGlobe.call(d3.drag()
 // enable zoom
 var zoom = d3.zoom()
     .scaleExtent([0.75, 50]) //bound zoom
-    .on("zoom", zoomedGlobe);
+    .on("zoom", zoomedGlobe)
+    
 
 svgGlobe.call(zoom);
-
+svgGlobe.on("dblclick.zoom", null);
 
 var ocean_fill = svgGlobe.append("defs").append("radialGradient")
     .attr("id", "ocean_fill")
