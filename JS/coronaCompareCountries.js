@@ -39,7 +39,7 @@ var margin = { top: 20, right: 10, bottom: 30, left: 80 }
 
 function initializeGraph() {
 
-    if (document.getElementById("dataMode") !== null) {
+    if (document.getElementById("dataMode") !== null && document.getElementById("dataModeGlobal") !== null) {
         updateCompareGraph('germany');
         updateGlobalGraph();
     }
