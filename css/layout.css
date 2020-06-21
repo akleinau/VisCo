@@ -33,7 +33,7 @@ body {
     font-family: "uni_sans_demoheavy_caps", sans-serif;
     overflow: hidden;
 }
-@media (max-width: 777px){
+@media (max-width: 960px){
     body{
         overflow: auto;
     }
