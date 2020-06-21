@@ -193,7 +193,7 @@ function updateCompareGraph(view) {
 
 
         var RateY = d3.scaleLinear()
-            .domain([minValue(RrateCountries), maxValue(RrateCountries)])
+            .domain([0, maxValue(RrateCountries)])
             .range([heightGraph2 - margin.bottom, margin.top])
 
 
@@ -354,7 +354,7 @@ function updateCompareGraph(view) {
                 .attr("fill", "#ccf9c7")
                 .attr("d", d3.area()
                     .x(function (d) { return x(d.key) })
-                    .y0(function (d) { return RateY(minValue(RrateCountries)) })
+                    .y0(function (d) { return RateY(0) })
                     .y1(function (d) { return RateY(1) })
                 );
 
