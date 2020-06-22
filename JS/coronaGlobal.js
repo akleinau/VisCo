@@ -11,7 +11,7 @@ function updateGlobalGraph() {
 
     var oldest = document.getElementById("oldest").value;
     var dataType = document.getElementById("dataModeGlobal").value;
-    console.log(dataType);
+
     var link;
     if (dataType == "confirmed") link = urls.coronaWorldConfirmed;
     else if (dataType == "recovered") link = urls.coronaWorldRecovered;

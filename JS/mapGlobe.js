@@ -170,6 +170,7 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
             updateColorGlobe(this.value, globeFeatures);
             updateGlobalGraph();
             updateCompareGraph("global");
+            changeTableSelectionGlobe(this.value);
         });
 
     dropdownButtonG.selectAll("myOptions")
@@ -438,4 +439,22 @@ function selectCountry(name) {
         }
     }
 
+}
+
+function changeTableSelectionGlobe(value){
+    if (value === keyArrayG[0]){
+        console.log(value);
+        openTabFromSelect("Confirmed Cases");
+        document.getElementById("confirmedCases").classList.add("active");
+    }
+    else if(value === keyArrayG[1]){
+        console.log(value);
+        openTabFromSelect("Recovered");
+        document.getElementById("recovered").classList.add("active");
+    }
+    else if(value === keyArrayG[2]){
+        console.log(value);
+        openTabFromSelect("Deaths");
+        document.getElementById("deaths").classList.add("active");
+    }
 }

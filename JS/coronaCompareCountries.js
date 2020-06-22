@@ -140,7 +140,7 @@ function updateCompareGraph(view) {
                 for (var j = 0; j < gd[i].length; j++) {
                     gd[i][j].value /= 814;
                 }
-                console.log(gd[i]);
+                //console.log(gd[i]);
             }
         }
         var country = gd;

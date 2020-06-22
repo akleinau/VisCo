@@ -43,11 +43,11 @@ var g = svgGermany.append("g")
     .attr("id", "states");
 
 
-function initializeMap(){
-d3.queue()
-    .defer(d3.json, urls.states)
-    .defer(d3.json, urls.coronaStates)
-    .await(buildMap);
+function initializeMap() {
+    d3.queue()
+        .defer(d3.json, urls.states)
+        .defer(d3.json, urls.coronaStates)
+        .await(buildMap);
 }
 
 function buildMap(err, collection, coronaData) {
@@ -93,8 +93,8 @@ function buildMap(err, collection, coronaData) {
         .attr("id", "dataMode")
         .on("change", function () {
             updateMapColor(this.value, mapFeatures);
-            console.log("map: " + selectedData);
             updateCompareGraph("germany");
+            changeTableSelectionGermany(this.value);
         });
 
 
@@ -162,7 +162,7 @@ function buildMap(err, collection, coronaData) {
 function clickPath(d) {
 
     g.selectAll("text")
-    .remove();
+        .remove();
 
     var x = widthGermany / 2,
         y = heightGermany / 2,
@@ -286,5 +286,24 @@ function selectState(name) {
         }
     }
 
+}
+
+function changeTableSelectionGermany(value) {
+    console.log(value);
+    if (value === keyArray[0]) {
+        console.log(value);
+        openTabFromSelect("Fallzahl");
+        document.getElementById("fallzahl").classList.add("active");
+    }
+    else if (value === keyArray[2]) {
+        console.log(value);
+        openTabFromSelect("Pro100000");
+        document.getElementById("pro100000").classList.add("active");
+    }
+    else if (value === keyArray[1]) {
+        console.log(value);
+        openTabFromSelect("Death");
+        document.getElementById("death").classList.add("active");
+    }
 }
 
