@@ -177,45 +177,44 @@
                     <div class="graph-name">Global</div>
                 </div>
                 <div class="global row input-fields">
-                    <table>
-                        <tr>
-                            <td><input type="text" id="country1" value="Germany" placeholder="Type a name!"
-                                    onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()"
-                                    autocomplete="off"></td>
-                            <td><input type="text" id="country2" placeholder="Type a name!"
-                                    onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()"
-                                    autocomplete="off"></td>
-                            <td><input type="text" id="country3" placeholder="Type a name!"
-                                    onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()"
-                                    autocomplete="off"></td>
-                            <td><input type="text" id="country4" placeholder="Type a name!"
-                                    onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()"
-                                    autocomplete="off"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <ul class="scrollmenu" id="country1List">
-                                </ul>
-                            </td>
 
+                    <div class="row">
+                        <div class="col-3">
+                            <input type="text" id="country1" value="Germany" placeholder="Type a name!"
+                                onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()"
+                                autocomplete="off">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" id="country2" placeholder="Type a name!"
+                                onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()"
+                                autocomplete="off">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" id="country3" placeholder="Type a name!"
+                                onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()"
+                                autocomplete="off">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" id="country4" placeholder="Type a name!"
+                                onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()"
+                                autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row scrollmenu-container">
+                        <div class="col-sm-3" id="menu-1">
+                            <div class="scrollmenu" id="country1List"></div>
+                        </div>
+                        <div class="col-sm-3" id="menu-2">
+                            <div class="scrollmenu" id="country2List"></div>
+                        </div>
+                        <div class="col-sm-3 " id="menu-3">
+                            <div class="scrollmenu" id="country3List"></div>
+                        </div>
+                        <div class="col-sm-3" id="menu-4">
+                            <div class="scrollmenu" id="country4List"></div>
+                        </div>
+                    </div>
 
-                            <td>
-                                <ul class="scrollmenu" id="country2List">
-                                </ul>
-                            </td>
-
-                            <td>
-                                <ul class="scrollmenu" id="country3List">
-                                </ul>
-                            </td>
-
-
-                            <td>
-                                <ul class="scrollmenu" id="country4List">
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
 
                 </div>
                 <div class="row">
@@ -224,7 +223,8 @@
                 </div>
                 <div class="row" id="right-col-2"></div>
                 <div class="row" id="right-col-3">
-                    <div class="graph-name" id="reproduction-name-gl" onclick="toggleRepGraph('rep')">Reproduction Rate
+                    <div class="graph-name" id="reproduction-name-gl" onclick="toggleRepGraph('rep')">Reproduction
+                        Rate
                     </div>
                 </div>
             </div>
