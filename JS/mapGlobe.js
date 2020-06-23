@@ -1,10 +1,11 @@
 
 
 var marginGlobe = { top: 10, left: 10, bottom: 10, right: 10 },
-    widthGlobe = parseInt(d3.select(".maps").style("width")),
+    widthMap = parseInt(d3.select(".maps").style("width")),
     mapRatioGlobe = .8,
-    heightGlobe = widthGlobe * mapRatioGlobe,
+    heightGlobe = widthMap * mapRatioGlobe,
     scaleGlobe = (heightGlobe - 100) / 2;
+
 
 
 var keyArrayG = ["confirmed", "recovered", "deaths"];
@@ -13,7 +14,7 @@ var selectedDataGlobe = keyArray[0];
 var projectionGlobe = d3.geoOrthographic()
     .rotate([0, 0])
     .scale(scaleGlobe)
-    .translate([widthGlobe / 2, heightGlobe / 2])
+    .translate([widthMap / 2, heightGlobe / 2])
     .clipAngle(90);
 
 //d3.select(window).on("resize", resize);
@@ -34,12 +35,13 @@ var svgGlobe = d3.select("#map-globe")
     .append("svg")
     .attr("id", "map-globe-container")
     .style('height', heightGlobe + 'px')
-    .style('width', widthGlobe + 'px');
+    .style('width', widthMap + 'px');
 
-svgGlobe.append("rect")
+var bgGlobe = svgGlobe.append("rect")
     .attr("class", "background")
     .attr("width", "100%")
     .attr("height", "100%");
+
 
 svgGlobe.call(d3.drag()
     .on("start", dragstarted)
@@ -47,11 +49,11 @@ svgGlobe.call(d3.drag()
 
 // enable zoom
 var zoom = d3.zoom()
-    .scaleExtent([0.75, 50]) //bound zoom
+    .scaleExtent([0.8, 4]) //bound zoom
     .on("zoom", zoomedGlobe)
-    
 
 svgGlobe.call(zoom);
+
 svgGlobe.on("dblclick.zoom", null);
 
 var ocean_fill = svgGlobe.append("defs").append("radialGradient")
@@ -183,21 +185,21 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
 
 
     circle1 = gGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
+        .attr("cx", widthMap / 2)
         .attr("cy", heightGlobe / 2)
         .attr("r", projectionGlobe.scale())
         .attr("class", "noclicks")
         .attr("fill", "url(#ocean_fill)");
 
     circle2 = gGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
+        .attr("cx", widthMap / 2)
         .attr("cy", heightGlobe / 2)
         .attr("r", projectionGlobe.scale())
         .attr("class", "noclicks")
         .attr("fill", "url(#globe_highlight)");
 
     circle3 = gGlobe.append("circle")
-        .attr("cx", widthGlobe / 2)
+        .attr("cx", widthMap / 2)
         .attr("cy", heightGlobe / 2)
         .attr("r", projectionGlobe.scale())
         .attr("class", "noclicks")
@@ -220,6 +222,7 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
 
     refresh();
     spin();
+
 }
 
 
@@ -260,9 +263,7 @@ function dragged() {
 }
 
 function zoomedGlobe() {
-    /* if (d3.event) {
-        svgGlobe.attr("transform", "scale(" + d3.event.transform.k + ")");
-    } */
+    focusedCountry = null;
     projectionGlobe.scale(d3.event.transform.translate(projectionGlobe).k * scaleGlobe);
     circle1
         .attr("r", projectionGlobe.scale());
@@ -321,65 +322,39 @@ function transitionGlobe(d, i) {
     timer.stop();
     gGlobe.selectAll(".focused").classed("focused", focusedCountry && function (d) { return d === focusedCountry; });
 
-    if (d && focusedCountry !== d) {
-        console.log(d);
-        focusedCountry = d;
 
-        //Globe rotating
 
-        var p = d3.geoCentroid(focusedCountry);
+    focusedCountry = d;
 
-        var currentRotate = projectionGlobe.rotate();
-        var currentScale = projectionGlobe.scale();
+    //Globe rotating
 
-        projectionGlobe.rotate([-p[0], -p[1]]);
-        geoPathGlobe.projection(projectionGlobe);
+    var p = d3.geoCentroid(focusedCountry);
 
-        var b = geoPathGlobe.bounds(focusedCountry);
-        var nextScale = currentScale * 1 / Math.max((b[1][0] - b[0][0]) / (widthGlobe / 2), (b[1][1] - b[0][1]) / (heightGlobe / 2));
-        var nextRotate = projectionGlobe.rotate();
+    var currentRotate = projectionGlobe.rotate();
+    var currentScale = projectionGlobe.scale();
 
-        (function transition() {
-            gGlobe.transition()
-                .duration(2500)
-                .tween("rotate", function () {
-                    var r = d3.interpolate(currentRotate, nextRotate),
-                        s = d3.interpolate(currentScale, nextScale);
-                    return function (t) {
-                        projectionGlobe
-                            .rotate(r(t))
-                            .scale(s(t));
-                        circle1
-                            .attr("r", projectionGlobe.scale());
-                        circle2
-                            .attr("r", projectionGlobe.scale());
-                        circle3
-                            .attr("r", projectionGlobe.scale());
-                        gGlobe.selectAll("path").attr("d", geoPathGlobe)
-                            .classed("focused", function (d, i) {
-                                return d.properties.name == focusedCountry.properties.name ? focused = d : false;
-                            });
-                    };
-                })
-        })();
-    }
-    else {
-        return reset();
-    }
-}
+    projectionGlobe.rotate([-p[0], -p[1]]);
+    geoPathGlobe.projection(projectionGlobe);
 
-//TODO
-/* function reset() {
-    gGlobe.selectAll(".focused").classed("focused", false);
-    console.log("hello");
+    var b = geoPathGlobe.bounds(focusedCountry);
+
+    var nextScale;
+
+    nextScale = currentScale * 1 / Math.max((b[1][0] - b[0][0]) / (widthMap / 2), (b[1][1] - b[0][1]) / (heightGlobe / 2));
+
+    var nextRotate = projectionGlobe.rotate();
+
+
     (function transition() {
         gGlobe.transition()
-            .duration(1000)
-            .tween("d", function () {
-                var s = d3.interpolate(projectionGlobe.scale(), 250);
+            .duration(2500)
+            .tween("rotate", function () {
+                var r = d3.interpolate(currentRotate, nextRotate),
+                    s = d3.interpolate(currentScale, nextScale);
                 return function (t) {
                     projectionGlobe
-                        .scale(s(t));
+                        .rotate(r(Math.pow(t, 0.33)))
+                        .scale(currentScale > nextScale ? s(Math.pow(t, 0.1)) : s(Math.pow(t, 3)));
                     circle1
                         .attr("r", projectionGlobe.scale());
                     circle2
@@ -392,9 +367,10 @@ function transitionGlobe(d, i) {
                         });
                 };
             })
-    })
+    })();
 
-} */
+
+}
 
 function getColorScaleGlobe(features) {
 
@@ -441,18 +417,18 @@ function selectCountry(name) {
 
 }
 
-function changeTableSelectionGlobe(value){
-    if (value === keyArrayG[0]){
+function changeTableSelectionGlobe(value) {
+    if (value === keyArrayG[0]) {
         console.log(value);
         openTabFromSelect("Confirmed Cases");
         document.getElementById("confirmedCases").classList.add("active");
     }
-    else if(value === keyArrayG[1]){
+    else if (value === keyArrayG[1]) {
         console.log(value);
         openTabFromSelect("Recovered");
         document.getElementById("recovered").classList.add("active");
     }
-    else if(value === keyArrayG[2]){
+    else if (value === keyArrayG[2]) {
         console.log(value);
         openTabFromSelect("Deaths");
         document.getElementById("deaths").classList.add("active");

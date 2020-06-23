@@ -33,7 +33,7 @@
         <div class="navigation-bar-container">
             <div class="navigation-bar">
                 <div class="navigation-bar-content row">
-                    <div class="project-logo-and-name col-sm-3">
+                    <div class="project-logo-and-name col-lg-5">
                         <a class="project-name" href="/">
                             <span class="project-name-color-letter">V</span>is<span
                                 class="project-name-color-letter">C</span>o
@@ -42,11 +42,28 @@
                             <img class="project-logo" src="data/VisCo_logo4.png">
                         </a>
                     </div>
-                    <div class="view-change col-sm-6">
+                    <div class="view-change col-lg-1">
                         <button id="change-view-button" onclick="changeView()">
                             <img src="images/globe.png" id="view-image"></button>
                     </div>
-                    <div class="col-sm-3" id="date-container">
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div id="oldestText">First shown date: &nbsp;</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div id="oldestDate"></div>
+                            </div>
+                        </div>
+                        <div class="row slider">
+                            <input class="global" name="input" type="range" min="0" max="153" value="0" step="1"
+                                style="width: 100%;" id="oldest"
+                                onchange="updateGlobalGraph(); updateCompareGraph('global')"></input>
+                            <input class="germany" name="input" type="range" min="0" max="153" value="0" step="1"
+                                style="width: 100%;" id="oldestG" onchange="updateCompareGraph('germany')"></input>
+                        </div>
+                    </div>
+                    <div class="col-lg-2" id="date-container">
                         <div class="global date" id="GlobalLastUpdated"></div>
                         <div class="germany date" id="GermanyLastUpdated"></div>
                     </div>
@@ -60,7 +77,7 @@
                 <div class="global">
                     <div class="tab">
                         <button id="confirmedCases" class="tablinks active" onclick="openTab(event, 'Confirmed Cases')"
-                            title="Confirmed Cases">Confirmed Cases</button>
+                            title="Confirmed Cases">Cases</button>
                         <button id="recovered" class="tablinks" onclick="openTab(event, 'Recovered')"
                             title="Recovered">Recovered</button>
                         <button id="deaths" class="tablinks" onclick="openTab(event, 'Deaths')"
@@ -153,19 +170,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-5 graph-container">
                 <div id="graphs">
                 </div>
-                <div class="row ">
-                    <div id="oldestText">First shown date: &nbsp;</div>
-                    <input class= "global" name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
-                        id="oldest" onchange="updateGlobalGraph(); updateCompareGraph('global')"></input>
-                    <input class= "germany" name="input" type="range" min="0" max=138 value="0" step="1" style="width: 180px;"
-                        id="oldestG" onchange="updateCompareGraph('germany')"></input>
-                    <div id="oldestDate"></div>
+                <div class="global row" id="right-col-1">
+                    <div class="graph-name">Global</div>
                 </div>
-                <div class="global" class="row" id="right-col-1">Global</div>
-                <div class="global" class="row">
+                <div class="global row input-fields">
                     <input type="text" id="country1" value="Germany" placeholder="Type a name!"
                         onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()">
                     <ul class="scrollmenu" id="country1List">
@@ -187,8 +198,14 @@
                     </ul>
 
                 </div>
-                <div class="row" id="right-col-2" onclick="toggleRepGraph()">Germany</div>
-                <div class="row" id="right-col-3" onclick="toggleRepGraph()">Reproduction Rate </div>
+                <div class="row">
+                    <div class="graph-name" id="germany-compare">Germany</div>
+                    <div id="reproduction-name"></div>
+                </div>
+                <div class="row" id="right-col-2" onclick="toggleRepGraph()"></div>
+                <div class="row" id="right-col-3" onclick="toggleRepGraph()">
+                    <div class="graph-name" id="reproduction-name-gl">Reproduction Rate</div>
+                </div>
             </div>
             <div class="germany"></div>
         </div>

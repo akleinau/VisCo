@@ -4,7 +4,8 @@
   width: 100%;
   overflow: hidden;
   border: 1px solid #ccc;
-  background-color: #f1f1f1;
+  background-color:rgb(77, 77, 77);
+  
   
 }
 
@@ -16,9 +17,11 @@
 /* Style the buttons that are used to open the tab content */
 
 .tab button {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1vw;
+  font-weight: bold;
   width: 33%;
   float: left;
-  display: inline-block;
   background-color: inherit;
   border: none;
   outline: none;
@@ -28,17 +31,23 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: rgb(141, 141, 141);
+  
+ 
 }
 
 /* Change background color of buttons on hover */
 
 .tab button:hover {
   background-color: #ddd;
+  transform: scale(1.05) perspective(1px);
+  color: rgb(94, 189, 165);
 }
 
 /* Create an active/current tablink class */
 
 .tab button.active {
+  color: rgb(42, 42, 42);
   background-color: #ccc;
 }
 

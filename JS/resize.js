@@ -1,13 +1,15 @@
 function resize() {
+    widthMap = parseInt(d3.select(".maps").style("width"));
+
     //resize map Germany
-    widthGermany = parseInt(d3.select(".maps").style("width")),
-        heightGermany = widthGermany * mapRatio,
-        projectionGermany.translate([widthGermany / 2, heightGermany / 2])
-            .center(germanyCenter)
-            .scale(widthGermany * [mapRatio + mapRatioAdjuster]),
-        svgGermany.style("width", widthGermany + "px")
-            .style("height", heightGermany + "px"),
-        svgGermany.selectAll("path.regions").attr("d", geoPath);
+    heightGermany = widthMap * mapRatioGermany;
+
+    projectionGermany.translate([widthMap / 2, heightGermany / 2])
+        .center(germanyCenter)
+        .scale(widthMap * [mapRatioGermany + mapRatioAdjuster]);
+    svgGermany.style("width", widthMap + "px")
+        .style("height", heightGermany + "px");
+    svgGermany.selectAll("path.regions").attr("d", geoPath);
 
     if (focusedState !== null && focusedState !== void (0)) {
         g.selectAll("text")
@@ -31,30 +33,34 @@ function resize() {
             .style("font-family", "Verdana");
 
         g.transition()
-            .attr("transform", "translate(" + (widthGermany / 2) + "," + (heightGermany / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")");
+            .attr("transform", "translate(" + (widthMap / 2) + "," + (heightGermany / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")");
     }
 
     /* ------------------------------------------------------------------------------------ */
     //resize globe
-    widthGlobe = parseInt(d3.select(".maps").style("width")),
-        heightGlobe = widthGlobe * mapRatioGlobe,
-        projectionGlobe
-            .scale((heightGlobe - 100) / 2)
-            .translate([widthGlobe / 2, heightGlobe / 2])
-            .clipAngle(90),
-        svgGlobe.style('height', heightGlobe + 'px')
-            .style('width', widthGlobe + 'px'),
-        gGlobe.selectAll("path.land").attr("d", geoPathGlobe);
+    heightGlobe = widthMap * mapRatioGlobe
 
-    circle1.attr("cx", widthGlobe / 2)
+    projectionGlobe
+        .scale((heightGlobe - 100) / 2)
+        .translate([widthMap / 2, heightGlobe / 2])
+        .clipAngle(90);
+    svgGlobe.style('height', heightGlobe + 'px')
+        .style('width', widthMap + 'px');
+    gGlobe.selectAll("path.land").attr("d", geoPathGlobe);
+
+    if (focusedCountry !== null && focusedCountry !== void (0)) {
+        transitionGlobe(focusedCountry);
+    }
+
+    circle1.attr("cx", widthMap / 2)
         .attr("cy", heightGlobe / 2)
         .attr("r", projectionGlobe.scale());
 
-    circle2.attr("cx", widthGlobe / 2)
+    circle2.attr("cx", widthMap / 2)
         .attr("cy", heightGlobe / 2)
         .attr("r", projectionGlobe.scale());
 
-    circle3.attr("cx", widthGlobe / 2)
+    circle3.attr("cx", widthMap / 2)
         .attr("cy", heightGlobe / 2)
         .attr("r", projectionGlobe.scale());
 

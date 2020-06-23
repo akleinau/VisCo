@@ -74,8 +74,6 @@ function sumUpStatesAndProvinces(dataUnsorted, provinceList) {
 
     var sorted = [];
 
-    console.log(provinceList);
-
     sorted.push(dataUnsorted[0]);
 
     for (var i = 1; i < dataUnsorted.length; i++) {
@@ -119,12 +117,12 @@ function sumUpStatesAndProvinces(dataUnsorted, provinceList) {
 
 function parse(url, tab) {
     Papa.parse(url, {
-      download: true,
-      complete: function (results) {
-        //console.log(results);
-        var data = results.data;
-        renderDataset(data, tab);
-        //console.log(data);
-      }
+        download: true,
+        complete: function (results) {
+            //console.log(results);
+            var data = results.data;
+            renderDataset(data, tab);
+            //console.log(data);
+        }
     });
-  }
+}

@@ -2,6 +2,7 @@ dataType = "confirmed"
 
 Rintervall = 7;
 
+var toggled = false;
 
 var formatDays = d3.timeFormat("%x");
 
@@ -35,7 +36,7 @@ function jsonCopy(src) {
 var heightGraph2 = 240;
 var widthGraph2 = parseInt(d3.select("#graphs").style("width"));
 
-var margin = { top: 20, right: 10, bottom: 30, left: 80 }
+var marginGraph2 = { top: 20, right: 30, bottom: 30, left: 70 };
 
 function initializeGraph() {
 
@@ -57,9 +58,9 @@ function updateCompareGraph(view) {
     if (view == "global") {
         dataType = document.getElementById("dataModeGlobal").value;
         oldest = document.getElementById("oldest").value;
-    } 
+    }
 
-    
+
     if (!document.getElementById("view-image").src.endsWith('images/germany.png')) {
         countryName1 = "Germany";
         countryName2 = "";
@@ -88,8 +89,6 @@ function updateCompareGraph(view) {
     d3.csv(link, d3.autoType, function (dataUnsorted) {
 
         var data = sumUpStates(dataUnsorted);
-
-
 
         function justData(c) {
             delete c["Country/Region"];
@@ -172,7 +171,7 @@ function updateCompareGraph(view) {
 
         var x = d3.scaleUtc()
             .domain(d3.extent(country[0], d => d.key))
-            .range([margin.left, widthGraph2 - margin.right])
+            .range([marginGraph2.left, widthGraph2 - marginGraph2.right])
 
         var data0 = entriesOfCountry(justData(data[0]), oldest)
         document.getElementById("oldestDate").innerHTML = "&nbsp;" + formatDays(data0[0].key);
@@ -192,17 +191,14 @@ function updateCompareGraph(view) {
             d3.min(a4[3], d => d.value)];
             return d3.min(min);
         }
-
         var y = d3.scaleLinear()
             .domain([0, maxValue(country)])
-            .range([heightGraph2 - margin.bottom, margin.top])
+            .range([heightGraph2 - marginGraph2.bottom, marginGraph2.top])
 
 
         var RateY = d3.scaleLinear()
             .domain([0, maxValue(RrateCountries)])
-            .range([heightGraph2 - margin.bottom, margin.top])
-
-
+            .range([heightGraph2 - marginGraph2.bottom, marginGraph2.top])
 
 
         var tooltip = d3.select("#Gtooltip");
@@ -242,24 +238,23 @@ function updateCompareGraph(view) {
         var svg = d3.select("#right-col-2").append("svg")
             .attr("id", "compare-graph-2")
             .attr("width", widthGraph2)
-            .attr("height", heightGraph2)
-            .on("mouseover", function () { return tooltip.classed("hidden", !1); })
-            .on("mousemove", function () {
-                return tooltip.style("top", (event.pageY + 20) + "px")
-                    .style("left", (event.pageX + 20) + "px")
-                    .html(tooltipText(d3.mouse(this)[0]));
-            })
-            .on("mouseleave", function () { return tooltip.classed("hidden", !0); })
+            .attr("height", heightGraph2);
 
+        svg.append("rect")
+            .attr("class", "background")
+            .attr("width", widthGraph2)
+            .attr("height", heightGraph2);
 
         svg.append("g")
-            .attr("transform", `translate(0,${heightGraph2 - margin.bottom})`)
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${heightGraph2 - marginGraph2.bottom})`)
             .call(d3.axisBottom(x).ticks(widthGraph2 / 80).tickSizeOuter(0))
 
         svg.append("g")
-            .attr("transform", `translate(${margin.left},0)`)
-            .call(d3.axisLeft(y).ticks(heightGraph2 / 40))
             .call(g => g.select(".domain").remove())
+            .attr("class", "axis")
+            .attr("transform", `translate(${marginGraph2.left},0)`)
+            .call(d3.axisLeft(y).ticks(heightGraph2 / 40))
 
         if (countryName2 != "") {
             svg.append("path")
@@ -310,14 +305,29 @@ function updateCompareGraph(view) {
                 );
         }
 
+        svg.append("rect")
+            .attr("x", marginGraph2.left)
+            .attr("y", marginGraph2.top)
+            .attr("width", widthGraph2 - marginGraph2.left - marginGraph2.right)
+            .attr("height", heightGraph2 - marginGraph2.top - marginGraph2.bottom)
+            .attr("opacity", 0)
+            .on("mouseover", function () { return tooltip.classed("hidden", !1); })
+            .on("mousemove", function () {
+                return tooltip.style("top", (event.pageY + 20) + "px")
+                    .style("left", (event.pageX + 20) + "px")
+                    .html(tooltipText(d3.mouse(this)[0]));
+            })
+            .on("mouseleave", function () { return tooltip.classed("hidden", !0); })
+
+
         if (dataType != "confirmed") {
             d3.select("#compare-graph-3").remove();
-            document.getElementById("right-col-3").innerHTML = "";
+            document.getElementById("reproduction-name-gl").innerHTML = "";
         } else {
-            document.getElementById("right-col-3").innerHTML = (view == "global" ? "> " : "") + "Reproduction Rate";
+            document.getElementById("reproduction-name-gl").innerHTML = /*(view == "global" ? "> " : "") + */"Reproduction Rate";
             ttext = "The reproduction rate states how many people on average one infected person will infect. A rate under 1 means the virus is subsiding."
-            ttext +=" There are different ways to calculate the reproduction rate, here it is calculated by comparing the newly infected people of one week with the newly infected of the week before."
-            document.getElementById("right-col-3").innerHTML += " <button id='RepQuestion' onclick='toggleRepTooltip()'>?</button> <div id='RepTooltip'>" + ttext + "</div>"
+            ttext += " There are different ways to calculate the reproduction rate, here it is calculated by comparing the newly infected people of one week with the newly infected of the week before."
+            document.getElementById("reproduction-name-gl").innerHTML += " <button id='RepQuestion' onclick='toggleRepTooltip()'>?</button> <div id='RepTooltip'>" + ttext + "</div>"
 
             function RtooltipText(xPos) {
 
@@ -337,23 +347,23 @@ function updateCompareGraph(view) {
                 .attr("id", "compare-graph-3")
                 .attr("width", widthGraph2)
                 .attr("height", heightGraph2)
-                .on("mouseover", function () { return tooltip.classed("hidden", !1); })
-                .on("mousemove", function () {
-                    return tooltip.style("top", (event.pageY + 20) + "px")
-                        .style("left", (event.pageX + 20) + "px")
-                        .html(RtooltipText(d3.mouse(this)[0]));
-                })
-                .on("mouseleave", function () { return tooltip.classed("hidden", !0); });
+               
 
+            svg.append("rect")
+                .attr("class", "background")
+                .attr("width", widthGraph2)
+                .attr("height", heightGraph2);
 
             svg.append("g")
-                .attr("transform", `translate(0,${heightGraph2 - margin.bottom})`)
+                .attr("class", "axis")
+                .attr("transform", `translate(0,${heightGraph2 - marginGraph2.bottom})`)
                 .call(d3.axisBottom(x).ticks(widthGraph2 / 80).tickSizeOuter(0))
 
             svg.append("g")
-                .attr("transform", `translate(${margin.left},0)`)
-                .call(d3.axisLeft(RateY).tickFormat(function (d) { return formatValue(d) }))
                 .call(g => g.select(".domain").remove())
+                .attr("class", "axis")
+                .attr("transform", `translate(${marginGraph2.left},0)`)
+                .call(d3.axisLeft(RateY).tickFormat(function (d) { return formatValue(d) }))
 
             svg.append("path")
                 .datum(data0)
@@ -413,15 +423,35 @@ function updateCompareGraph(view) {
                     );
             }
 
+            svg.append("rect")
+                .attr("x", marginGraph2.left)
+                .attr("y", marginGraph2.top)
+                .attr("width", widthGraph2 - marginGraph2.left - marginGraph2.right)
+                .attr("height", heightGraph2 - marginGraph2.top - marginGraph2.bottom)
+                .attr("opacity", 0)
+                .on("mouseover", function () { return tooltip.classed("hidden", !1); })
+                .on("mousemove", function () {
+                    return tooltip.style("top", (event.pageY + 20) + "px")
+                        .style("left", (event.pageX + 20) + "px")
+                        .html(RtooltipText(d3.mouse(this)[0]));
+                })
+                .on("mouseleave", function () { return tooltip.classed("hidden", !0); });
+
         }
 
-        if (view === "global") {
+        if (view === "global" && toggled === true) {
+            $("#compare-graph-2").hide();
+        }
+        if (view === "global" && toggled === false) {
             $("#compare-graph-3").hide();
         }
     });
+
 }
 
 function toggleRepGraph() {
+    if (toggled === false) toggled = true;
+    else toggled = false;
     var icon = document.getElementById("view-image");
     if (icon.src.endsWith("images/germany.png")) {
         $("#compare-graph-3, #compare-graph-2").toggle();
@@ -430,5 +460,57 @@ function toggleRepGraph() {
 
 function toggleRepTooltip() {
     $("#RepTooltip").toggle();
-    toggleRepGraph();
+    toggleRepGraph()
 }
+
+var sliderGermany = $("#oldestG");
+var sliderGlobal = $("#oldest");
+var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
+
+function moveSliderGermany(e) {
+    var zoomLevel = parseInt(sliderGermany.val());
+
+    // detect positive or negative scrolling
+    if (e.originalEvent.wheelDelta < 0) {
+        //scroll down
+        sliderGermany.val(zoomLevel - 2);
+    } else {
+        //scroll up
+        sliderGermany.val(zoomLevel + 2);
+    }
+
+    // trigger the change event
+    sliderGermany.trigger('change');
+
+    //prevent page fom scrolling
+    return false;
+}
+
+function moveSliderGlobal(e) {
+    var zoomLevel = parseInt(sliderGlobal.val());
+
+    // detect positive or negative scrolling
+    if (e.originalEvent.wheelDelta < 0) {
+        //scroll down
+        sliderGlobal.val(zoomLevel - 2);
+    } else {
+        //scroll up
+        sliderGlobal.val(zoomLevel + 2);
+    }
+
+    // trigger the change event
+    sliderGlobal.trigger('change');
+
+    //prevent page fom scrolling
+    return false;
+}
+
+sliderGermany.on('mouseover', function () {
+    sliderGermany.bind(mousewheelevt, moveSliderGermany);
+
+});
+
+sliderGlobal.on('mouseover', function () {
+    sliderGlobal.bind(mousewheelevt, moveSliderGlobal);
+
+});

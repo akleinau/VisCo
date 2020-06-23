@@ -2,7 +2,7 @@
 
 var widthGraph1 = parseInt(d3.select("#graphs").style("width"));
 var heightGraph1 = 240;
-var margin = { top: 20, right: 30, bottom: 30, left: 70 };
+var marginGraph1 = { top: 20, right: 30, bottom: 30, left: 70 };
 
 var formatDays = d3.timeFormat("%x");
 
@@ -67,11 +67,11 @@ function updateGlobalGraph() {
         //create graph
         var x = d3.scaleUtc()
             .domain(d3.extent(global, d => d.key))
-            .range([margin.left, widthGraph1 - margin.right])
+            .range([marginGraph1.left, widthGraph1 - marginGraph1.right])
 
         var y = d3.scaleLinear()
             .domain([0, d3.max(global, d => d.value) + 1000000])
-            .range([heightGraph1 - margin.bottom, margin.top])
+            .range([heightGraph1 - marginGraph1.bottom, marginGraph1.top])
 
         var tooltip = d3.select("#Gtooltip");
 
@@ -97,37 +97,50 @@ function updateGlobalGraph() {
         var svg = d3.select("#right-col-1").append("svg")
             .attr("id", "global-graph")
             .attr("width", widthGraph1)
-            .attr("height", heightGraph1)
+            .attr("height", heightGraph1);
+
+        svg.append("rect")
+            .attr("class", "background")
+            .attr("width", widthGraph1)
+            .attr("height", heightGraph1);
+
+        svg.append("g")
+            .call(g => g.select(".domain").remove())
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${heightGraph1 - marginGraph1.bottom})`)
+            .call(d3.axisBottom(x).ticks(widthGraph1 / 80).tickSizeOuter(0));
+
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(${marginGraph1.left},0)`)
+            .call(d3.axisLeft(y).ticks(heightGraph1 / 40));
+
+
+        svg.append("path")
+            .datum(global)
+            .attr("fill", "none")
+            .attr("stroke", "rgb(94, 189, 165)")
+            .attr("stroke-width", 4)
+            .attr("stroke-miterlimit", 1)
+            .attr("d", d3.line()
+                .x(function (d) { return x(d.key) })
+                .y(function (d) { return y(d.value) })
+            );
+
+        svg.append("rect")
+            .attr("x", marginGraph1.left)
+            .attr("y", marginGraph1.top)
+            .attr("width", widthGraph1 - marginGraph1.left - marginGraph1.right)
+            .attr("height", heightGraph1 - marginGraph1.top - marginGraph1.bottom)
+            .attr("opacity", 0)
             .on("mouseover", function () { return tooltip.classed("hidden", !1); })
             .on("mousemove", function () {
                 return tooltip.style("top", (event.pageY + 20) + "px")
                     .style("left", (event.pageX + 20) + "px")
                     .html(tooltipText(d3.mouse(this)[0]));
             })
-            .on("mouseleave", function () { return tooltip.classed("hidden", !0); })
-
-
-        svg.append("g")
-            .call(g => g.select(".domain").remove())
-            .attr("transform", `translate(0,${heightGraph1 - margin.bottom})`)
-            .call(d3.axisBottom(x).ticks(widthGraph1 / 80).tickSizeOuter(0));
-
-        svg.append("g")
-            .attr("transform", `translate(${margin.left},0)`)
-            .call(d3.axisLeft(y).ticks(heightGraph1 / 40));
-
-        svg.append("path")
-            .datum(global)
-            .attr("fill", "none")
-            .attr("stroke", "black")
-            .attr("stroke-width", 5)
-            .attr("stroke-miterlimit", 1)
-            .attr("d", d3.line()
-                .x(function (d) { return x(d.key) })
-                .y(function (d) { return y(d.value) })
-            )
-
-
+            .on("mouseleave", function () { return tooltip.classed("hidden", !0); });
 
     });
+
 }

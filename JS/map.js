@@ -1,15 +1,14 @@
 
 
-var widthGermany = parseInt(d3.select(".maps").style("width")),
-    mapRatio = .8,
-    heightGermany = widthGermany * mapRatio,
+var widthMap = parseInt(d3.select(".maps").style("width")),
+    mapRatioGermany = .8,
+    heightGermany = widthMap * mapRatioGermany,
     focusedState,
     lowColor = '#f4e8eb',
     highColor = '#7a003f',
     mapRatioAdjuster = 2.2,
     marginGermany = { top: 10, left: 10, bottom: 10, right: 10 },
     germanyCenter = [10, 51];
-
 
 
 var keyArray = ["confirmed", "deaths", "confirmed_per_100000"];
@@ -19,9 +18,8 @@ var mapText;
 
 var projectionGermany = d3.geoMercator()
     .center(germanyCenter)
-    .translate([widthGermany / 2, heightGermany / 2])
-    .scale(widthGermany * [mapRatio + mapRatioAdjuster]);
-
+    .translate([widthMap / 2, heightGermany / 2])
+    .scale(widthMap * [mapRatioGermany + mapRatioAdjuster]);
 
 var geoPath = d3.geoPath().projection(projectionGermany);
 
@@ -31,9 +29,9 @@ var svgGermany = d3.select("#map-germany")
     .append("svg")
     .attr("id", "map-germany-container")
     .style('height', heightGermany + 'px')
-    .style('width', widthGermany + 'px');
+    .style('width', widthMap + 'px');
 
-svgGermany.append("rect")
+var bgGermany = svgGermany.append("rect")
     .attr("class", "background")
     .attr("width", "100%")
     .attr("height", "100%")
@@ -52,10 +50,7 @@ function initializeMap() {
 
 function buildMap(err, collection, coronaData) {
 
-    console.log(collection);
-
     var dataFields = coronaData.fields;
-    console.log(coronaData);
 
     for (var i = 0; i < dataFields.length; i++) {
         collection.fields[i] = dataFields[i].name;
@@ -156,7 +151,6 @@ function buildMap(err, collection, coronaData) {
 
     var date = new Date(1592517600000);
 
-    console.log(date);
 }
 
 function clickPath(d) {
@@ -164,7 +158,7 @@ function clickPath(d) {
     g.selectAll("text")
         .remove();
 
-    var x = widthGermany / 2,
+    var x = widthMap / 2,
         y = heightGermany / 2,
         k = 1;
 
@@ -200,7 +194,7 @@ function clickPath(d) {
 
     g.transition()
         .duration(1000)
-        .attr("transform", "translate(" + (widthGermany / 2) + "," + (heightGermany / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")")
+        .attr("transform", "translate(" + (widthMap / 2) + "," + (heightGermany / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")")
         .style("stroke-width", 1.75 / k + "px");
 }
 
