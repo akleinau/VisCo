@@ -11,7 +11,7 @@ var widthMap = parseInt(d3.select(".maps").style("width")),
     germanyCenter = [10, 51];
 
 
-var keyArray = ["confirmed", "deaths", "confirmed_per_100000"];
+var keyArray = ["confirmed","confirmed_per_100000","deaths"];
 var selectedData = keyArray[0];
 var mapFeatures;
 var mapText;
@@ -289,12 +289,12 @@ function changeTableSelectionGermany(value) {
         openTabFromSelect("Fallzahl");
         document.getElementById("fallzahl").classList.add("active");
     }
-    else if (value === keyArray[2]) {
+    else if (value === keyArray[1]) {
         console.log(value);
         openTabFromSelect("Pro100000");
         document.getElementById("pro100000").classList.add("active");
     }
-    else if (value === keyArray[1]) {
+    else if (value === keyArray[2]) {
         console.log(value);
         openTabFromSelect("Death");
         document.getElementById("death").classList.add("active");
