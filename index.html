@@ -199,15 +199,14 @@
 
                 </div>
                 <div class="row">
-                    <div class="graph-name" id="germany-compare">Germany</div>
-                    <div id="reproduction-name"></div>
+                    <div class="graph-name" id="germany-compare" onclick="toggleRepGraph('compare')">Germany</div>
+                    <div id="reproduction-name" onclick="toggleRepGraph('rep')"></div>
                 </div>
-                <div class="row" id="right-col-2" onclick="toggleRepGraph()"></div>
-                <div class="row" id="right-col-3" onclick="toggleRepGraph()">
-                    <div class="graph-name" id="reproduction-name-gl">Reproduction Rate</div>
+                <div class="row" id="right-col-2" ></div>
+                <div class="row" id="right-col-3" >
+                    <div class="graph-name" id="reproduction-name-gl" onclick="toggleRepGraph('rep')">Reproduction Rate</div>
                 </div>
             </div>
-            <div class="germany"></div>
         </div>
     </div>
     </div>

@@ -216,7 +216,7 @@ function updateCompareGraph(view) {
         strokeWidth = 2.0;
         var color1 = "#dd0273";
         var color2 = "#3005bc";
-        var color3 = "#01aa97";
+        var color3 = "#058bdb";
         var color4 = "#8e0050";
 
         function tooltipText(xPos) {
@@ -449,7 +449,8 @@ function updateCompareGraph(view) {
 
 }
 
-function toggleRepGraph() {
+function toggleRepGraph(trigger) {
+    if ((trigger=='compare' && toggled) || (trigger=='rep' && !toggled) ) {
     if (toggled === false) toggled = true;
     else toggled = false;
     var icon = document.getElementById("view-image");
@@ -457,10 +458,11 @@ function toggleRepGraph() {
         $("#compare-graph-3, #compare-graph-2").toggle();
     }
 }
+}
 
 function toggleRepTooltip() {
     $("#RepTooltip").toggle();
-    toggleRepGraph()
+    toggleRepGraph('rep')
 }
 
 var sliderGermany = $("#oldestG");
