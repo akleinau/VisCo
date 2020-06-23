@@ -177,37 +177,57 @@
                     <div class="graph-name">Global</div>
                 </div>
                 <div class="global row input-fields">
-                    <input type="text" id="country1" value="Germany" placeholder="Type a name!"
-                        onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()">
-                    <ul class="scrollmenu" id="country1List">
-                    </ul>
+                    <table>
+                        <tr>
+                            <td><input type="text" id="country1" value="Germany" placeholder="Type a name!"
+                                    onkeyup="updateCountrySelection('country1', event)" onclick="hideLists()"
+                                    autocomplete="off"></td>
+                            <td><input type="text" id="country2" placeholder="Type a name!"
+                                    onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()"
+                                    autocomplete="off"></td>
+                            <td><input type="text" id="country3" placeholder="Type a name!"
+                                    onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()"
+                                    autocomplete="off"></td>
+                            <td><input type="text" id="country4" placeholder="Type a name!"
+                                    onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()"
+                                    autocomplete="off"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul class="scrollmenu" id="country1List">
+                                </ul>
+                            </td>
 
-                    <input type="text" id="country2" placeholder="Type a name!"
-                        onkeyup="updateCountrySelection('country2', event)" onclick="hideLists()">
-                    <ul class="scrollmenu" id="country2List">
-                    </ul>
 
-                    <input type="text" id="country3" placeholder="Type a name!"
-                        onkeyup="updateCountrySelection('country3', event)" onclick="hideLists()">
-                    <ul class="scrollmenu" id="country3List">
-                    </ul>
+                            <td>
+                                <ul class="scrollmenu" id="country2List">
+                                </ul>
+                            </td>
 
-                    <input type="text" id="country4" placeholder="Type a name!"
-                        onkeyup="updateCountrySelection('country4', event)" onclick="hideLists()">
-                    <ul class="scrollmenu" id="country4List">
-                    </ul>
+                            <td>
+                                <ul class="scrollmenu" id="country3List">
+                                </ul>
+                            </td>
+
+
+                            <td>
+                                <ul class="scrollmenu" id="country4List">
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
 
                 </div>
                 <div class="row">
-                    <div class="graph-name" id="germany-compare">Germany</div>
-                    <div id="reproduction-name"></div>
+                    <div class="graph-name" id="germany-compare" onclick="toggleRepGraph('compare')">Germany</div>
+                    <div id="reproduction-name" onclick="toggleRepGraph('rep')"></div>
                 </div>
-                <div class="row" id="right-col-2" onclick="toggleRepGraph()"></div>
-                <div class="row" id="right-col-3" onclick="toggleRepGraph()">
-                    <div class="graph-name" id="reproduction-name-gl">Reproduction Rate</div>
+                <div class="row" id="right-col-2"></div>
+                <div class="row" id="right-col-3">
+                    <div class="graph-name" id="reproduction-name-gl" onclick="toggleRepGraph('rep')">Reproduction Rate
+                    </div>
                 </div>
             </div>
-            <div class="germany"></div>
         </div>
     </div>
     </div>
