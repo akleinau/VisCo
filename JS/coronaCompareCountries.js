@@ -323,7 +323,9 @@ function updateCompareGraph(view) {
         if (dataType != "confirmed") {
             d3.select("#compare-graph-3").remove();
             document.getElementById("reproduction-name-gl").innerHTML = "";
+            document.getElementById("reproduction-name-gl").style.display = "none";
         } else {
+            document.getElementById("reproduction-name-gl").style.display = "block";
             document.getElementById("reproduction-name-gl").innerHTML = /*(view == "global" ? "> " : "") + */"Reproduction Rate";
             ttext = "The reproduction rate states how many people on average one infected person will infect. A rate under 1 means the virus is subsiding."
             ttext += " There are different ways to calculate the reproduction rate, here it is calculated by comparing the newly infected people of one week with the newly infected of the week before."

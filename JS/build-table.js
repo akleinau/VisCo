@@ -34,12 +34,14 @@ function openTab(evt, Case) {
     updateColorGlobe(keyArrayG[1], globeFeatures);
     updateGlobalGraph();
     updateCompareGraph("global");
+    toggleRepGraph('compare');
   }
   if (Case === "Deaths") {
     document.getElementById("dataModeGlobal").selectedIndex = "2";
     updateColorGlobe(keyArrayG[2], globeFeatures);
     updateGlobalGraph();
     updateCompareGraph("global");
+    toggleRepGraph('compare');
   }
 
   //if button is selected change selection field entry for Germany
