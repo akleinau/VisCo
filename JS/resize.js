@@ -1,6 +1,9 @@
+
+console.log(parseInt(d3.select("body").style("height")));
+
 function resize() {
     widthMap = parseInt(d3.select(".maps").style("width"));
-
+    console.log(parseInt(d3.select("body").style("height")));
     //resize map Germany
     heightGermany = widthMap * mapRatioGermany;
 
@@ -67,7 +70,9 @@ function resize() {
     /* ------------------------------------------------------------------------------------ */
     //resize globalGraph
     widthGraph1 = parseInt(d3.select("#graphs").style("width"));
+    heightGraph1 = parseInt(d3.select("body").style("height"))/3.5;
     widthGraph2 = parseInt(d3.select("#graphs").style("width"));
+    heightGraph2 = parseInt(d3.select("body").style("height"))/3.5;
     updateGlobalGraph();
     updateCompareGraph("global");
     updateCompareGraph("germany");

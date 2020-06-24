@@ -71,9 +71,9 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid">
-        <div class="row first-row-container">
-            <div class="col-lg-3">
+    <div class="container-fluid h-100">
+        <div class="row  h-100 first-row-container">
+            <div class="col-lg-3 h-100">
                 <div class="global">
                     <div class="tab">
                         <button id="confirmedCases" class="tablinks active" onclick="openTab(event, 'Confirmed Cases')"
@@ -133,15 +133,14 @@
                 <div class="maps">
                     <div class="germany">
                         <div class="row">
-
-                            <div class="col-4 col-sm-4">
-                                <div id="controls" class="nicebox">
-                                    <div id="legend">
-                                        <div id="census-min">min</div>
-                                        <div class="color-key">
+                            <div class="col-5 col-sm-5">
+                                <div class="nicebox controls">
+                                    <div class="legend">
+                                        <div class="census-min">min</div>
+                                        <div id="color-key-germany">
                                             <!-- <span id="data-caret">◆</span> -->
                                         </div>
-                                        <div id="census-max">max</div>
+                                        <div class="census-max">max</div>
                                     </div>
                                 </div>
                                 <!-- <div id="data-box" class="nicebox">
@@ -149,18 +148,28 @@
                                 <span id="data-value"></span>
                             </div> -->
                             </div>
-                            <div class="col-5 col-sm-5"></div>
-                            <div class="col-3 col-sm-3">
+                            <div class="col-3 col-sm-3"></div>
+                            <div class="col-4 col-sm-4">
                                 <div id="change-data"></div>
                             </div>
-
                         </div>
                         <div class="maps" id="map-germany"></div>
                     </div>
                     <div class="global">
                         <div class="row">
-                            <div class="col-4 col-sm-4"></div>
-                            <div class="col-4 col-sm-4"></div>
+                            <div class="col-5 col-sm-5">
+                                <div class="nicebox controls">
+                                    <div class="legend">
+                                        <div class="census-min">min</div>
+                                        <div id="color-key-globe">
+                                            <!-- <span id="data-caret">◆</span> -->
+                                        </div>
+                                        <div class="census-max">max</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-3 col-sm-3"></div>
                             <div class="col-4 col-sm-4">
                                 <div id="change-data-globe"></div>
                             </div>

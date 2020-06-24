@@ -20,6 +20,7 @@ html {
     /* Correct the line height in all browsers. */
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
+    height: 100%;
 }
 
 *, *:before, *:after {
@@ -40,6 +41,7 @@ body {
     flex-direction: column;
     font-family: "uni_sans_demoheavy_caps", sans-serif;
     overflow: hidden;
+    height: 100%;
 }
 
 @media (max-width: 960px) {
@@ -144,17 +146,61 @@ select {
     appearance: none;
     border: none;
     width: 100%;
-    padding: 10px 15px 10px 15px;
-    background: url(../data/FFFFFF-0.5.png) repeat;
-    color: #fff;
+    padding: 0.7vh;
+    background: rgb(148, 148, 148);
+    color: rgb(255, 255, 255);
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
+    font-weight: bold;
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
-    border-radius: 3px;
+    border-radius: .4vh;
     outline: none;
     cursor: pointer;
     line-height: 1.15;
     text-overflow: ellipsis;
+}
+
+select option {
+    color: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
+}
+
+#change-data {
+    max-width: 100%;
+    min-width: 15vh;
+    top: 15px;
+    right: 30px;
+    position: absolute;
+    display: block;
+    margin: 0 auto;
+}
+
+#change-data-globe {
+    max-width: 100%;
+    min-width: 15vh;
+    top: 15px;
+    right: 30px;
+    position: absolute;
+    display: block;
+    margin: 0 auto;
+}
+
+#change-data::after {
+    content: "\25bc";
+    font-size: 1.5vh;
+    position: absolute;
+    top: 0.8vh;
+    right: 0.3vw;
+    color: #fff;
+}
+
+#change-data-globe::after {
+    content: "\25bc";
+    font-size: 1.5vh;
+    position: absolute;
+    top: 0.8vh;
+    right: 0.3vw;
+    color: #fff;
 }
 
 @media (min-width:2000px) {
@@ -168,32 +214,6 @@ select {
     #tooltip {
         font-size: 15px;
     }
-}
-
-select option {
-    color: #666;
-}
-
-#change-data {
-    max-width: 100%;
-    min-width: 80px;
-    padding-right: 15px;
-    top: 15px;
-    right: 15px;
-    position: absolute;
-    display: block;
-    margin: 0 auto;
-}
-
-#change-data-globe {
-    max-width: 100%;
-    min-width: 80px;
-    padding-right: 15px;
-    top: 15px;
-    right: 15px;
-    position: absolute;
-    display: block;
-    margin: 0 auto;
 }
 
 .navigation-bar-container a, .navigation-bar-container a:hover {
@@ -316,27 +336,28 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     border-radius: 0.5vw;
 }
 
-.nicebox {
+/* .nicebox {
     position: absolute;
     text-align: center;
     font-family: "uni_sans_demoheavy_caps", "Arial", sans-serif;
     font-size: 13px;
     z-index: 5;
-    box-shadow: 0 4px 6px -4px #333;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     padding: 5px 5px;
-    background: rgb(255, 255, 255);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 100%);
+    background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(172, 172, 172) 100%);
     border: rgb(229, 229, 229) 1px solid;
-}
+    border-radius: 3px;
+} */
 
-#controls {
+.controls {
     max-width: 100%;
-    min-width: 80px;
-    height: 35px;
+    min-width: 20vh;
+    height: 3.7vh;
     top: 15px;
     left: 30px;
     position: absolute;
     display: block;
+    margin: 0 auto;
 }
 
 #data-box {
@@ -347,20 +368,40 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     display: none;
 }
 
-#legend {
+.legend {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    color: #fff;
+    z-index: 5;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    background: rgb(148, 148, 148);
+    /* background-image: linear-gradient(to right, rgb(139, 139, 139) 0%, rgb(107, 107, 107) 100%); */
+    padding: 0.7vh;
+    border-radius: 0.4vh;
 }
 
 .color-key {
-    max-height: 15px;
+    height: 1.1vh;
+    line-height: 0;
+    display: flex;
 }
 
-#census-min {
+.census-min {
+    font-weight: bold;
+    font-size: 1.4vh;
     padding-right: 5px;
+    display: flex;
 }
 
-#census-max {
+.census-max {
+    font-size: 1.4vh;
+    font-weight: bold;
     padding-left: 5px;
+    display: flex;
 }
 
 #data-value {
@@ -402,6 +443,11 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     padding-left: 30px;
 }
 
+.graph-field {
+    fill: rgb(255, 255, 255);
+    opacity: 0.1;
+}
+
 #global-graph {
     border-top-right-radius: 0.5vw;
     border-bottom-left-radius: 0.5vw;
@@ -420,6 +466,24 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     border-top-right-radius: 0.5vw;
     border-bottom-left-radius: 0.5vw;
     border-bottom-right-radius: 0.5vw;
+}
+
+#germany-compare {
+    color: rgb(224, 224, 224);
+    background-color: rgb(80, 80, 80);
+}
+
+#reproduction-name-gl {
+    color: rgb(224, 224, 224);
+    background-color: rgb(80, 80, 80);
+}
+
+#germany-compare:hover {
+    cursor: pointer;
+}
+
+#reproduction-name-gl:hover {
+    cursor: pointer;
 }
 
 .input-fields {

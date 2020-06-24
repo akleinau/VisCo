@@ -1,7 +1,7 @@
 
 
 var widthGraph1 = parseInt(d3.select("#graphs").style("width"));
-var heightGraph1 = 240;
+var heightGraph1 = parseInt(d3.select("body").style("height")) / 3.5;
 var marginGraph1 = { top: 20, right: 30, bottom: 30, left: 70 };
 
 var formatDays = d3.timeFormat("%x");
@@ -128,11 +128,12 @@ function updateGlobalGraph() {
             );
 
         svg.append("rect")
+            .attr("class", "graph-field")
             .attr("x", marginGraph1.left)
             .attr("y", marginGraph1.top)
             .attr("width", widthGraph1 - marginGraph1.left - marginGraph1.right)
             .attr("height", heightGraph1 - marginGraph1.top - marginGraph1.bottom)
-            .attr("opacity", 0)
+            .attr("opacity", 0.1)
             .on("mouseover", function () { return tooltip.classed("hidden", !1); })
             .on("mousemove", function () {
                 return tooltip.style("top", (event.pageY + 20) + "px")

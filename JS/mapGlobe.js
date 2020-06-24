@@ -2,7 +2,7 @@
 
 var marginGlobe = { top: 10, left: 10, bottom: 10, right: 10 },
     widthMap = parseInt(d3.select(".maps").style("width")),
-    mapRatioGlobe = .8,
+    mapRatioGlobe = .9,
     heightGlobe = widthMap * mapRatioGlobe,
     scaleGlobe = (heightGlobe - 100) / 2;
 
@@ -219,6 +219,29 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
         .on("mouseover", hoverStateGlobe)
         .on("mouseout", hoverStateOutGlobe)
         .on("click", clickGlobe);
+
+        var key = d3.select("#color-key-globe")
+        .append("svg")
+        .attr("class","color-key")
+        .attr("width", "100%")
+        .attr("height", "100%");
+
+    var legend = key.append("defs")
+        .append("linearGradient")
+        .attr("id", "gradient-globe");
+
+    legend.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", lowColor);
+
+    legend.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", highColor);
+
+    key.append("rect")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .style("fill", "url(#gradient-globe)");
 
     refresh();
     spin();

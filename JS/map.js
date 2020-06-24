@@ -1,7 +1,7 @@
 
 
 var widthMap = parseInt(d3.select(".maps").style("width")),
-    mapRatioGermany = .8,
+    mapRatioGermany = .9,
     heightGermany = widthMap * mapRatioGermany,
     focusedState,
     lowColor = '#f4e8eb',
@@ -120,14 +120,15 @@ function buildMap(err, collection, coronaData) {
         .on("mouseout", hoverStateOut);
 
 
-    var key = d3.select(".color-key")
+    var key = d3.select("#color-key-germany")
         .append("svg")
+        .attr("class","color-key")
         .attr("width", "100%")
         .attr("height", "100%");
 
-    legend = key.append("defs")
+    var legend = key.append("defs")
         .append("linearGradient")
-        .attr("id", "gradient");
+        .attr("id", "gradient-germany");
 
     legend.append("stop")
         .attr("offset", "0%")
@@ -140,7 +141,7 @@ function buildMap(err, collection, coronaData) {
     key.append("rect")
         .attr("width", "100%")
         .attr("height", "100%")
-        .style("fill", "url(#gradient)");
+        .style("fill", "url(#gradient-germany)");
 
     var caret = d3.select("#data-caret")
         .style("opacity", 0);

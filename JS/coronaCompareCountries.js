@@ -3,6 +3,7 @@ dataType = "confirmed"
 Rintervall = 7;
 
 var toggled = false;
+var toggleView;
 
 var formatDays = d3.timeFormat("%x");
 
@@ -32,8 +33,8 @@ function jsonCopy(src) {
     return JSON.parse(JSON.stringify(src));
 }
 
-
-var heightGraph2 = 240;
+console.log();
+var heightGraph2 = parseInt(d3.select("body").style("height")) / 3.5;
 var widthGraph2 = parseInt(d3.select("#graphs").style("width"));
 
 var marginGraph2 = { top: 20, right: 30, bottom: 30, left: 70 };
@@ -50,6 +51,9 @@ function initializeGraph() {
 }
 
 function updateCompareGraph(view) {
+
+    toggleView = view;
+
     var oldest, dataType;
     if (view == "germany") {
         dataType = document.getElementById("dataMode").value;
@@ -306,11 +310,12 @@ function updateCompareGraph(view) {
         }
 
         svg.append("rect")
+            .attr("class", "graph-field")
             .attr("x", marginGraph2.left)
             .attr("y", marginGraph2.top)
             .attr("width", widthGraph2 - marginGraph2.left - marginGraph2.right)
             .attr("height", heightGraph2 - marginGraph2.top - marginGraph2.bottom)
-            .attr("opacity", 0)
+            .attr("opacity", 1)
             .on("mouseover", function () { return tooltip.classed("hidden", !1); })
             .on("mousemove", function () {
                 return tooltip.style("top", (event.pageY + 20) + "px")
@@ -349,7 +354,7 @@ function updateCompareGraph(view) {
                 .attr("id", "compare-graph-3")
                 .attr("width", widthGraph2)
                 .attr("height", heightGraph2)
-               
+
 
             svg.append("rect")
                 .attr("class", "background")
@@ -426,6 +431,7 @@ function updateCompareGraph(view) {
             }
 
             svg.append("rect")
+                .attr("class", "graph-field")
                 .attr("x", marginGraph2.left)
                 .attr("y", marginGraph2.top)
                 .attr("width", widthGraph2 - marginGraph2.left - marginGraph2.right)
@@ -452,14 +458,37 @@ function updateCompareGraph(view) {
 }
 
 function toggleRepGraph(trigger) {
-    if ((trigger=='compare' && toggled) || (trigger=='rep' && !toggled) ) {
-    if (toggled === false) toggled = true;
-    else toggled = false;
-    var icon = document.getElementById("view-image");
-    if (icon.src.endsWith("images/germany.png")) {
-        $("#compare-graph-3, #compare-graph-2").toggle();
+    if (toggleView === "global") {
+        if ((trigger == 'compare' && toggled) || (trigger == 'rep' && !toggled)) {
+            if (toggled === false) {
+                toggled = true;
+
+
+                document.getElementById('germany-compare').style.backgroundColor = "#e0e0e0";
+                document.getElementById('germany-compare').style.color = "#505050";
+                document.getElementById("germany-compare").style.border = "thin solid #4b4b4b";
+
+                document.getElementById('reproduction-name-gl').style.backgroundColor = "#505050";
+                document.getElementById('reproduction-name-gl').style.color = "#e0e0e0";
+                document.getElementById("reproduction-name-gl").style.border = "none";
+            }
+            else {
+                toggled = false;
+                document.getElementById('germany-compare').style.backgroundColor = "#505050";
+                document.getElementById('germany-compare').style.color = "#e0e0e0";
+                document.getElementById("germany-compare").style.border = "none";
+                document.getElementById("germany-compare").style.borderBottom = "thin solid #e0e0e0";
+
+                document.getElementById('reproduction-name-gl').style.backgroundColor = "#e0e0e0";
+                document.getElementById('reproduction-name-gl').style.color = "#505050";
+                document.getElementById("reproduction-name-gl").style.border = "thin solid #4b4b4b";
+            }
+            var icon = document.getElementById("view-image");
+            if (icon.src.endsWith("images/germany.png")) {
+                $("#compare-graph-3, #compare-graph-2").toggle();
+            }
+        }
     }
-}
 }
 
 function toggleRepTooltip() {
