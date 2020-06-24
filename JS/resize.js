@@ -15,15 +15,15 @@ function resize() {
     svgGermany.selectAll("path.regions").attr("d", geoPath);
 
     if (focusedState !== null && focusedState !== void (0)) {
-        g.selectAll("text")
-            .remove();
+       /*  g.selectAll("text")
+            .remove(); */
 
         var centroid = geoPath.centroid(focusedState),
             x = +centroid[0],
             y = +centroid[1],
             k = 1.75;
 
-        var value = focusedState.properties[selectedData];
+    /*     var value = focusedState.properties[selectedData];
         value = Math.round(value * 100) / 100;
         g.append("text")
             .text(value)
@@ -33,8 +33,8 @@ function resize() {
             .style("font-size", "13px")
             .style("stroke-width", "0px")
             .style("fill", "black")
-            .style("font-family", "Verdana");
-
+            .style("font-family", "Verdana"); */
+            
         g.transition()
             .attr("transform", "translate(" + (widthMap / 2) + "," + (heightGermany / 2) + ")scale(" + k + ")translate(" + (-x) + "," + (-y) + ")");
     }

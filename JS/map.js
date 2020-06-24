@@ -11,7 +11,7 @@ var widthMap = parseInt(d3.select(".maps").style("width")),
     germanyCenter = [10, 51];
 
 
-var keyArray = ["confirmed","confirmed_per_100000","deaths"];
+var keyArray = ["confirmed", "confirmed_per_100000", "deaths"];
 var selectedData = keyArray[0];
 var mapFeatures;
 var mapText;
@@ -65,6 +65,7 @@ function buildMap(err, collection, coronaData) {
         var state_death = ft[i].attributes.Death;
         var state_fallzahl = ft[i].attributes.Fallzahl;
         var state_fallzahl_pro_100000 = ft[i].attributes.faelle_100000_EW;
+        var state_population = ft[i].attributes.LAN_ew_EWZ;
 
         for (var j = 0; j < collection.features.length; j++) {
             var map_id = collection.features[j].id + 1;
@@ -75,6 +76,7 @@ function buildMap(err, collection, coronaData) {
                 collection.features[j].properties.deaths = state_death;
                 collection.features[j].properties.confirmed = state_fallzahl;
                 collection.features[j].properties.confirmed_per_100000 = state_fallzahl_pro_100000;
+                collection.features[j].properties.population = state_population;
 
                 break;
             }
@@ -82,7 +84,7 @@ function buildMap(err, collection, coronaData) {
     }
 
     mapFeatures = collection.features;
-
+    console.log(mapFeatures);
     var dropdownButton = d3.select("#change-data")
         .append("select")
         .attr("id", "dataMode")
@@ -122,7 +124,7 @@ function buildMap(err, collection, coronaData) {
 
     var key = d3.select("#color-key-germany")
         .append("svg")
-        .attr("class","color-key")
+        .attr("class", "color-key")
         .attr("width", "100%")
         .attr("height", "100%");
 
@@ -158,7 +160,7 @@ function clickPath(d) {
 
     g.selectAll("text")
         .remove();
-
+    console.log(d.properties);
     var x = widthMap / 2,
         y = heightGermany / 2,
         k = 1;
@@ -170,10 +172,14 @@ function clickPath(d) {
             k = 1.75;
         focusedState = d;
 
-        var value = d.properties[selectedData];
-        value = Math.round(value * 100) / 100;
+        var value_1 = d.properties.confirmed;
+        var value_2 = d.properties.confirmed_per_100000;
+        value_2 = Math.round(value_2 * 100) / 100;
+        var value_3 = d.properties.deaths;
+        var value_n = d.properties.name;
+        var value_p = d.properties.population;
 
-        g.append("text")
+        /* g.append("text")
             .text(value)
             .attr("x", x)
             .attr("y", y)
@@ -182,7 +188,19 @@ function clickPath(d) {
             .style("stroke-width", "0px")
             .style("fill", "black")
             .style("font-family", "Verdana")
-            .on("click", clickText);
+            .on("click", clickText); */
+        if (document.getElementById("info-key-1").innerHTML == "") {
+            document.getElementById("info-key-1").innerHTML = "Confirmed Cases: ";
+            document.getElementById("info-key-2").innerHTML = "Per 100.000: ";
+            document.getElementById("info-key-3").innerHTML = "Deaths: ";
+        }
+
+        document.getElementById("info-value-1").innerHTML = value_1;
+        document.getElementById("info-value-2").innerHTML = value_2;
+        document.getElementById("info-value-3").innerHTML = value_3;
+        document.getElementById("info-name").innerHTML = value_n;
+        document.getElementById("info-population").innerHTML = value_p;
+
     } else {
 
         g.selectAll("text")
@@ -209,6 +227,7 @@ function clickText(d) {
         .duration(1000)
         .attr("transform", "scale(" + 1 + ")translate(" + 0 + "," + 0 + ")")
         .style("stroke-width", 1.00 + "px");
+
 }
 
 function hoverOver(d, i) {

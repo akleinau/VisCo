@@ -15,6 +15,7 @@ function changeView() {
         document.getElementById("reproduction-name-gl").innerHTML = "Reproduction Rate";
         document.getElementById("reproduction-name-gl").classList.add("graph-name")
 
+        //toogel graph tabs
         if (toggled === false) {
             document.getElementById('reproduction-name-gl').style.backgroundColor = "#e0e0e0";
             document.getElementById('reproduction-name-gl').style.color = "#505050";
@@ -26,7 +27,17 @@ function changeView() {
             document.getElementById("germany-compare").style.border = "thin solid #4b4b4b";
         }
 
+        //InfoBox
+        document.getElementById("info-key-1").innerHTML = "";
+        document.getElementById("info-key-2").innerHTML = "";
+        document.getElementById("info-key-3").innerHTML = "";
+        document.getElementById("info-value-1").innerHTML = "";
+        document.getElementById("info-value-2").innerHTML = "";
+        document.getElementById("info-value-3").innerHTML = "";
+        document.getElementById("info-name").innerHTML = "";
+        document.getElementById("info-population").innerHTML = "";
 
+        //
         document.getElementById("confirmedCases").className = "tablinks";
         document.getElementById("confirmedCases").click();
         document.getElementById("Confirmed Cases").style.display = "block";
@@ -50,6 +61,7 @@ function changeView() {
         document.getElementById("reproduction-name-temp").id = "reproduction-name"
         document.getElementById("reproduction-name-gl").innerHTML = "Reproduction Rate";
 
+        //toggle graph tabs
         document.getElementById('germany-compare').style.backgroundColor = "#505050";
         document.getElementById('germany-compare').style.color = "#e0e0e0";
         document.getElementById("germany-compare").style.border = "none";
@@ -60,6 +72,15 @@ function changeView() {
         document.getElementById("reproduction-name-gl").style.border = "none";
         document.getElementById("reproduction-name-gl").style.borderBottom = "thin solid #e0e0e0";
 
+        //InfoBox
+        document.getElementById("info-key-1").innerHTML = "";
+        document.getElementById("info-key-2").innerHTML = "";
+        document.getElementById("info-key-3").innerHTML = "";
+        document.getElementById("info-value-1").innerHTML = "";
+        document.getElementById("info-value-2").innerHTML = "";
+        document.getElementById("info-value-3").innerHTML = "";
+        document.getElementById("info-name").innerHTML = "";
+        document.getElementById("info-population").innerHTML = "";
 
         document.getElementById("death").className = "tablinks";
         document.getElementById("Fallzahl").style.display = "block";

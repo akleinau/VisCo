@@ -34,7 +34,7 @@ html {
 body {
     padding: 0;
     margin: 0;
-    font-size: 16px;
+    font-size: 1rem;
     position: relative;
     min-height: 100vh;
     display: flex;
@@ -336,19 +336,6 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     border-radius: 0.5vw;
 }
 
-/* .nicebox {
-    position: absolute;
-    text-align: center;
-    font-family: "uni_sans_demoheavy_caps", "Arial", sans-serif;
-    font-size: 13px;
-    z-index: 5;
-    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
-    padding: 5px 5px;
-    background-image: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(172, 172, 172) 100%);
-    border: rgb(229, 229, 229) 1px solid;
-    border-radius: 3px;
-} */
-
 .controls {
     max-width: 100%;
     min-width: 20vh;
@@ -379,7 +366,6 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     font-family: "Open Sans", sans-serif;
     font-size: 14px;
     background: rgb(148, 148, 148);
-    /* background-image: linear-gradient(to right, rgb(139, 139, 139) 0%, rgb(107, 107, 107) 100%); */
     padding: 0.7vh;
     border-radius: 0.4vh;
 }
@@ -404,26 +390,38 @@ a.project-name, a.project-name:visited, a.project-name:hover {
     display: flex;
 }
 
-#data-value {
-    font-size: 2.0em;
-    font-weight: bold
-}
-
-#data-label {
-    font-size: 2.0em;
-    font-weight: normal;
-    padding-right: 10px;
-}
-
-#data-label:after {
-    content: ':'
-}
-
 #data-caret {
     margin-left: -5px;
     opacity: 0;
     font-size: 14px;
     width: 14px
+}
+
+.infobox{
+    width: 100%;
+    background: rgb(252, 246, 246);
+    padding: 1.7vh;
+    margin-top: 1vh;
+    border-radius: 0.5vw;
+    border: 1px solid rgb(77, 77, 77);
+}
+.info-data{
+    padding-top: 2vh;
+    padding-bottom: 1vh;
+    
+}
+
+.info-text{
+    font-size: 1.6vh;
+    margin: auto;
+    width: 50%;
+}
+.info-text-value{
+    font-family: "uni_sans_demothin_caps", sans-serif;
+    font-weight: bold;
+    font-size: 1.8vh;
+    margin: auto;
+    width: 50%;
 }
 
 .graph-name {

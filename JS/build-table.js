@@ -176,7 +176,7 @@ function createTable(data, length, tab) {
         }
         var c = this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, '');
         var jsonCountry = selectCountry(this.innerText.replace(/[0-9]/g, '').replace(/\s+$/, ''));
-        transitionGlobe(jsonCountry);
+        clickGlobe(jsonCountry);
         fillInput(input, this.innerText.replace(/[0-9]/g, ''));
       });
     }

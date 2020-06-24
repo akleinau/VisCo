@@ -337,7 +337,26 @@ function clickGlobe(d, i) {
     }
     updateCompareGraph("global");
 
+    var value_1 = d.properties.confirmed;
+    var value_2 = d.properties.recovered;
+    value_2 = Math.round(value_2 * 100) / 100;
+    var value_3 = d.properties.deaths;
+    var value_n = d.properties.name;
+    //var value_p = d.properties.population;
+
+    if (document.getElementById("info-key-1").innerHTML == "") {
+        document.getElementById("info-key-1").innerHTML = "Confirmed Cases: ";
+        document.getElementById("info-key-2").innerHTML = "Recovered: ";
+        document.getElementById("info-key-3").innerHTML = "Deaths: ";
+    }
+    document.getElementById("info-value-1").innerHTML = value_1;
+    document.getElementById("info-value-2").innerHTML = value_2;
+    document.getElementById("info-value-3").innerHTML = value_3;
+    document.getElementById("info-name").innerHTML = value_n;
+    //document.getElementById("info-population").innerHTML = value_p;
+
     transitionGlobe(d);
+
 
 }
 function transitionGlobe(d, i) {
@@ -345,12 +364,10 @@ function transitionGlobe(d, i) {
     timer.stop();
     gGlobe.selectAll(".focused").classed("focused", focusedCountry && function (d) { return d === focusedCountry; });
 
-
-
     focusedCountry = d;
 
     //Globe rotating
-
+   
     var p = d3.geoCentroid(focusedCountry);
 
     var currentRotate = projectionGlobe.rotate();
