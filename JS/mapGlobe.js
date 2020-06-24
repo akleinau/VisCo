@@ -101,13 +101,14 @@ function initializeGlobe() {
         .defer(d3.csv, urls.coronaWorldConfirmed)
         .defer(d3.csv, urls.coronaWorldRecovered)
         .defer(d3.csv, urls.coronaWorldDeaths)
+        .defer(d3.json, urls.worldPopulation)
         .await(buildGlobalMap);
 }
 
-function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, coronaDeaths) {
+function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, coronaDeaths, population) {
 
     globeFeatures = countries.features;
-
+   
     var provinceListConfirmed = createProvinceList(coronaConfirmed, globeFeatures);
     var sortedDataConfirmed = sumUpStatesAndProvinces(coronaConfirmed, provinceListConfirmed);
 
@@ -145,10 +146,11 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
         globeFeatures[i].properties.confirmed = 0;
         globeFeatures[i].properties.recovered = 0;
         globeFeatures[i].properties.deaths = 0;
+        globeFeatures[i].properties.population = 0;
     }
 
     for (var i in countryConfirmed) {
-        //console.log(i);
+
         var currentCountry = i;
         var currentValueConfirmed = +countryConfirmed[i];
         var currentValueRecovered = +countryRecovered[i];
@@ -161,6 +163,16 @@ function buildGlobalMap(err, countries, coronaConfirmed, coronaRecovered, corona
                 globeFeatures[j].properties.confirmed = currentValueConfirmed;
                 globeFeatures[j].properties.recovered = currentValueRecovered;
                 globeFeatures[j].properties.deaths = currentValueDeaths;
+            }
+        }
+    }
+    for (var i in population){
+        var currentCountry = population[i].country;
+        var currentValuePopulation = +population[i].population;
+        for (var j in globeFeatures){
+            var mapCountry = globeFeatures[j].properties.name;
+            if (mapCountry == currentCountry){
+                globeFeatures[j].properties.population = currentValuePopulation; 
             }
         }
     }
@@ -342,7 +354,7 @@ function clickGlobe(d, i) {
     value_2 = Math.round(value_2 * 100) / 100;
     var value_3 = d.properties.deaths;
     var value_n = d.properties.name;
-    //var value_p = d.properties.population;
+    var value_p = d.properties.population;
 
     if (document.getElementById("info-key-1").innerHTML == "") {
         document.getElementById("info-key-1").innerHTML = "Confirmed Cases: ";
@@ -353,7 +365,7 @@ function clickGlobe(d, i) {
     document.getElementById("info-value-2").innerHTML = value_2;
     document.getElementById("info-value-3").innerHTML = value_3;
     document.getElementById("info-name").innerHTML = value_n;
-    //document.getElementById("info-population").innerHTML = value_p;
+    document.getElementById("info-population").innerHTML = value_p;
 
     transitionGlobe(d);
 
